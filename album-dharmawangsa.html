@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>Dharmawangsa Apartment — Curated Architectural Folio | AURA VISTA MEDIA</title>
+  <meta name="description" content="Dedicated architectural photography folio for Dharmawangsa Apartment by Aura Vista Media Production." />
+  
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons & Tailwind -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#D4AF37',
+              goldLight: '#F3E5AB',
+              goldDark: '#997B1E',
+              dark: '#07090E',
+              darker: '#040508',
+              card: '#0D121D',
+              cardHover: '#131A29',
+              border: 'rgba(212, 175, 55, 0.15)',
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            display: ['"Playfair Display"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #07090E;
+      color: #E2E8F0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-panel {
+      background: rgba(13, 18, 29, 0.85);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.15);
+    }
+    .glass-card {
+      background: linear-gradient(135deg, rgba(19, 26, 41, 0.85) 0%, rgba(10, 14, 22, 0.98) 100%);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.14);
+      transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+    .glass-card:hover {
+      border-color: rgba(212, 175, 55, 0.45);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 40px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(212, 175, 55, 0.15);
+    }
+    .text-gold-gradient {
+      background: linear-gradient(135deg, #FFFFFF 0%, #FFFFFF 40%, #E2C275 80%, #C5A046 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #E6C665 0%, #D4AF37 50%, #B38F1E 100%);
+      color: #040508;
+      font-weight: 700;
+    }
+    /* Lightbox Modal */
+    #lightbox {
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.3s ease;
+    }
+    #lightbox.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+  </style>
+</head>
+<body class="selection:bg-brand-gold selection:text-black antialiased">
+
+  <!-- NAVBAR -->
+  <header class="fixed top-4 left-0 right-0 z-50 px-4 sm:px-8">
+    <div class="max-w-7xl mx-auto h-16 sm:h-20 glass-panel rounded-2xl px-5 sm:px-8 flex items-center justify-between shadow-2xl">
+      <a href="index.html" class="flex items-center gap-3 group">
+        <div class="w-9 h-9 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold group-hover:scale-105 transition-transform">
+          <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        </div>
+        <div class="flex flex-col">
+          <span class="font-serif text-base sm:text-lg tracking-[0.2em] font-bold text-slate-200">BACK TO HOME</span>
+          <span class="text-[9px] uppercase tracking-[0.3em] text-brand-gold font-medium">AURA VISTA MEDIA</span>
+        </div>
+      </a>
+
+      <div class="flex items-center gap-3">
+        <a href="https://wa.me/6285169671344?text=Hello%20Aura%20Vista%20Media,%20I%20am%20interested%20in%20production%20like%20Dharmawangsa%20Apartment." target="_blank" class="px-5 py-2.5 rounded-xl btn-gold text-xs uppercase tracking-wider flex items-center gap-2">
+          <i data-lucide="phone-call" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Commission Project</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ALBUM HERO HEADER -->
+  <section class="pt-36 pb-16 px-4 sm:px-6 relative overflow-hidden">
+    <div class="max-w-7xl mx-auto">
+      <div class="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-brand-gold/30 bg-black/40 text-brand-gold text-xs tracking-[0.25em] uppercase mb-6 backdrop-blur-md">
+        <span class="w-1.5 h-1.5 rounded-full bg-brand-gold"></span>
+        <span>Collection Folio 01 • 18 High-Resolution Captures</span>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end mb-12">
+        <div class="lg:col-span-8">
+          <h1 class="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-gold-gradient leading-[1.1] mb-6">
+            Dharmawangsa Apartment
+          </h1>
+          <p class="text-slate-300 text-sm sm:text-base lg:text-lg leading-relaxed max-w-3xl font-light">
+            A comprehensive visual staging and architectural documentation of luxury residential suites at Dharmawangsa, South Jakarta. Focused on authentic spatial transitions, precision natural daylight balancing, bespoke Italian marble finishes, and atmospheric twilight moods.
+          </p>
+        </div>
+
+        <div class="lg:col-span-4 glass-card p-6 rounded-2xl border border-brand-gold/20 flex flex-col justify-between">
+          <div class="space-y-3 text-xs">
+            <div class="flex justify-between pb-2 border-b border-slate-800">
+              <span class="text-slate-400">Location</span>
+              <span class="font-semibold text-slate-100">Dharmawangsa, South Jakarta</span>
+            </div>
+            <div class="flex justify-between pb-2 border-b border-slate-800">
+              <span class="text-slate-400">Total Curated Shots</span>
+              <span class="font-semibold text-brand-gold">18 Photographs</span>
+            </div>
+            <div class="flex justify-between pb-2 border-b border-slate-800">
+              <span class="text-slate-400">Aspect Ratio</span>
+              <span class="font-semibold text-slate-100">3:4 Pure Portrait</span>
+            </div>
+            <div class="flex justify-between">
+              <span class="text-slate-400">Production Type</span>
+              <span class="font-semibold text-slate-100">Architectural & Staging</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 18 PHOTOS GALLERY (3:4 PORTRAIT) -->
+  <section class="pb-28 px-4 sm:px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="dharmawangsa-grid">
+        <!-- Injected via JS -->
+      </div>
+    </div>
+  </section>
+
+  <!-- LIGHTBOX MODAL -->
+  <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 sm:p-8">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 w-12 h-12 rounded-full bg-slate-900/80 border border-white/20 text-white flex items-center justify-center hover:bg-brand-gold hover:text-black transition-colors">
+      <i data-lucide="x" class="w-6 h-6"></i>
+    </button>
+    <div class="max-w-4xl max-h-[80vh] flex flex-col items-center">
+      <img id="lightbox-img" src="" alt="Enlarged View" class="max-h-[72vh] w-auto object-contain rounded-xl shadow-2xl border border-brand-gold/30 mb-4" />
+      <h3 id="lightbox-title" class="font-serif text-xl sm:text-2xl font-bold text-slate-100 text-center"></h3>
+      <p id="lightbox-desc" class="text-xs sm:text-sm text-slate-400 text-center max-w-xl mt-1"></p>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="py-12 border-t border-slate-900 bg-black text-center text-xs text-slate-500">
+    <div class="max-w-7xl mx-auto px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <a href="index.html" class="flex items-center gap-2.5 text-slate-300 hover:text-brand-gold">
+        <i data-lucide="arrow-left" class="w-4 h-4"></i>
+        <span>Return to Aura Vista Media Home</span>
+      </a>
+      <p>© 2026 Aura Vista Media Production. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    async function loadAlbum() {
+      const resp = await fetch('assets/portfolio_data.json');
+      const data = await resp.json();
+      
+      // Filter 18 photos from 4711
+      const items = data.filter(item => item.category === 'dharmawangsa' || (item.img && item.img.includes('4711')));
+      const grid = document.getElementById('dharmawangsa-grid');
+      grid.innerHTML = '';
+
+      items.forEach((item, index) => {
+        const card = document.createElement('div');
+        card.className = 'glass-card rounded-2xl overflow-hidden p-3.5 flex flex-col justify-between group cursor-pointer';
+        card.onclick = () => openLightbox(item.img, item.title, item.desc);
+
+        card.innerHTML = `
+          <div>
+            <div class="aspect-[3/4] rounded-xl overflow-hidden mb-3.5 relative bg-black/60">
+              <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
+              <div class="absolute top-2.5 left-2.5">
+                <span class="px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[9px] text-brand-gold uppercase tracking-wider border border-brand-gold/30 font-bold">Photo ${String(index+1).padStart(2, '0')}</span>
+              </div>
+              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span class="p-3 rounded-full bg-black/70 text-brand-gold border border-brand-gold/40"><i data-lucide="maximize-2" class="w-5 h-5"></i></span>
+              </div>
+            </div>
+            <p class="text-[10px] text-brand-gold tracking-widest uppercase font-semibold">Dharmawangsa Apartment</p>
+            <h4 class="font-serif font-bold text-sm text-slate-100 line-clamp-1 mt-0.5">${item.title}</h4>
+            <p class="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">${item.desc}</p>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+
+      lucide.createIcons();
+    }
+
+    function openLightbox(src, title, desc) {
+      document.getElementById('lightbox-img').src = src;
+      document.getElementById('lightbox-title').innerText = title;
+      document.getElementById('lightbox-desc').innerText = desc;
+      document.getElementById('lightbox').classList.add('active');
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      loadAlbum();
+    });
+  </script>
+</body>
+</html>

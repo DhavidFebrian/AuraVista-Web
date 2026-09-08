@@ -1,0 +1,1249 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Admin Studio Dashboard — AURA VISTA MEDIA</title>
+  
+  <!-- Fonts: Cormorant Garamond & Plus Jakarta Sans -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- JSZip for Batch Download -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+  <!-- Aura Vista Cloud Sync Database Engine -->
+  <script src="assets/cloud_sync.js"></script>
+
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              gold: '#D4AF37',
+              goldLight: '#F3E5AB',
+              goldDark: '#997B1E',
+              dark: '#07090E',
+              darker: '#040508',
+              card: '#0D121D',
+              cardHover: '#131A29',
+              sidebar: '#080C14',
+            }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['"Plus Jakarta Sans"', '-apple-system', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #07090E;
+      color: #E2E8F0;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .glass-card {
+      background: linear-gradient(135deg, rgba(19, 26, 41, 0.7) 0%, rgba(10, 14, 22, 0.85) 100%);
+      backdrop-filter: blur(16px);
+      border: 1px solid rgba(212, 175, 55, 0.14);
+    }
+    .glass-panel {
+      background: rgba(13, 18, 29, 0.8);
+      backdrop-filter: blur(20px);
+      border: 1px solid rgba(212, 175, 55, 0.14);
+    }
+    .btn-gold {
+      background: linear-gradient(135deg, #E6C665 0%, #D4AF37 50%, #B38F1E 100%);
+      color: #040508;
+      font-weight: 700;
+      transition: all 0.25s ease;
+    }
+    .btn-gold:hover {
+      filter: brightness(1.1);
+      box-shadow: 0 0 25px rgba(212, 175, 55, 0.35);
+    }
+    /* Custom Checkbox */
+    .custom-checkbox:checked {
+      background-color: #D4AF37;
+      border-color: #D4AF37;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col bg-[#07090E] antialiased selection:bg-brand-gold selection:text-black">
+
+  <!-- ==================== LOGIN SCREEN ==================== -->
+  <div id="login-view" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-[#07090E]/95 backdrop-blur-2xl">
+    <div class="glass-card max-w-md w-full p-8 rounded-3xl border border-brand-gold/30 shadow-[0_20px_50px_rgba(0,0,0,0.8)] text-center relative overflow-hidden">
+      
+      <div class="absolute -top-20 -left-20 w-48 h-48 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none"></div>
+
+      <!-- Logo & Studio Identity -->
+      <img src="assets/aura_vista_logo_cropped.png" alt="Aura Vista" class="h-10 mx-auto mb-4 object-contain filter drop-shadow-[0_2px_12px_rgba(212,175,55,0.4)]" />
+      <span class="text-[10px] uppercase tracking-[0.35em] text-brand-gold font-bold">Studio Security Authentication</span>
+      <h2 class="font-serif text-2xl font-bold text-slate-100 mt-1 mb-6">Aura Vista Studio Portal</h2>
+
+      <form onsubmit="handleLogin(event)" class="space-y-4 text-left">
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-400 font-medium mb-1.5">Username</label>
+          <input type="text" id="login-username" autocomplete="username" placeholder="Masukkan username" class="w-full px-4 py-3 rounded-xl bg-[#080C14] border border-slate-700 text-sm text-slate-100 focus:border-brand-gold focus:outline-none transition-colors" required />
+        </div>
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-400 font-medium mb-1.5">Password</label>
+          <input type="password" id="login-password" autocomplete="current-password" placeholder="Masukkan password" class="w-full px-4 py-3 rounded-xl bg-[#080C14] border border-slate-700 text-sm text-slate-100 focus:border-brand-gold focus:outline-none transition-colors" required />
+        </div>
+        <div id="login-error" class="hidden text-xs text-rose-400 font-medium p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-center">
+          Username atau password studio salah.
+        </div>
+        <button type="submit" class="w-full py-3.5 rounded-xl btn-gold text-xs uppercase tracking-widest mt-2 flex items-center justify-center gap-2">
+          <i data-lucide="lock" class="w-4 h-4"></i>
+          <span>Masuk ke Dashboard Studio</span>
+        </button>
+      </form>
+      <div class="mt-6 text-center">
+        <a href="index.html" class="text-xs text-slate-500 hover:text-brand-gold transition-colors">← Kembali ke Website Publik</a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MAIN DASHBOARD LAYOUT ==================== -->
+  <div id="app-view" class="hidden min-h-screen flex flex-col lg:flex-row">
+    
+    <!-- SIDEBAR -->
+    <aside class="w-full lg:w-64 bg-brand-sidebar border-r border-slate-800/80 p-5 flex flex-col justify-between shrink-0">
+      <div>
+        <!-- Brand Header -->
+        <div class="flex items-center justify-between pb-6 border-b border-slate-800/80 mb-6">
+          <div class="flex items-center gap-3">
+            <img src="assets/aura_vista_logo_cropped.png" alt="Aura Vista" class="h-8 w-auto" />
+            <div>
+              <p class="font-serif text-sm font-bold text-slate-100 tracking-wider">AURA VISTA</p>
+              <p class="text-[9px] uppercase tracking-widest text-brand-gold font-semibold">Studio Admin</p>
+            </div>
+          </div>
+          <button onclick="handleLogout()" class="p-2 text-slate-400 hover:text-red-400 transition-colors" title="Logout">
+            <i data-lucide="log-out" class="w-4 h-4"></i>
+          </button>
+        </div>
+
+        <!-- Navigation Menu -->
+        <nav class="space-y-1 text-xs font-semibold">
+          <button onclick="switchView('overview')" id="nav-overview" class="nav-link active w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-300 hover:text-brand-gold hover:bg-slate-900/60 transition-all">
+            <i data-lucide="layout-dashboard" class="w-4 h-4"></i>
+            <span>Overview & Stats</span>
+          </button>
+          <button onclick="switchView('portfolio')" id="nav-portfolio" class="nav-link w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-300 hover:text-brand-gold hover:bg-slate-900/60 transition-all">
+            <i data-lucide="images" class="w-4 h-4"></i>
+            <span>Manage & Export Media</span>
+            <span id="badge-total-items" class="ml-auto px-2 py-0.5 rounded-full bg-brand-gold/10 text-brand-gold text-[10px]">40</span>
+          </button>
+          <button onclick="switchView('upload')" id="nav-upload" class="nav-link w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-300 hover:text-brand-gold hover:bg-slate-900/60 transition-all">
+            <i data-lucide="sparkles" class="w-4 h-4 text-brand-gold"></i>
+            <span>Upload & AutoMark</span>
+          </button>
+          <button onclick="switchView('hero-customizer')" id="nav-hero-customizer" class="nav-link w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-300 hover:text-brand-gold hover:bg-slate-900/60 transition-all">
+            <i data-lucide="sliders" class="w-4 h-4 text-brand-gold"></i>
+            <span>Master Shot & Hero Look</span>
+          </button>
+          <button onclick="switchView('settings')" id="nav-settings" class="nav-link w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-slate-300 hover:text-brand-gold hover:bg-slate-900/60 transition-all">
+            <i data-lucide="database" class="w-4 h-4"></i>
+            <span>Backup & Tools</span>
+          </button>
+        </nav>
+      </div>
+
+      <!-- Quick Action / Live Preview -->
+      <div class="pt-6 border-t border-slate-800/80">
+        <a href="index.html" target="_blank" class="w-full py-2.5 rounded-xl glass-panel text-xs text-slate-300 hover:text-brand-gold flex items-center justify-center gap-2 border border-brand-gold/20 hover:border-brand-gold/50 transition-all">
+          <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+          <span>Buka Live Website</span>
+        </a>
+      </div>
+    </aside>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-1 flex flex-col min-w-0 bg-[#07090E] overflow-y-auto">
+      
+      <!-- Top Bar -->
+      <header class="h-16 border-b border-slate-800/80 px-6 flex items-center justify-between bg-brand-dark/40 backdrop-blur-md sticky top-0 z-30">
+        <div>
+          <h1 id="page-title" class="font-serif text-lg font-bold text-slate-100">Overview Dashboard</h1>
+          <p id="page-subtitle" class="text-[10px] text-slate-400">Ringkasan inventaris media dan performa portofolio Aura Vista.</p>
+        </div>
+        <div class="flex items-center gap-3">
+          <button onclick="switchView('upload')" class="px-4 py-2 rounded-xl btn-gold text-xs uppercase tracking-wider flex items-center gap-2">
+            <i data-lucide="plus" class="w-3.5 h-3.5"></i>
+            <span>Upload Foto Baru</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- VIEW PANELS -->
+      <div class="p-6 sm:p-8 space-y-8 max-w-7xl mx-auto w-full">
+        
+        <!-- ================= VIEW 1: OVERVIEW ================= -->
+        <div id="view-overview" class="view-panel space-y-8">
+          
+          <!-- Key Metrics -->
+          <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <div class="glass-card p-5 rounded-2xl border-l-4 border-brand-gold">
+              <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Total Portofolio</span>
+              <p id="stat-total" class="font-serif text-3xl font-bold text-slate-100 mt-2">40</p>
+              <p class="text-[11px] text-emerald-400 mt-1 flex items-center gap-1">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i> Semua foto ter-watermark
+              </p>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl border-l-4 border-blue-400">
+              <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Dharmawangsa Apt</span>
+              <p id="stat-dharmawangsa" class="font-serif text-3xl font-bold text-blue-300 mt-2">18</p>
+              <p class="text-[11px] text-slate-400 mt-1">High-End Residential Suite</p>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl border-l-4 border-purple-400">
+              <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Cilandak Estate</span>
+              <p id="stat-cilandak" class="font-serif text-3xl font-bold text-purple-300 mt-2">10</p>
+              <p class="text-[11px] text-slate-400 mt-1">Modern Villa & Pools</p>
+            </div>
+
+            <div class="glass-card p-5 rounded-2xl border-l-4 border-amber-400">
+              <span class="text-xs uppercase tracking-wider text-slate-400 font-semibold">Enhancement Grade</span>
+              <p id="stat-enhancement" class="font-serif text-3xl font-bold text-amber-300 mt-2">12</p>
+              <p class="text-[11px] text-slate-400 mt-1">Sky & Lighting Grade</p>
+            </div>
+          </div>
+
+          <!-- Recent Uploads & Watermark Engine Status -->
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div class="lg:col-span-8 glass-card p-6 rounded-2xl">
+              <div class="flex items-center justify-between mb-4">
+                <h3 class="font-serif text-lg font-bold text-slate-100">Koleksi Portofolio Terakhir</h3>
+                <button onclick="switchView('portfolio')" class="text-xs text-brand-gold hover:underline">Lihat Semua →</button>
+              </div>
+              <div id="overview-recent-grid" class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                <!-- Populated by JS -->
+              </div>
+            </div>
+
+            <div class="lg:col-span-4 glass-card p-6 rounded-2xl flex flex-col justify-between">
+              <div>
+                <span class="text-[10px] uppercase font-bold tracking-widest text-brand-gold">Studio Automation Engine</span>
+                <h3 class="font-serif text-xl font-bold text-slate-100 mt-1">Otomasi Watermark</h3>
+                <p class="text-xs text-slate-400 mt-2 leading-relaxed">
+                  Setiap foto yang Anda unggah otomatis disematkan logo resmi Aura Vista Media dengan rasio presisi 15.5% lebar dan 90% opacity di posisi Top-Center (20.5% top).
+                </p>
+              </div>
+              <button onclick="switchView('upload')" class="w-full py-3.5 rounded-xl btn-gold text-xs uppercase tracking-wider flex items-center justify-center gap-2 mt-4">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Buka Engine Watermark</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- ================= VIEW 2: PORTFOLIO MANAGEMENT & EXPORT ================= -->
+        <div id="view-portfolio" class="view-panel hidden space-y-6">
+          
+          <!-- Filters & Batch Download Action Toolbar -->
+          <div class="glass-card p-5 rounded-2xl border border-brand-gold/20 space-y-4">
+            
+            <div class="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
+              <div class="relative flex-1">
+                <i data-lucide="search" class="w-4 h-4 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="search-input" oninput="renderPortfolioList()" placeholder="Cari berdasarkan judul, lokasi, atau deskripsi..." class="w-full pl-10 pr-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none" />
+              </div>
+              <div class="flex items-center gap-3">
+                <select id="filter-cat" onchange="renderPortfolioList()" class="px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-200 focus:border-brand-gold focus:outline-none">
+                  <option value="all">Semua Kategori (40)</option>
+                  <option value="dharmawangsa">Dharmawangsa Apartment (18)</option>
+                  <option value="cilandak">Cilandak South Jakarta (10)</option>
+                  <option value="enhancement">Visual Enhancement (12)</option>
+                </select>
+                <button onclick="switchView('upload')" class="px-4 py-2.5 rounded-xl btn-gold text-xs uppercase tracking-wider flex items-center gap-1.5 shrink-0">
+                  <i data-lucide="plus" class="w-4 h-4"></i>
+                  <span>Upload Foto</span>
+                </button>
+              </div>
+            </div>
+
+            <!-- BATCH SELECTION & MAXIMUM QUALITY DOWNLOAD BAR -->
+            <div class="pt-4 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-3 bg-black/40 p-3 rounded-xl border border-slate-800">
+              <div class="flex items-center gap-3">
+                <label class="flex items-center gap-2 text-xs text-slate-300 cursor-pointer font-medium select-none">
+                  <input type="checkbox" id="select-all-checkbox" onchange="toggleSelectAll(this)" class="w-4 h-4 rounded border-slate-700 text-brand-gold focus:ring-0 custom-checkbox cursor-pointer" />
+                  <span>Pilih Semua (<span id="selected-count-text">0</span> dipilih)</span>
+                </label>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button id="btn-download-selected" onclick="downloadSelectedPhotos()" class="px-5 py-2 rounded-xl btn-gold text-xs uppercase tracking-wider flex items-center gap-2 shadow-lg disabled:opacity-50 disabled:cursor-not-allowed">
+                  <i data-lucide="download" class="w-4 h-4"></i>
+                  <span>Download Maximum Quality (Watermarked)</span>
+                </button>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Cards Grid -->
+          <div id="portfolio-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Rendered by JS -->
+          </div>
+        </div>
+
+        <!-- ================= VIEW 3: UPLOAD & AUTO-WATERMARK ================= -->
+        <div id="view-upload" class="view-panel hidden max-w-3xl mx-auto space-y-6">
+          <div class="glass-card p-6 sm:p-8 rounded-3xl border border-brand-gold/30">
+            <div class="mb-6">
+              <span class="text-[10px] uppercase font-bold tracking-widest text-brand-gold">Auto Watermark Studio</span>
+              <h2 class="font-serif text-2xl font-bold text-slate-100 mt-1">Upload Karya Baru</h2>
+              <p class="text-xs text-slate-400 mt-1">Logo resmi Aura Vista akan langsung ditempelkan otomatis secara presisi di posisi Top-Center (Scale 15.5%, Opacity 90%).</p>
+            </div>
+
+            <form onsubmit="handleUploadSubmit(event)" class="space-y-5">
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-slate-300 font-bold mb-2">Pilih File Foto (JPG / PNG)</label>
+                <input type="file" id="upload-file-input" accept="image/*" onchange="processWatermarkCanvas(event)" class="w-full text-xs text-slate-400 file:mr-4 file:py-3 file:px-5 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-brand-gold file:text-black hover:file:brightness-110 cursor-pointer glass-panel p-2.5 rounded-xl border border-brand-gold/20" required />
+              </div>
+
+              <!-- Live Watermark Preview Canvas -->
+              <div id="canvas-preview-container" class="hidden rounded-2xl overflow-hidden border border-brand-gold/30 bg-black/80 p-5 text-center">
+                <p class="text-xs text-brand-goldLight font-bold uppercase tracking-wider mb-3 flex items-center justify-center gap-2">
+                  <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+                  <span>Live Watermark Berhasil Ditempelkan (Top-Center Sesuai Standar)</span>
+                </p>
+                <canvas id="studio-watermark-canvas" class="max-h-[380px] w-auto max-w-full mx-auto rounded-xl shadow-2xl border border-slate-800"></canvas>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <label class="block text-xs uppercase tracking-wider text-slate-300 font-bold mb-1.5">Judul Ruangan / Artwork</label>
+                  <input type="text" id="upload-title" placeholder="Contoh: Grand Master Suite Twilight" class="w-full px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none" required />
+                </div>
+                <div>
+                  <label class="block text-xs uppercase tracking-wider text-slate-300 font-bold mb-1.5">Kategori / Album</label>
+                  <select id="upload-category" class="w-full px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none">
+                    <option value="dharmawangsa">Dharmawangsa Apartment</option>
+                    <option value="cilandak">Cilandak South Jakarta</option>
+                    <option value="enhancement">Visual Enhancement & Grade</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label class="block text-xs uppercase tracking-wider text-slate-300 font-bold mb-1.5">Deskripsi Arsitektural</label>
+                <textarea id="upload-desc" rows="3" placeholder="Jelaskan teknik komposisi, orientasi cahaya alami, atau fitur visual arsitektur..." class="w-full px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none" required></textarea>
+              </div>
+
+              <button type="submit" id="btn-publish-photo" class="w-full py-4 rounded-xl btn-gold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl">
+                <i data-lucide="sparkles" class="w-4 h-4"></i>
+                <span>Simpan Foto Ber-Watermark ke Database</span>
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <!-- ================= VIEW 5: MASTER SHOT & HERO LOOK CUSTOMIZER ================= -->
+        <div id="view-hero-customizer" class="view-panel hidden max-w-5xl mx-auto space-y-8">
+          
+          <div class="glass-panel p-6 sm:p-8 rounded-3xl border border-brand-gold/30">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-slate-800">
+              <div>
+                <h3 class="font-serif text-xl sm:text-2xl font-bold text-slate-100">Hero Master Shot & Visual Customizer</h3>
+                <p class="text-xs text-slate-400 mt-1">Pilih foto master shot untuk section About dan atur efek visual background beranda secara instan.</p>
+              </div>
+              <div class="flex items-center gap-2">
+                <button onclick="saveCustomizerToCloud()" id="btn-save-cloud" class="px-5 py-2 rounded-xl btn-gold text-xs uppercase tracking-wider font-bold shadow-lg flex items-center gap-2">
+                  <i data-lucide="cloud-upload" class="w-4 h-4"></i>
+                  <span>Sync ke Cloud (Semua Device)</span>
+                </button>
+                <button onclick="resetCustomizerSettings()" class="px-4 py-2 rounded-xl glass-panel text-xs text-slate-400 hover:text-white border border-slate-700">
+                  Reset Default
+                </button>
+              </div>
+            </div>
+
+            <!-- LIVE PREVIEW CURRENT SETTINGS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 my-8">
+              
+              <!-- 1. Master Shot Card Preview -->
+              <div class="space-y-2">
+                <span class="text-xs uppercase tracking-widest text-brand-gold font-bold block">1. Master Shot Card (About Section)</span>
+                <div class="aspect-[16/10] rounded-2xl overflow-hidden glass-card p-2 border border-brand-gold/40 relative bg-black/80 shadow-2xl">
+                  <img id="current-master-shot-img" src="assets/HD_04_living_depan.webp" alt="Current Master Shot" class="w-full h-full object-cover rounded-xl" />
+                  <div class="absolute bottom-3 left-3 right-3 p-3 rounded-xl glass-panel border border-white/10 flex items-center justify-between">
+                    <div>
+                      <p class="text-[9px] uppercase tracking-widest text-brand-gold font-bold">Preview Label</p>
+                      <p id="current-master-shot-title" class="text-xs font-serif font-bold text-slate-100">Grand Living Space HDR</p>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-brand-gold text-black text-[9px] font-bold uppercase">Active Master</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 2. Landing Page Hero Background Preview -->
+              <div class="space-y-2">
+                <span class="text-xs uppercase tracking-widest text-brand-gold font-bold block">2. Hero Landing Page Background</span>
+                <div class="aspect-[16/10] rounded-2xl overflow-hidden glass-card p-2 border border-brand-gold/40 relative bg-black/80 shadow-2xl">
+                  <img id="current-hero-bg-img" src="assets/HD_06_pool.webp" alt="Current Hero Background" class="w-full h-full object-cover rounded-xl brightness-[0.7]" />
+                  <div class="absolute bottom-3 left-3 right-3 p-3 rounded-xl glass-panel border border-white/10 flex items-center justify-between">
+                    <div>
+                      <p class="text-[9px] uppercase tracking-widest text-brand-gold font-bold">Hero Background</p>
+                      <p id="current-hero-bg-title" class="text-xs font-serif font-bold text-slate-100">Private Resort Swimming Pool</p>
+                    </div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-blue-500 text-white text-[9px] font-bold uppercase">Active Hero</span>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+            <!-- AMBIENT & LIGHTING SETTINGS -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6 p-5 rounded-2xl glass-card border border-slate-800">
+              <!-- Toggle Mesh Orbs & Gold Dust -->
+              <div class="p-3.5 rounded-xl glass-panel flex items-center justify-between border border-slate-800">
+                <div>
+                  <p class="text-xs font-bold text-slate-200">Cinematic Ambient Glow & Gold Dust</p>
+                  <p class="text-[10px] text-slate-400">Efek bias cahaya lembut dan partikel debu emas melayang.</p>
+                </div>
+                <label class="relative inline-flex items-center cursor-pointer">
+                  <input type="checkbox" id="toggle-neon-bg" onchange="updateBackgroundSettings()" class="sr-only peer" checked />
+                  <div class="w-11 h-6 bg-slate-700 peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-slate-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-gold"></div>
+                </label>
+              </div>
+
+              <!-- Background Mood Preset -->
+              <div class="p-3.5 rounded-xl glass-panel border border-slate-800 space-y-1.5">
+                <label class="block text-xs font-bold text-slate-200">Background Tone Preset</label>
+                <select id="select-bg-mood" onchange="updateBackgroundSettings()" class="w-full px-3 py-2 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none">
+                  <option value="obsidian">Deep Obsidian & Gold Dust</option>
+                  <option value="midnight">Midnight Cyan & Velvet Blue</option>
+                  <option value="dark-slate">Pure Minimalist Dark Slate</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- CHOOSE TARGET SELECTOR TABS -->
+            <div class="pt-6 border-t border-slate-800">
+              <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 mb-4">
+                <div>
+                  <span class="text-xs uppercase tracking-widest text-slate-300 font-bold">Pilih Foto untuk Bagian Mana:</span>
+                  <div class="flex items-center gap-2 mt-2">
+                    <button type="button" id="tab-target-hero" onclick="setSelectTarget('hero')" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-brand-gold text-black shadow-md">
+                      Ganti Background Hero Landing
+                    </button>
+                    <button type="button" id="tab-target-master" onclick="setSelectTarget('master')" class="px-4 py-1.5 rounded-lg text-xs font-bold glass-panel text-slate-300 hover:text-white border border-slate-700">
+                      Ganti Master Shot Card
+                    </button>
+                  </div>
+                </div>
+                <span id="target-hint-text" class="text-xs text-brand-gold font-semibold">Mengubah: Background Hero Landing Page</span>
+              </div>
+
+              <div id="master-shot-selector-grid" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3.5 max-h-[360px] overflow-y-auto p-1">
+                <!-- Rendered dynamically via JS -->
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ================= VIEW 4: SETTINGS & BACKUP ================= -->
+        <div id="view-settings" class="view-panel hidden max-w-4xl mx-auto space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            
+            <div class="glass-card p-6 rounded-2xl border border-brand-gold/20">
+              <div class="w-10 h-10 rounded-xl bg-brand-gold/10 border border-brand-gold/30 flex items-center justify-center text-brand-gold mb-4">
+                <i data-lucide="download-cloud" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-serif text-lg font-bold text-slate-100">Export Backup Database</h3>
+              <p class="text-xs text-slate-400 mt-1 mb-4">Unduh salinan file JSON lengkap seluruh 40+ item portofolio terkini.</p>
+              <button onclick="exportJSON()" class="w-full py-2.5 rounded-xl glass-panel text-xs text-brand-gold font-bold hover:bg-brand-gold hover:text-black border border-brand-gold/30 transition-all flex items-center justify-center gap-2">
+                <i data-lucide="download" class="w-4 h-4"></i>
+                <span>Download Portfolio JSON</span>
+              </button>
+            </div>
+
+            <div class="glass-card p-6 rounded-2xl border border-slate-800">
+              <div class="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/30 flex items-center justify-center text-blue-400 mb-4">
+                <i data-lucide="upload-cloud" class="w-5 h-5"></i>
+              </div>
+              <h3 class="font-serif text-lg font-bold text-slate-100">Restore Data JSON</h3>
+              <p class="text-xs text-slate-400 mt-1 mb-4">Pulihkan portofolio dari file JSON backup cadangan.</p>
+              <label class="w-full py-2.5 rounded-xl glass-panel text-xs text-blue-400 font-bold hover:bg-blue-500 hover:text-white border border-blue-500/30 transition-all flex items-center justify-center gap-2 cursor-pointer">
+                <i data-lucide="upload" class="w-4 h-4"></i>
+                <span>Pilih File Backup JSON</span>
+                <input type="file" accept=".json" onchange="importJSON(event)" class="hidden" />
+              </label>
+            </div>
+
+          </div>
+
+          <!-- Reset Default -->
+          <div class="glass-panel p-6 rounded-2xl border border-red-500/20 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>
+              <h4 class="font-serif font-bold text-red-400 text-base">Reset ke Portofolio Master Default (40 Foto)</h4>
+              <p class="text-xs text-slate-400 mt-0.5">Menghapus perubahan lokal dan mengembalikan daftar portofolio ke konfigurasi pabrik master.</p>
+            </div>
+            <button onclick="resetDefault()" class="px-5 py-2.5 rounded-xl bg-red-500/10 hover:bg-red-500 text-red-400 hover:text-white border border-red-500/30 text-xs font-bold transition-all shrink-0">
+              Reset Database
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </main>
+  </div>
+
+  <!-- ==================== EDIT MODAL ==================== -->
+  <div id="edit-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-md flex items-center justify-center p-4 hidden">
+    <div class="glass-card max-w-lg w-full p-6 sm:p-8 rounded-3xl border border-brand-gold/40 relative">
+      <button onclick="closeEditModal()" class="absolute top-5 right-5 text-slate-400 hover:text-white text-lg">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+
+      <h3 class="font-serif text-xl font-bold text-slate-100 mb-4">Edit Portofolio Karya</h3>
+
+      <form onsubmit="handleSaveEdit(event)" class="space-y-4">
+        <input type="hidden" id="edit-id" />
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-400 font-medium mb-1">Judul Karya / Room</label>
+          <input type="text" id="edit-title" class="w-full px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none" required />
+        </div>
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-400 font-medium mb-1">Kategori</label>
+          <select id="edit-category" class="w-full px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none">
+            <option value="dharmawangsa">Dharmawangsa Apartment</option>
+            <option value="cilandak">Cilandak South Jakarta</option>
+            <option value="enhancement">Visual Enhancement</option>
+          </select>
+        </div>
+        <div>
+          <label class="block text-xs uppercase tracking-wider text-slate-400 font-medium mb-1">Deskripsi Arsitektur</label>
+          <textarea id="edit-desc" rows="3" class="w-full px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none" required></textarea>
+        </div>
+
+        <div class="flex items-center justify-end gap-3 pt-4 border-t border-slate-800">
+          <button type="button" onclick="closeEditModal()" class="px-4 py-2 rounded-xl text-xs text-slate-400 hover:text-white">Batal</button>
+          <button type="submit" class="px-5 py-2.5 rounded-xl btn-gold text-xs uppercase tracking-wider">Simpan Perubahan</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- HIDDEN LOGO ASSET FOR CANVAS -->
+  <img id="logo-watermark-source" src="assets/aura_vista_logo_cropped.png" class="hidden" alt="Aura Vista Logo" />
+
+  <!-- SCRIPT LOGIC -->
+  <script>
+    const STORAGE_KEY = 'auravista_portfolio_v9';
+    const AUTH_KEY = 'auravista_admin_auth';
+    const ADMIN_USER = 'david';
+    const ADMIN_PASS = 'Cakrawala23';
+
+    let watermarkedDataUrl = '';
+    let selectedItemIds = new Set();
+
+    // Init Authentication
+    function initAuth() {
+      const isAuth = sessionStorage.getItem(AUTH_KEY) === 'true';
+      if (isAuth) {
+        document.getElementById('login-view').classList.add('hidden');
+        document.getElementById('app-view').classList.remove('hidden');
+        loadDashboardData();
+      } else {
+        document.getElementById('login-view').classList.remove('hidden');
+        document.getElementById('app-view').classList.add('hidden');
+      }
+      lucide.createIcons();
+    }
+
+    function handleLogin(e) {
+      e.preventDefault();
+      const u = document.getElementById('login-username').value;
+      const p = document.getElementById('login-password').value;
+
+      if (u === ADMIN_USER && p === ADMIN_PASS) {
+        sessionStorage.setItem(AUTH_KEY, 'true');
+        document.getElementById('login-error').classList.add('hidden');
+        initAuth();
+      } else {
+        document.getElementById('login-error').classList.remove('hidden');
+      }
+    }
+
+    function handleLogout() {
+      sessionStorage.removeItem(AUTH_KEY);
+      location.reload();
+    }
+
+    function getPortfolioData() {
+      const stored = localStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        try {
+          return JSON.parse(stored);
+        } catch (e) {}
+      }
+      return [];
+    }
+
+    function savePortfolioData(data) {
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+      loadDashboardData();
+    }
+
+    function switchView(viewName) {
+      document.querySelectorAll('.view-panel').forEach(el => el.classList.add('hidden'));
+      document.querySelectorAll('.nav-link').forEach(el => el.classList.remove('active', 'bg-slate-900/60', 'text-brand-gold'));
+
+      const activeView = document.getElementById(`view-${viewName}`);
+      const activeNav = document.getElementById(`nav-${viewName}`);
+      if (activeView) activeView.classList.remove('hidden');
+      if (activeNav) activeNav.classList.add('active', 'bg-slate-900/60', 'text-brand-gold');
+
+      const titles = {
+        'overview': ['Overview Studio Dashboard', 'Ringkasan performa dan inventaris media Aura Vista.'],
+        'portfolio': ['Media Portfolio & High-Res Export', 'Kelola karya, edit deskripsi, dan download foto resolusi maksimal ber-watermark.'],
+        'upload': ['Studio Auto-Watermark Engine', 'Upload karya baru dengan penempelan logo otomatis presisi.'],
+        'hero-customizer': ['Master Shot & Hero Look Customizer', 'Kustomisasi foto master shot dan efek background beranda secara interaktif.'],
+        'settings': ['Backup & Tools Database', 'Export JSON cadangan dan utilitas pemulihan database.']
+      };
+
+      if (titles[viewName]) {
+        document.getElementById('page-title').innerText = titles[viewName][0];
+        document.getElementById('page-subtitle').innerText = titles[viewName][1];
+      }
+
+      if (viewName === 'portfolio') {
+        renderPortfolioList();
+      } else if (viewName === 'hero-customizer') {
+        renderMasterShotSelector();
+      }
+
+      lucide.createIcons();
+    }
+
+    async function loadDashboardData() {
+      let data = null;
+      const localData = localStorage.getItem(STORAGE_KEY);
+      
+      if (localData) {
+        try {
+          data = JSON.parse(localData);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+
+      if (!data || data.length === 0) {
+        try {
+          const resp = await fetch('assets/portfolio_data.json?v=' + Date.now());
+          data = await resp.json();
+          // ensure any legacy jpg/png in list gets fixed
+          data.forEach(item => {
+            if (item.img && (item.img.endsWith('.jpg') || item.img.endsWith('.png'))) {
+              item.img = item.img.replace(/\.(jpg|png)$/i, '.webp');
+            }
+          });
+          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+        } catch (e) {
+          console.error(e);
+          data = getPortfolioData();
+        }
+      }
+
+      updateDashboardStats(data);
+      renderPortfolioList();
+      lucide.createIcons();
+    }
+
+    function updateDashboardStats(data) {
+      const total = data.length;
+      const dh = data.filter(d => d.category === 'dharmawangsa' || (d.img && d.img.includes('4711'))).length;
+      const cil = data.filter(d => d.category === 'cilandak' || (d.img && d.img.includes('12302'))).length;
+      const enh = data.filter(d => d.category === 'enhancement' || (!d.img?.includes('4711') && !d.img?.includes('12302'))).length;
+
+      if (document.getElementById('stat-total')) document.getElementById('stat-total').innerText = total;
+      if (document.getElementById('stat-dharmawangsa')) document.getElementById('stat-dharmawangsa').innerText = dh;
+      if (document.getElementById('stat-cilandak')) document.getElementById('stat-cilandak').innerText = cil;
+      if (document.getElementById('stat-enhancement')) document.getElementById('stat-enhancement').innerText = enh;
+      if (document.getElementById('badge-total-items')) document.getElementById('badge-total-items').innerText = total;
+
+      // Overview Recent Grid
+      const recentContainer = document.getElementById('overview-recent-grid');
+      if (recentContainer) {
+        recentContainer.innerHTML = '';
+        data.slice(0, 4).forEach(item => {
+          const div = document.createElement('div');
+          div.className = 'glass-panel p-2.5 rounded-2xl overflow-hidden';
+          div.innerHTML = `
+            <div class="aspect-[3/4] rounded-xl overflow-hidden mb-2 bg-black/50">
+              <img src="${item.img}" class="w-full h-full object-cover" />
+            </div>
+            <p class="text-xs font-bold text-slate-100 truncate">${item.title}</p>
+            <span class="text-[9px] uppercase text-brand-gold tracking-wider">${item.badge || item.category}</span>
+          `;
+          recentContainer.appendChild(div);
+        });
+      }
+    }
+
+    // Render Portfolio Table / Grid in View 2
+    function renderPortfolioList() {
+      const data = getPortfolioData();
+      const query = (document.getElementById('search-input')?.value || '').toLowerCase();
+      const filterCat = document.getElementById('filter-cat')?.value || 'all';
+      const container = document.getElementById('portfolio-grid-container');
+      if (!container) return;
+      container.innerHTML = '';
+
+      const filtered = data.filter(item => {
+        const matchesQuery = item.title.toLowerCase().includes(query) || (item.desc && item.desc.toLowerCase().includes(query));
+        let matchesCat = true;
+        if (filterCat === 'dharmawangsa') matchesCat = item.category === 'dharmawangsa' || (item.img && item.img.includes('4711'));
+        else if (filterCat === 'cilandak') matchesCat = item.category === 'cilandak' || (item.img && item.img.includes('12302'));
+        else if (filterCat === 'enhancement') matchesCat = item.category === 'enhancement' || (!item.img.includes('4711') && !item.img.includes('12302'));
+        return matchesQuery && matchesCat;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = `
+          <div class="col-span-full text-center py-16 text-slate-500">
+            <i data-lucide="inbox" class="w-10 h-10 mx-auto mb-2 opacity-50"></i>
+            <p class="text-sm">Tidak ada portofolio yang cocok dengan pencarian.</p>
+          </div>
+        `;
+        lucide.createIcons();
+        return;
+      }
+
+      filtered.forEach(item => {
+        const isChecked = selectedItemIds.has(item.id);
+        const card = document.createElement('div');
+        card.className = `glass-card rounded-2xl overflow-hidden p-3.5 flex flex-col justify-between group transition-all ${isChecked ? 'border-brand-gold ring-1 ring-brand-gold/50' : ''}`;
+        
+        card.innerHTML = `
+          <div>
+            <div class="aspect-[3/4] rounded-xl overflow-hidden mb-3.5 relative bg-black/80 flex items-center justify-center">
+              <img src="${item.img}" alt="${item.title}" class="w-full h-full object-contain transition-transform group-hover:scale-105 duration-500" />
+              
+              <!-- Checkbox for Selection -->
+              <div class="absolute top-2.5 right-2.5 z-10">
+                <input type="checkbox" onchange="toggleSelectItem('${item.id}', this)" ${isChecked ? 'checked' : ''} class="w-5 h-5 rounded border-slate-600 bg-black/70 text-brand-gold focus:ring-0 custom-checkbox cursor-pointer shadow-md" />
+              </div>
+
+              <div class="absolute top-2.5 left-2.5">
+                <span class="px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[9px] text-brand-gold uppercase tracking-wider border border-brand-gold/30 font-bold">${item.badge || item.category}</span>
+              </div>
+            </div>
+            <h4 class="font-serif font-bold text-sm text-slate-100 line-clamp-1">${item.title}</h4>
+            <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">${item.desc}</p>
+          </div>
+
+          <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-2">
+            <!-- Download Single High-Res Button -->
+            <button onclick="downloadSinglePhoto('${item.img}', '${item.title}')" class="w-full py-1.5 rounded-lg btn-gold text-[11px] uppercase tracking-wider font-bold flex items-center justify-center gap-1.5 shadow-sm">
+              <i data-lucide="download" class="w-3.5 h-3.5"></i>
+              <span>Download Max Quality</span>
+            </button>
+
+            <div class="flex items-center justify-between gap-2">
+              <button onclick="openEditModal('${item.id}')" class="flex-1 py-1.5 rounded-lg glass-panel text-xs text-brand-gold hover:text-white flex items-center justify-center gap-1 border border-brand-gold/20 hover:border-brand-gold transition-all">
+                <i data-lucide="edit-3" class="w-3.5 h-3.5"></i> Edit
+              </button>
+              <button onclick="deleteItem('${item.id}')" class="py-1.5 px-3 rounded-lg bg-red-500/10 hover:bg-red-500/20 text-red-400 text-xs flex items-center justify-center border border-red-500/20 transition-all">
+                <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+              </button>
+            </div>
+          </div>
+        `;
+        container.appendChild(card);
+      });
+
+      updateSelectionUI();
+      lucide.createIcons();
+    }
+
+    // Toggle Select Item
+    function toggleSelectItem(id, checkbox) {
+      if (checkbox.checked) {
+        selectedItemIds.add(id);
+      } else {
+        selectedItemIds.delete(id);
+      }
+      updateSelectionUI();
+    }
+
+    // Toggle Select All
+    function toggleSelectAll(masterCheckbox) {
+      const data = getPortfolioData();
+      if (masterCheckbox.checked) {
+        data.forEach(item => selectedItemIds.add(item.id));
+      } else {
+        selectedItemIds.clear();
+      }
+      renderPortfolioList();
+    }
+
+    function updateSelectionUI() {
+      const count = selectedItemIds.size;
+      const countEl = document.getElementById('selected-count-text');
+      if (countEl) countEl.innerText = count;
+
+      const btn = document.getElementById('btn-download-selected');
+      if (btn) {
+        btn.disabled = count === 0;
+        btn.innerHTML = `<i data-lucide="download" class="w-4 h-4"></i><span>Download Maximum Quality (${count} Foto)</span>`;
+      }
+
+      const masterCheckbox = document.getElementById('select-all-checkbox');
+      const total = getPortfolioData().length;
+      if (masterCheckbox && total > 0) {
+        masterCheckbox.checked = count === total;
+      }
+      lucide.createIcons();
+    }
+
+    // Single Download Maximum Quality (Native Watermarked High-Res)
+    async function downloadSinglePhoto(imgUrl, title) {
+      try {
+        const cleanTitle = (title || 'AuraVista_Photo').replace(/[^a-z0-9]/gi, '_').toLowerCase();
+        const resp = await fetch(imgUrl);
+        const blob = await resp.blob();
+        
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(blob);
+        a.download = `AuraVista_HQ_${cleanTitle}.webp`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(a.href);
+      } catch (err) {
+        alert('Gagal mendownload foto: ' + err.message);
+      }
+    }
+
+    // Batch Download Selected Photos as Zip (Maximum Quality)
+    async function downloadSelectedPhotos() {
+      if (selectedItemIds.size === 0) {
+        alert('Pilih minimal satu foto untuk didownload.');
+        return;
+      }
+
+      const data = getPortfolioData();
+      const selectedItems = data.filter(d => selectedItemIds.has(d.id));
+
+      const btn = document.getElementById('btn-download-selected');
+      const originalText = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Packaging Max Quality (${selectedItems.length})...</span>`;
+      lucide.createIcons();
+
+      try {
+        if (selectedItems.length === 1) {
+          // Download directly if single
+          await downloadSinglePhoto(selectedItems[0].img, selectedItems[0].title);
+        } else {
+          // Download as ZIP package
+          const zip = new JSZip();
+          const folder = zip.folder("AuraVista_Watermarked_Masters");
+
+          for (let i = 0; i < selectedItems.length; i++) {
+            const item = selectedItems[i];
+            const cleanTitle = (item.title || `photo_${i+1}`).replace(/[^a-z0-9]/gi, '_').toLowerCase();
+            const resp = await fetch(item.img);
+            const blob = await resp.blob();
+            folder.file(`${String(i+1).padStart(2, '0')}_${cleanTitle}.webp`, blob);
+          }
+
+          const content = await zip.generateAsync({ type: "blob" });
+          const a = document.createElement('a');
+          a.href = URL.createObjectURL(content);
+          a.download = `AuraVista_Media_Batch_${new Date().toISOString().slice(0,10)}.zip`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(a.href);
+        }
+      } catch (err) {
+        alert('Gagal mendownload paket foto: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+        lucide.createIcons();
+      }
+    }
+
+    // Auto-Watermark HTML5 Canvas Engine
+    function processWatermarkCanvas(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        const baseImg = new Image();
+        baseImg.onload = function() {
+          const logoImg = document.getElementById('logo-watermark-source');
+          const canvas = document.getElementById('studio-watermark-canvas');
+          const ctx = canvas.getContext('2d');
+
+          // Maintain High Resolution
+          const maxDim = 1920;
+          let w = baseImg.width;
+          let h = baseImg.height;
+          if (w > maxDim || h > maxDim) {
+            if (w > h) {
+              h = Math.round((h * maxDim) / w);
+              w = maxDim;
+            } else {
+              w = Math.round((w * maxDim) / h);
+              h = maxDim;
+            }
+          }
+
+          canvas.width = w;
+          canvas.height = h;
+
+          // 1. Draw base photo
+          ctx.drawImage(baseImg, 0, 0, w, h);
+
+          // 2. Draw Top-Center Watermark (Exact ratio: 15.5% width, 20.5% top Y, 90% opacity)
+          const logoW = Math.round(w * 0.155);
+          const logoRatio = (logoImg.naturalHeight || 500) / (logoImg.naturalWidth || 500);
+          const logoH = Math.round(logoW * logoRatio);
+          const logoX = Math.round((w - logoW) / 2);
+          const logoY = Math.round(h * 0.205);
+
+          ctx.save();
+          ctx.globalAlpha = 0.90;
+          ctx.drawImage(logoImg, logoX, logoY, logoW, logoH);
+          ctx.restore();
+
+          watermarkedDataUrl = canvas.toDataURL('image/webp', 0.92);
+          
+          // Determine aspect ratio for metadata and preview styling
+          const ratio = w / h;
+          let detectedAspect = '3:4';
+          if (ratio < 0.65) {
+            detectedAspect = '9:16';
+          } else if (ratio > 1.2) {
+            detectedAspect = '16:9';
+          } else if (ratio >= 0.95 && ratio <= 1.05) {
+            detectedAspect = '1:1';
+          }
+          canvas.setAttribute('data-aspect', detectedAspect);
+
+          document.getElementById('canvas-preview-container').classList.remove('hidden');
+          lucide.createIcons();
+        };
+        baseImg.src = evt.target.result;
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function handleUploadSubmit(e) {
+      e.preventDefault();
+      if (!watermarkedDataUrl) {
+        alert('Silakan pilih foto terlebih dahulu.');
+        return;
+      }
+
+      const title = document.getElementById('upload-title').value;
+      const category = document.getElementById('upload-category').value;
+      const desc = document.getElementById('upload-desc').value;
+      const canvas = document.getElementById('studio-watermark-canvas');
+      const aspect = canvas?.getAttribute('data-aspect') || '3:4';
+
+      const badgeMap = {
+        'dharmawangsa': 'Dharmawangsa Apt',
+        'cilandak': 'Cilandak Estate',
+        'enhancement': 'Master Grade'
+      };
+
+      const newItem = {
+        id: 'porto-' + Date.now(),
+        title: title,
+        category: category,
+        badge: badgeMap[category] || 'Curated Portfolio',
+        desc: desc,
+        img: watermarkedDataUrl,
+        aspect: aspect
+      };
+
+      const current = getPortfolioData();
+      current.unshift(newItem);
+      savePortfolioData(current);
+
+      alert('Karya foto berhasil disimpan dan otomatis disematkan watermark resmi!');
+      document.getElementById('upload-file-input').value = '';
+      document.getElementById('upload-title').value = '';
+      document.getElementById('upload-desc').value = '';
+      document.getElementById('canvas-preview-container').classList.add('hidden');
+      watermarkedDataUrl = '';
+
+      switchView('portfolio');
+    }
+
+    function openEditModal(id) {
+      const data = getPortfolioData();
+      const item = data.find(d => d.id === id);
+      if (!item) return;
+
+      document.getElementById('edit-id').value = item.id;
+      document.getElementById('edit-title').value = item.title;
+      document.getElementById('edit-category').value = item.category || 'enhancement';
+      document.getElementById('edit-desc').value = item.desc || '';
+
+      document.getElementById('edit-modal').classList.remove('hidden');
+      lucide.createIcons();
+    }
+
+    function closeEditModal() {
+      document.getElementById('edit-modal').classList.add('hidden');
+    }
+
+    function handleSaveEdit(e) {
+      e.preventDefault();
+      const id = document.getElementById('edit-id').value;
+      const title = document.getElementById('edit-title').value;
+      const category = document.getElementById('edit-category').value;
+      const desc = document.getElementById('edit-desc').value;
+
+      const badgeMap = {
+        'dharmawangsa': 'Dharmawangsa Apt',
+        'cilandak': 'Cilandak Estate',
+        'enhancement': 'Master Grade'
+      };
+
+      const data = getPortfolioData().map(item => {
+        if (item.id === id) {
+          return {
+            ...item,
+            title,
+            category,
+            badge: badgeMap[category] || item.badge,
+            desc
+          };
+        }
+        return item;
+      });
+
+      savePortfolioData(data);
+      closeEditModal();
+      alert('Perubahan portofolio berhasil disimpan!');
+      renderPortfolioList();
+    }
+
+    // ================= MASTER SHOT & BACKGROUND CUSTOMIZER LOGIC =================
+    const THEME_KEY = 'auravista_theme_customizer';
+    let currentSelectTarget = 'hero'; // 'hero' or 'master'
+
+    function getCustomizerSettings() {
+      const saved = localStorage.getItem(THEME_KEY);
+      if (saved) {
+        try { return JSON.parse(saved); } catch(e) {}
+      }
+      return {
+        heroBgImg: 'assets/HD_06_pool.webp',
+        heroBgTitle: 'Private Resort Swimming Pool',
+        masterShotImg: 'assets/HD_04_living_depan.webp',
+        masterShotTitle: 'Grand Living Space HDR',
+        neonBackground: true,
+        bgMood: 'obsidian'
+      };
+    }
+
+    function setSelectTarget(target) {
+      currentSelectTarget = target;
+      const tabHero = document.getElementById('tab-target-hero');
+      const tabMaster = document.getElementById('tab-target-master');
+      const hint = document.getElementById('target-hint-text');
+
+      if (target === 'hero') {
+        tabHero.className = 'px-4 py-1.5 rounded-lg text-xs font-bold bg-brand-gold text-black shadow-md';
+        tabMaster.className = 'px-4 py-1.5 rounded-lg text-xs font-bold glass-panel text-slate-300 hover:text-white border border-slate-700';
+        if (hint) hint.innerText = 'Mengubah: Background Hero Landing Page';
+      } else {
+        tabMaster.className = 'px-4 py-1.5 rounded-lg text-xs font-bold bg-brand-gold text-black shadow-md';
+        tabHero.className = 'px-4 py-1.5 rounded-lg text-xs font-bold glass-panel text-slate-300 hover:text-white border border-slate-700';
+        if (hint) hint.innerText = 'Mengubah: Master Shot Card (Section About)';
+      }
+      renderMasterShotSelector();
+    }
+
+    function renderMasterShotSelector() {
+      const data = getPortfolioData();
+      const settings = getCustomizerSettings();
+      const grid = document.getElementById('master-shot-selector-grid');
+      if (!grid) return;
+      grid.innerHTML = '';
+
+      // Update Preview 1: Master Shot
+      const currentMasterImg = document.getElementById('current-master-shot-img');
+      const currentMasterTitle = document.getElementById('current-master-shot-title');
+      if (currentMasterImg) currentMasterImg.src = settings.masterShotImg;
+      if (currentMasterTitle) currentMasterTitle.innerText = settings.masterShotTitle;
+
+      // Update Preview 2: Hero Background
+      const currentHeroImg = document.getElementById('current-hero-bg-img');
+      const currentHeroTitle = document.getElementById('current-hero-bg-title');
+      if (currentHeroImg) currentHeroImg.src = settings.heroBgImg || 'assets/HD_06_pool.webp';
+      if (currentHeroTitle) currentHeroTitle.innerText = settings.heroBgTitle || 'Private Resort Swimming Pool';
+
+      const toggleNeon = document.getElementById('toggle-neon-bg');
+      if (toggleNeon) toggleNeon.checked = settings.neonBackground !== false;
+
+      const moodSelect = document.getElementById('select-bg-mood');
+      if (moodSelect) moodSelect.value = settings.bgMood || 'obsidian';
+
+      data.forEach(item => {
+        const activeUrl = currentSelectTarget === 'hero' ? settings.heroBgImg : settings.masterShotImg;
+        const isSelected = item.img === activeUrl;
+        
+        const div = document.createElement('div');
+        div.className = `aspect-[3/4] rounded-xl overflow-hidden cursor-pointer relative group border-2 transition-all ${isSelected ? 'border-brand-gold ring-2 ring-brand-gold/50 scale-105' : 'border-slate-800 hover:border-slate-500'}`;
+        div.onclick = () => selectPhotoForTarget(item.img, item.title);
+        div.innerHTML = `
+          <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover" />
+          <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-1 text-center">
+            <span class="text-[9px] font-bold text-brand-gold bg-black/90 px-2 py-1 rounded line-clamp-2">${item.title}</span>
+          </div>
+          ${isSelected ? '<span class="absolute top-1 right-1 px-1.5 py-0.5 rounded bg-brand-gold text-black text-[8px] font-black uppercase">SELECTED</span>' : ''}
+        `;
+        grid.appendChild(div);
+      });
+      lucide.createIcons();
+    }
+
+    function selectPhotoForTarget(imgUrl, title) {
+      const current = getCustomizerSettings();
+      if (currentSelectTarget === 'hero') {
+        current.heroBgImg = imgUrl;
+        current.heroBgTitle = title;
+      } else {
+        current.masterShotImg = imgUrl;
+        current.masterShotTitle = title;
+      }
+      localStorage.setItem(THEME_KEY, JSON.stringify(current));
+      renderMasterShotSelector();
+    }
+
+    function updateBackgroundSettings() {
+      const current = getCustomizerSettings();
+      current.neonBackground = document.getElementById('toggle-neon-bg').checked;
+      current.bgMood = document.getElementById('select-bg-mood').value;
+      localStorage.setItem(THEME_KEY, JSON.stringify(current));
+    }
+
+    async function saveCustomizerToCloud() {
+      updateBackgroundSettings();
+      const current = getCustomizerSettings();
+      current.updatedAt = Date.now();
+
+      const btn = document.getElementById('btn-save-cloud');
+      const orig = btn ? btn.innerHTML : '';
+      if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Menyimpan ke Cloud...</span>`;
+        lucide.createIcons();
+      }
+
+      if (window.AuraVistaCloud) {
+        // Simpan via Serverless Proxy Endpoint
+        const res = await window.AuraVistaCloud.saveTheme(current);
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = orig;
+          lucide.createIcons();
+        }
+
+        if (res.success) {
+          alert('Berhasil! Foto Master Shot & Tampilan Web tersimpan ke Cloud. Perubahan akan langsung tampil di HP dan semua device lain saat direfresh!');
+        } else {
+          alert('Tersimpan di Lokal PC. Catatan Cloud: ' + res.error);
+        }
+      } else {
+        if (btn) {
+          btn.disabled = false;
+          btn.innerHTML = orig;
+        }
+        alert('Tersimpan di Local PC!');
+      }
+    }
+
+    async function resetCustomizerSettings() {
+      if (!confirm('Kembalikan Hero Background dan Master Shot ke pengaturan default?')) return;
+      localStorage.removeItem(THEME_KEY);
+      const defaultSettings = {
+        heroBgImg: 'assets/HD_06_pool.webp',
+        heroBgTitle: 'Private Resort Swimming Pool',
+        masterShotImg: 'assets/HD_04_living_depan.webp',
+        masterShotTitle: 'Grand Living Space HDR',
+        neonBackground: true,
+        bgMood: 'obsidian',
+        updatedAt: Date.now()
+      };
+      if (window.AuraVistaCloud) {
+        await window.AuraVistaCloud.saveTheme(defaultSettings);
+      }
+      renderMasterShotSelector();
+      alert('Pengaturan tampilan berhasil di-reset ke default di semua device!');
+    }
+
+    function exportJSON() {
+      const data = getPortfolioData();
+      const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `AuraVista_Portfolio_Backup_${new Date().toISOString().slice(0,10)}.json`;
+      a.click();
+    }
+
+    function importJSON(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const reader = new FileReader();
+      reader.onload = function(evt) {
+        try {
+          const parsed = JSON.parse(evt.target.result);
+          if (Array.isArray(parsed)) {
+            savePortfolioData(parsed);
+            alert('Database portofolio berhasil dipulihkan!');
+            switchView('portfolio');
+          } else {
+            alert('Format file JSON tidak valid.');
+          }
+        } catch (err) {
+          alert('Gagal membaca file JSON: ' + err.message);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    async function resetDefault() {
+      if (!confirm('Kembalikan semua portofolio ke 40 foto master default?')) return;
+      localStorage.removeItem(STORAGE_KEY);
+      await loadDashboardData();
+      alert('Database berhasil direset ke konfigurasi default!');
+      switchView('portfolio');
+    }
+
+    // Startup
+    window.addEventListener('DOMContentLoaded', () => {
+      initAuth();
+    });
+  </script>
+</body>
+</html>

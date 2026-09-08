@@ -1,0 +1,362 @@
+[
+  {
+    "id": "porto-01",
+    "title": "Modern Villa Panoramic Facade",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Geometric framing with balanced natural daylight and horizon lines.",
+    "img": "assets/porto/porto_01_12302_image_01.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-02",
+    "title": "Contemporary Residence Twilight Entry",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Architectural lighting design emphasizing linear structural symmetry.",
+    "img": "assets/porto/porto_02_12302_image_02.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-03",
+    "title": "Grand Living Pavilion & Glass Atrium",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Spacious open-concept living area with seamless outdoor integration.",
+    "img": "assets/porto/porto_03_12302_image_05.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-04",
+    "title": "Sculptural Dining Lounge & Ambient Chandelier",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Warm evening ambiance highlighting bespoke textures and curated finishes.",
+    "img": "assets/porto/porto_04_12302_image_06.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-05",
+    "title": "Minimalist Gourmet Kitchen & Island",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Clean marble countertops framed by warm recessed architectural lighting.",
+    "img": "assets/porto/porto_05_12302_image_07.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-06",
+    "title": "Master Retreat & Private Courtyard View",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Relaxing master bedroom staging with floor-to-ceiling glass paneling.",
+    "img": "assets/porto/porto_06_12302_image_13.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-07",
+    "title": "Executive Study & Library Gallery",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Refined timber wall paneling with soft focused task illumination.",
+    "img": "assets/porto/porto_07_12302_image_15.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-08",
+    "title": "Spa Sanctuary & Freestanding Marble Bath",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Natural stone textures and subtle water reflections in master bath.",
+    "img": "assets/porto/porto_08_12302_image_16.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-09",
+    "title": "Upper Terrace & Geometric Pergola",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Linear shade structure overlooking lush landscape vistas.",
+    "img": "assets/porto/porto_09_12302_image_21.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-10",
+    "title": "Courtyard Reflection Pool & Sunken Deck",
+    "category": "cilandak",
+    "badge": "Cilandak",
+    "desc": "Water feature integration complementing modern structural lines.",
+    "img": "assets/porto/porto_10_12302_image_24.webp",
+    "location": "Cilandak, South Jakarta"
+  },
+  {
+    "id": "porto-11",
+    "title": "Palatial Estate Grand Portico",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Monumental classical pillars with balanced landscape symmetry.",
+    "img": "assets/porto/porto_11_4711_image_01.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-12",
+    "title": "Regal Residence Main Driveway Framing",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Sweeping entrance perspective showcasing manicured gardens.",
+    "img": "assets/porto/porto_12_4711_image_02.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-13",
+    "title": "Classical Terrace & Balustrade Overview",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Elevated architectural view highlighting timeless craftsmanship.",
+    "img": "assets/porto/porto_13_4711_image_04.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-14",
+    "title": "Veranda Lounge & Tropical Garden Framing",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Shaded outdoor corridor transitioning between interior and garden.",
+    "img": "assets/porto/porto_14_4711_image_05.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-15",
+    "title": "Grand Foyer & Double-Height Ceiling",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Soaring classical entrance with ornate crown moldings and polished marble.",
+    "img": "assets/porto/porto_15_4711_image_06.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-16",
+    "title": "Formal Reception Salon & Chandelier",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Symmetrical seating arrangement in expansive formal entertainment hall.",
+    "img": "assets/porto/porto_16_4711_image_07.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-17",
+    "title": "Private Conservatory & Sunroom",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Glass-enclosed atrium filled with diffused tropical morning sunlight.",
+    "img": "assets/porto/porto_17_4711_image_12.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-18",
+    "title": "Bespoke Wine Cellar & Tasting Room",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Curated timber joinery and atmospheric temperature-controlled vault.",
+    "img": "assets/porto/porto_18_4711_image_13.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-19",
+    "title": "Formal Dining Room with Coffered Ceiling",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Regal banquet setting with ambient warm perimeter illumination.",
+    "img": "assets/porto/porto_19_4711_image_14.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-20",
+    "title": "Master Suite Lounge & Fireplace Hearth",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Opulent private lounge framed with plush fabrics and wood details.",
+    "img": "assets/porto/porto_20_4711_image_15.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-21",
+    "title": "En-Suite Marble Vanity & Dressing Suite",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Illuminated mirror staging with book-matched Italian marble slabs.",
+    "img": "assets/porto/porto_21_4711_image_16.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-22",
+    "title": "Lakeside Pavilion & Private Pier",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Waterside recreation structure harmonizing with natural surroundings.",
+    "img": "assets/porto/porto_22_4711_image_17.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-23",
+    "title": "Manicured Courtyard Fountain & Parterre",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Classical European garden geometry framing the residence facade.",
+    "img": "assets/porto/porto_23_4711_image_18.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-24",
+    "title": "Nightfall Facade & Landscape Illumination",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Sophisticated exterior accent lighting highlighting facade depth.",
+    "img": "assets/porto/porto_24_4711_image_23.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-25",
+    "title": "Atmospheric Golden Hour Retouching",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Warm golden horizon gradient and naturalized sunlight cast.",
+    "img": "assets/porto/porto_25_4711_image_27.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-26",
+    "title": "Cinematic Twilight Sky Replacement",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Seamless dramatic twilight backdrop matching architectural lighting.",
+    "img": "assets/porto/porto_26_4711_image_28.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-27",
+    "title": "Architectural Relighting & Tone Balance",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Dynamic range balancing to reveal subtle shadow details.",
+    "img": "assets/porto/porto_27_4711_image_29.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-28",
+    "title": "Perspective & Vertical Alignment Grade",
+    "category": "dharmawangsa",
+    "badge": "Dharmawangsa",
+    "desc": "Zero-distortion optical correction for true structural geometry.",
+    "img": "assets/porto/porto_28_4711_image_31.webp",
+    "location": "Dharmawangsa Apartment"
+  },
+  {
+    "id": "porto-29",
+    "title": "Reflective Glazing & Pool Surface Tuning",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Clear liquid reflections and balanced interior-to-exterior exposure.",
+    "img": "assets/porto/porto_29_Architectural_image_enhancement___2K_202609062054_(1).webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-30",
+    "title": "Crisp Horizon & Cloud Dynamic Range",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "High-fidelity cloud texture recovery without artificial artifacts.",
+    "img": "assets/porto/porto_30_Architectural_image_enhancement___2K_202609062054_(2).webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-31",
+    "title": "Sunset Over Infinity Pool & Horizon",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Cinematic sunset grade harmonized with ambient landscape lights.",
+    "img": "assets/porto/porto_31_Architectural_image_enhancement___2K_202609062054_(3).webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-32",
+    "title": "Dusk Residence & Atmospheric Color Harmony",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Cool ambient dusk tones contrasted with warm interior illumination.",
+    "img": "assets/porto/porto_32_Architectural_image_enhancement___2K_202609062054_(4).webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-33",
+    "title": "Fine Wood & Stone Texture Enhancement",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Micro-contrast sharpening on natural architectural materials.",
+    "img": "assets/porto/porto_33_Architectural_image_enhancement___2K_202609062054.webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-34",
+    "title": "Lush Landscape Chromatic Grading",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Naturalized foliage greens and rich organic earth tones.",
+    "img": "assets/porto/porto_34_Architectural_image_enhancement___2K_202609062055_(1).webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-35",
+    "title": "Glass Reflection & Glare Suppression",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Polarized reflection removal revealing interior depth through windows.",
+    "img": "assets/porto/porto_35_Architectural_image_enhancement___2K_202609062055.webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-36",
+    "title": "Clean Monochromatic Shadow Staging",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Soft gradient transitions preserving natural architectural volume.",
+    "img": "assets/porto/porto_36_Architectural_image_enhancement___2K_202609062121_(1).webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-37",
+    "title": "Warm Ambient Interior Exposure Blend",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Multi-bracket HDR synthesis for balanced window and interior light.",
+    "img": "assets/porto/porto_37_Architectural_image_enhancement___2K_202609062121.webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-38",
+    "title": "Editorial Color Precision & Hue Tuning",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Signature luxury grade with muted undertones and radiant highlights.",
+    "img": "assets/porto/porto_38_Architectural_photo_enhancement___2K_202609062054.webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-39",
+    "title": "Structural Geometry & Keystone Calibration",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Precision alignment of vertical architectural lines and facades.",
+    "img": "assets/porto/porto_39_Preserve_architectural_structure__2K_202609062053.webp",
+    "location": "Visual Enhancement"
+  },
+  {
+    "id": "porto-40",
+    "title": "Aura Vista Signature Masterwork Production",
+    "category": "enhancement",
+    "badge": "Enhancement",
+    "desc": "Flagship architectural media production for ultra-prime property.",
+    "img": "assets/porto/porto_40_Preserving_architectural_structu__2K_202609062055.webp",
+    "location": "Visual Enhancement"
+  }
+]
