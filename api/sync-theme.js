@@ -10,7 +10,7 @@ export default async function handler(req, res) {
   }
 
   const GIST_ID = '9919d20671f866fda62afde6b90426e3';
-  const GITHUB_TOKEN = process.env.AURAVISTA_GH_TOKEN || 'gho_nd…69su';
+  const GITHUB_TOKEN = process.env.AURAVISTA_GH_TOKEN;
 
   if (req.method === 'POST' || req.method === 'PATCH') {
     try {

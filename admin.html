@@ -554,6 +554,7 @@
 
     let watermarkedDataUrl = '';
     let selectedItemIds = new Set();
+    let currentPortfolioList = [];
 
     // Init Authentication
     function initAuth() {
@@ -589,18 +590,7 @@
     }
 
     function getPortfolioData() {
-      const stored = localStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        try {
-          return JSON.parse(stored);
-        } catch (e) {}
-      }
-      return [];
-    }
-
-    function savePortfolioData(data) {
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
-      loadDashboardData();
+      return currentPortfolioList.length > 0 ? currentPortfolioList : [];
     }
 
     function switchView(viewName) {
@@ -615,7 +605,7 @@
       const titles = {
         'overview': ['Overview Studio Dashboard', 'Ringkasan performa dan inventaris media Aura Vista.'],
         'portfolio': ['Media Portfolio & High-Res Export', 'Kelola karya, edit deskripsi, dan download foto resolusi maksimal ber-watermark.'],
-        'upload': ['Studio Auto-Watermark Engine', 'Upload karya baru dengan penempelan logo otomatis presisi.'],
+        'upload': ['Studio Auto-Watermark Engine', 'Upload karya baru dengan penempelan logo otomatis presisi dan simpan permanen ke Cloud.'],
         'hero-customizer': ['Master Shot & Hero Look Customizer', 'Kustomisasi foto master shot dan efek background beranda secara interaktif.'],
         'settings': ['Backup & Tools Database', 'Export JSON cadangan dan utilitas pemulihan database.']
       };
@@ -635,35 +625,28 @@
     }
 
     async function loadDashboardData() {
-      let data = null;
-      const localData = localStorage.getItem(STORAGE_KEY);
-      
-      if (localData) {
-        try {
-          data = JSON.parse(localData);
-        } catch (e) {
-          console.error(e);
+      try {
+        const resp = await fetch('/api/portfolio?v=' + Date.now());
+        if (resp.ok) {
+          const resJson = await resp.json();
+          if (resJson.success && Array.isArray(resJson.items)) {
+            currentPortfolioList = resJson.items;
+          }
         }
+      } catch (e) {
+        console.warn('API portfolio fetch fallback to static JSON:', e);
       }
 
-      if (!data || data.length === 0) {
+      if (!currentPortfolioList || currentPortfolioList.length === 0) {
         try {
           const resp = await fetch('assets/portfolio_data.json?v=' + Date.now());
-          data = await resp.json();
-          // ensure any legacy jpg/png in list gets fixed
-          data.forEach(item => {
-            if (item.img && (item.img.endsWith('.jpg') || item.img.endsWith('.png'))) {
-              item.img = item.img.replace(/\.(jpg|png)$/i, '.webp');
-            }
-          });
-          localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+          currentPortfolioList = await resp.json();
         } catch (e) {
-          console.error(e);
-          data = getPortfolioData();
+          console.error('Failed fetching static JSON:', e);
         }
       }
 
-      updateDashboardStats(data);
+      updateDashboardStats(currentPortfolioList);
       renderPortfolioList();
       lucide.createIcons();
     }
@@ -671,11 +654,12 @@
     function updateDashboardStats(data) {
       const total = data.length;
       const dh = data.filter(d => d.category === 'dharmawangsa' || (d.img && d.img.includes('4711'))).length;
+      const dhRes = data.filter(d => d.category === 'dharmawangsa_residence').length;
       const cil = data.filter(d => d.category === 'cilandak' || (d.img && d.img.includes('12302'))).length;
-      const enh = data.filter(d => d.category === 'enhancement' || (!d.img?.includes('4711') && !d.img?.includes('12302'))).length;
+      const enh = data.filter(d => d.category === 'enhancement' || (!d.img?.includes('4711') && !d.img?.includes('12302') && d.category !== 'dharmawangsa_residence')).length;
 
       if (document.getElementById('stat-total')) document.getElementById('stat-total').innerText = total;
-      if (document.getElementById('stat-dharmawangsa')) document.getElementById('stat-dharmawangsa').innerText = dh;
+      if (document.getElementById('stat-dharmawangsa')) document.getElementById('stat-dharmawangsa').innerText = dh + dhRes;
       if (document.getElementById('stat-cilandak')) document.getElementById('stat-cilandak').innerText = cil;
       if (document.getElementById('stat-enhancement')) document.getElementById('stat-enhancement').innerText = enh;
       if (document.getElementById('badge-total-items')) document.getElementById('badge-total-items').innerText = total;
@@ -711,9 +695,10 @@
       const filtered = data.filter(item => {
         const matchesQuery = item.title.toLowerCase().includes(query) || (item.desc && item.desc.toLowerCase().includes(query));
         let matchesCat = true;
-        if (filterCat === 'dharmawangsa') matchesCat = item.category === 'dharmawangsa' || (item.img && item.img.includes('4711'));
+        if (filterCat === 'dharmawangsa_residence') matchesCat = item.category === 'dharmawangsa_residence';
+        else if (filterCat === 'dharmawangsa') matchesCat = item.category === 'dharmawangsa' || (item.img && item.img.includes('4711'));
         else if (filterCat === 'cilandak') matchesCat = item.category === 'cilandak' || (item.img && item.img.includes('12302'));
-        else if (filterCat === 'enhancement') matchesCat = item.category === 'enhancement' || (!item.img.includes('4711') && !item.img.includes('12302'));
+        else if (filterCat === 'enhancement') matchesCat = item.category === 'enhancement' || (!item.img.includes('4711') && !item.img.includes('12302') && item.category !== 'dharmawangsa_residence');
         return matchesQuery && matchesCat;
       });
 
@@ -736,7 +721,7 @@
         card.innerHTML = `
           <div>
             <div class="aspect-[3/4] rounded-xl overflow-hidden mb-3.5 relative bg-black/80 flex items-center justify-center">
-              <img src="${item.img}" alt="${item.title}" class="w-full h-full object-contain transition-transform group-hover:scale-105 duration-500" />
+              <img src="${item.img}" alt="${item.title}" class="w-full h-full object-contain transition-transform group-hover:scale-105 duration-500" loading="lazy" />
               
               <!-- Checkbox for Selection -->
               <div class="absolute top-2.5 right-2.5 z-10">
@@ -815,7 +800,7 @@
       lucide.createIcons();
     }
 
-    // Single Download Maximum Quality (Native Watermarked High-Res)
+    // Single Download Maximum Quality
     async function downloadSinglePhoto(imgUrl, title) {
       try {
         const cleanTitle = (title || 'AuraVista_Photo').replace(/[^a-z0-9]/gi, '_').toLowerCase();
@@ -834,7 +819,7 @@
       }
     }
 
-    // Batch Download Selected Photos as Zip (Maximum Quality)
+    // Batch Download Selected Photos as Zip
     async function downloadSelectedPhotos() {
       if (selectedItemIds.size === 0) {
         alert('Pilih minimal satu foto untuk didownload.');
@@ -852,10 +837,8 @@
 
       try {
         if (selectedItems.length === 1) {
-          // Download directly if single
           await downloadSinglePhoto(selectedItems[0].img, selectedItems[0].title);
         } else {
-          // Download as ZIP package
           const zip = new JSZip();
           const folder = zip.folder("AuraVista_Watermarked_Masters");
 
@@ -898,7 +881,6 @@
           const canvas = document.getElementById('studio-watermark-canvas');
           const ctx = canvas.getContext('2d');
 
-          // Maintain High Resolution
           const maxDim = 1920;
           let w = baseImg.width;
           let h = baseImg.height;
@@ -918,32 +900,27 @@
           // 1. Draw base photo
           ctx.drawImage(baseImg, 0, 0, w, h);
 
-          // 2. Draw Top-Center Watermark (Exact ratio: 15.5% width, 20.5% top Y, 90% opacity)
-          const logoW = Math.round(w * 0.155);
+          // 2. Draw Top-Center Watermark (Exact ratio: 20% width, 3.5% top Y, 92% opacity)
+          const logoW = Math.round(w * 0.20);
           const logoRatio = (logoImg.naturalHeight || 500) / (logoImg.naturalWidth || 500);
           const logoH = Math.round(logoW * logoRatio);
           const logoX = Math.round((w - logoW) / 2);
-          const logoY = Math.round(h * 0.205);
+          const logoY = Math.round(h * 0.035);
 
           ctx.save();
-          ctx.globalAlpha = 0.90;
+          ctx.globalAlpha = 0.92;
           ctx.drawImage(logoImg, logoX, logoY, logoW, logoH);
           ctx.restore();
 
-          watermarkedDataUrl = canvas.toDataURL('image/webp', 0.92);
+          watermarkedDataUrl = canvas.toDataURL('image/webp', 0.93);
           
-          // Determine aspect ratio for metadata and preview styling
           const ratio = w / h;
           let detectedAspect = '3:4';
-          if (ratio < 0.65) {
-            detectedAspect = '9:16';
-          } else if (ratio > 1.2) {
-            detectedAspect = '16:9';
-          } else if (ratio >= 0.95 && ratio <= 1.05) {
-            detectedAspect = '1:1';
-          }
+          if (ratio < 0.65) detectedAspect = '9:16';
+          else if (ratio > 1.2) detectedAspect = '16:9';
+          else if (ratio >= 0.95 && ratio <= 1.05) detectedAspect = '1:1';
+          
           canvas.setAttribute('data-aspect', detectedAspect);
-
           document.getElementById('canvas-preview-container').classList.remove('hidden');
           lucide.createIcons();
         };
@@ -952,10 +929,10 @@
       reader.readAsDataURL(file);
     }
 
-    function handleUploadSubmit(e) {
+    async function handleUploadSubmit(e) {
       e.preventDefault();
       if (!watermarkedDataUrl) {
-        alert('Silakan pilih foto terlebih dahulu.');
+        alert('Silakan pilih file foto terlebih dahulu.');
         return;
       }
 
@@ -965,34 +942,46 @@
       const canvas = document.getElementById('studio-watermark-canvas');
       const aspect = canvas?.getAttribute('data-aspect') || '3:4';
 
-      const badgeMap = {
-        'dharmawangsa': 'Dharmawangsa Apt',
-        'cilandak': 'Cilandak Estate',
-        'enhancement': 'Master Grade'
-      };
+      const btn = document.getElementById('btn-publish-photo');
+      const originalHtml = btn.innerHTML;
+      btn.disabled = true;
+      btn.innerHTML = `<i data-lucide="loader-2" class="w-4 h-4 animate-spin"></i><span>Menyimpan & Mengunggah ke Cloud Server...</span>`;
+      lucide.createIcons();
 
-      const newItem = {
-        id: 'porto-' + Date.now(),
-        title: title,
-        category: category,
-        badge: badgeMap[category] || 'Curated Portfolio',
-        desc: desc,
-        img: watermarkedDataUrl,
-        aspect: aspect
-      };
+      try {
+        const response = await fetch('/api/portfolio', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            title,
+            category,
+            desc,
+            imageBase64: watermarkedDataUrl,
+            aspect
+          })
+        });
 
-      const current = getPortfolioData();
-      current.unshift(newItem);
-      savePortfolioData(current);
-
-      alert('Karya foto berhasil disimpan dan otomatis disematkan watermark resmi!');
-      document.getElementById('upload-file-input').value = '';
-      document.getElementById('upload-title').value = '';
-      document.getElementById('upload-desc').value = '';
-      document.getElementById('canvas-preview-container').classList.add('hidden');
-      watermarkedDataUrl = '';
-
-      switchView('portfolio');
+        const resJson = await response.json();
+        if (response.ok && resJson.success) {
+          alert('Berhasil! Foto ber-watermark telah disimpan permanen ke server cloud dan website.');
+          document.getElementById('upload-file-input').value = '';
+          document.getElementById('upload-title').value = '';
+          document.getElementById('upload-desc').value = '';
+          document.getElementById('canvas-preview-container').classList.add('hidden');
+          watermarkedDataUrl = '';
+          
+          await loadDashboardData();
+          switchView('portfolio');
+        } else {
+          throw new Error(resJson.error || 'Gagal menyimpan foto ke server');
+        }
+      } catch (err) {
+        alert('Error Upload: ' + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerHTML = originalHtml;
+        lucide.createIcons();
+      }
     }
 
     function openEditModal(id) {
@@ -1013,41 +1002,58 @@
       document.getElementById('edit-modal').classList.add('hidden');
     }
 
-    function handleSaveEdit(e) {
+    async function handleSaveEdit(e) {
       e.preventDefault();
       const id = document.getElementById('edit-id').value;
       const title = document.getElementById('edit-title').value;
       const category = document.getElementById('edit-category').value;
       const desc = document.getElementById('edit-desc').value;
 
-      const badgeMap = {
-        'dharmawangsa': 'Dharmawangsa Apt',
-        'cilandak': 'Cilandak Estate',
-        'enhancement': 'Master Grade'
-      };
+      try {
+        const response = await fetch('/api/portfolio', {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, title, category, desc })
+        });
 
-      const data = getPortfolioData().map(item => {
-        if (item.id === id) {
-          return {
-            ...item,
-            title,
-            category,
-            badge: badgeMap[category] || item.badge,
-            desc
-          };
+        const resJson = await response.json();
+        if (response.ok && resJson.success) {
+          closeEditModal();
+          alert('Perubahan portofolio berhasil disimpan permanen!');
+          await loadDashboardData();
+        } else {
+          throw new Error(resJson.error || 'Gagal menyimpan perubahan');
         }
-        return item;
-      });
+      } catch (err) {
+        alert('Error Edit: ' + err.message);
+      }
+    }
 
-      savePortfolioData(data);
-      closeEditModal();
-      alert('Perubahan portofolio berhasil disimpan!');
-      renderPortfolioList();
+    async function deleteItem(id) {
+      if (!confirm('Yakin ingin menghapus foto ini secara permanen dari server cloud?')) return;
+
+      try {
+        const response = await fetch('/api/portfolio', {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id })
+        });
+
+        const resJson = await response.json();
+        if (response.ok && resJson.success) {
+          alert('Foto berhasil dihapus secara permanen!');
+          await loadDashboardData();
+        } else {
+          throw new Error(resJson.error || 'Gagal menghapus item');
+        }
+      } catch (err) {
+        alert('Error Delete: ' + err.message);
+      }
     }
 
     // ================= MASTER SHOT & BACKGROUND CUSTOMIZER LOGIC =================
     const THEME_KEY = 'auravista_theme_customizer';
-    let currentSelectTarget = 'hero'; // 'hero' or 'master'
+    let currentSelectTarget = 'hero';
 
     function getCustomizerSettings() {
       const saved = localStorage.getItem(THEME_KEY);
@@ -1089,13 +1095,11 @@
       if (!grid) return;
       grid.innerHTML = '';
 
-      // Update Preview 1: Master Shot
       const currentMasterImg = document.getElementById('current-master-shot-img');
       const currentMasterTitle = document.getElementById('current-master-shot-title');
       if (currentMasterImg) currentMasterImg.src = settings.masterShotImg;
       if (currentMasterTitle) currentMasterTitle.innerText = settings.masterShotTitle;
 
-      // Update Preview 2: Hero Background
       const currentHeroImg = document.getElementById('current-hero-bg-img');
       const currentHeroTitle = document.getElementById('current-hero-bg-title');
       if (currentHeroImg) currentHeroImg.src = settings.heroBgImg || 'assets/HD_06_pool.webp';
@@ -1160,7 +1164,6 @@
       }
 
       if (window.AuraVistaCloud) {
-        // Simpan via Serverless Proxy Endpoint
         const res = await window.AuraVistaCloud.saveTheme(current);
         if (btn) {
           btn.disabled = false;
@@ -1169,9 +1172,9 @@
         }
 
         if (res.success) {
-          alert('Berhasil! Foto Master Shot & Tampilan Web tersimpan ke Cloud. Perubahan akan langsung tampil di HP dan semua device lain saat direfresh!');
+          alert('Berhasil! Foto Master Shot & Tampilan Web tersimpan ke Cloud. Perubahan akan langsung tampil di semua device!');
         } else {
-          alert('Tersimpan di Lokal PC. Catatan Cloud: ' + res.error);
+          alert('Tersimpan di Lokal. Catatan Cloud: ' + res.error);
         }
       } else {
         if (btn) {
@@ -1219,8 +1222,9 @@
         try {
           const parsed = JSON.parse(evt.target.result);
           if (Array.isArray(parsed)) {
-            savePortfolioData(parsed);
-            alert('Database portofolio berhasil dipulihkan!');
+            currentPortfolioList = parsed;
+            alert('Database portofolio berhasil dipulihkan di memori!');
+            renderPortfolioList();
             switchView('portfolio');
           } else {
             alert('Format file JSON tidak valid.');
@@ -1233,10 +1237,9 @@
     }
 
     async function resetDefault() {
-      if (!confirm('Kembalikan semua portofolio ke 40 foto master default?')) return;
-      localStorage.removeItem(STORAGE_KEY);
+      if (!confirm('Muat ulang data portofolio dari cloud server?')) return;
       await loadDashboardData();
-      alert('Database berhasil direset ke konfigurasi default!');
+      alert('Database berhasil disinkronkan dengan server cloud!');
       switchView('portfolio');
     }
 
@@ -1244,6 +1247,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       initAuth();
     });
+
   </script>
 </body>
 </html>
