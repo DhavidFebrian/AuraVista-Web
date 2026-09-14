@@ -1090,7 +1090,7 @@
     async function initHomePage() {
       await applyThemeCustomizer();
       try {
-        const resp = await fetch('assets/portfolio_data.json');
+        const resp = await fetch('assets/portfolio_data.json?v=' + Date.now());
         portfolioData = await resp.json();
         localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData));
       } catch (e) {

@@ -145,7 +145,7 @@
 
   <script>
     async function loadAlbum() {
-      const resp = await fetch('assets/portfolio_data.json');
+      const resp = await fetch('assets/portfolio_data.json?v=' + Date.now());
       const data = await resp.json();
       
       // Filter 14 new photos of Dharmawangsa (porto-41 to porto-54)

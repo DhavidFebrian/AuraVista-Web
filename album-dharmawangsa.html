@@ -186,7 +186,7 @@
 
   <script>
     async function loadAlbum() {
-      const resp = await fetch('assets/portfolio_data.json');
+      const resp = await fetch('assets/portfolio_data.json?v=' + Date.now());
       const data = await resp.json();
       
       // Filter 18 photos from 4711
