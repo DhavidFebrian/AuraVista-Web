@@ -79,6 +79,8 @@
       border-color: #D4AF37;
     }
   </style>
+  <script src="assets/studio-auth.js" defer></script>
+  <link rel="stylesheet" href="assets/refinement.css">
 </head>
 <body class="min-h-screen flex flex-col bg-[#07090E] antialiased selection:bg-brand-gold selection:text-black">
 
@@ -102,7 +104,7 @@
           <label class="block text-xs uppercase tracking-wider text-slate-400 font-medium mb-1.5">Password</label>
           <input type="password" id="login-password" autocomplete="current-password" placeholder="Masukkan password" class="w-full px-4 py-3 rounded-xl bg-[#080C14] border border-slate-700 text-sm text-slate-100 focus:border-brand-gold focus:outline-none transition-colors" required />
         </div>
-        <div id="login-error" class="hidden text-xs text-rose-400 font-medium p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-center">
+        <div id="login-error" role="alert" class="hidden text-xs text-rose-400 font-medium p-2.5 rounded-lg bg-rose-500/10 border border-rose-500/20 text-center">
           Username atau password studio salah.
         </div>
         <button type="submit" class="w-full py-3.5 rounded-xl btn-gold text-xs uppercase tracking-widest mt-2 flex items-center justify-center gap-2">
@@ -334,6 +336,7 @@
                   <label class="block text-xs uppercase tracking-wider text-slate-300 font-bold mb-1.5">Kategori / Album</label>
                   <select id="upload-category" class="w-full px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none">
                     <option value="dharmawangsa">Dharmawangsa Apartment</option>
+<option value="dharmawangsa_residence">Dharmawangsa Residence</option>
                     <option value="cilandak">Cilandak South Jakarta</option>
                     <option value="enhancement">Visual Enhancement & Grade</option>
                   </select>
@@ -439,7 +442,7 @@
                 <div>
                   <span class="text-xs uppercase tracking-widest text-slate-300 font-bold">Pilih Foto untuk Bagian Mana:</span>
                   <div class="flex items-center gap-2 mt-2">
-                    <button type="button" id="tab-target-hero" onclick="setSelectTarget('hero')" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-brand-gold text-black shadow-md">
+                    <button type="button" id="tab-target-hero" disabled title="Scroll film is protected; only the About master shot is editable" class="px-4 py-1.5 rounded-lg text-xs font-bold bg-brand-gold text-black shadow-md">
                       Ganti Background Hero Landing
                     </button>
                     <button type="button" id="tab-target-master" onclick="setSelectTarget('master')" class="px-4 py-1.5 rounded-lg text-xs font-bold glass-panel text-slate-300 hover:text-white border border-slate-700">
@@ -525,6 +528,7 @@
           <label class="block text-xs uppercase tracking-wider text-slate-400 font-medium mb-1">Kategori</label>
           <select id="edit-category" class="w-full px-4 py-2.5 rounded-xl bg-[#080C14] border border-slate-700 text-xs text-slate-100 focus:border-brand-gold focus:outline-none">
             <option value="dharmawangsa">Dharmawangsa Apartment</option>
+<option value="dharmawangsa_residence">Dharmawangsa Residence</option>
             <option value="cilandak">Cilandak South Jakarta</option>
             <option value="enhancement">Visual Enhancement</option>
           </select>
@@ -548,47 +552,12 @@
   <!-- SCRIPT LOGIC -->
   <script>
     const STORAGE_KEY = 'auravista_portfolio_v9';
-    const AUTH_KEY = 'auravista_admin_auth';
-    const ADMIN_USER = 'david';
-    const ADMIN_PASS = 'Cakrawala23';
 
     let watermarkedDataUrl = '';
     let selectedItemIds = new Set();
     let currentPortfolioList = [];
 
-    // Init Authentication
-    function initAuth() {
-      const isAuth = sessionStorage.getItem(AUTH_KEY) === 'true';
-      if (isAuth) {
-        document.getElementById('login-view').classList.add('hidden');
-        document.getElementById('app-view').classList.remove('hidden');
-        loadDashboardData();
-      } else {
-        document.getElementById('login-view').classList.remove('hidden');
-        document.getElementById('app-view').classList.add('hidden');
-      }
-      lucide.createIcons();
-    }
-
-    function handleLogin(e) {
-      e.preventDefault();
-      const u = document.getElementById('login-username').value;
-      const p = document.getElementById('login-password').value;
-
-      if (u === ADMIN_USER && p === ADMIN_PASS) {
-        sessionStorage.setItem(AUTH_KEY, 'true');
-        document.getElementById('login-error').classList.add('hidden');
-        initAuth();
-      } else {
-        document.getElementById('login-error').classList.remove('hidden');
-      }
-    }
-
-    function handleLogout() {
-      sessionStorage.removeItem(AUTH_KEY);
-      location.reload();
-    }
-
+    function html(value) {return String(value ?? '').replace(/[&<>"']/g, character => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[character]));}
     function getPortfolioData() {
       return currentPortfolioList.length > 0 ? currentPortfolioList : [];
     }
@@ -626,7 +595,7 @@
 
     async function loadDashboardData() {
       try {
-        const resp = await fetch('/api/portfolio?v=' + Date.now());
+        const resp = await studioFetch('/api/portfolio?v=' + Date.now());
         if (resp.ok) {
           const resJson = await resp.json();
           if (resJson.success && Array.isArray(resJson.items)) {
@@ -656,7 +625,7 @@
       const dh = data.filter(d => d.category === 'dharmawangsa' || (d.img && d.img.includes('4711'))).length;
       const dhRes = data.filter(d => d.category === 'dharmawangsa_residence').length;
       const cil = data.filter(d => d.category === 'cilandak' || (d.img && d.img.includes('12302'))).length;
-      const enh = data.filter(d => d.category === 'enhancement' || (!d.img?.includes('4711') && !d.img?.includes('12302') && d.category !== 'dharmawangsa_residence')).length;
+      const enh = data.filter(d => d.category === 'enhancement').length;
 
       if (document.getElementById('stat-total')) document.getElementById('stat-total').innerText = total;
       if (document.getElementById('stat-dharmawangsa')) document.getElementById('stat-dharmawangsa').innerText = dh + dhRes;
@@ -673,10 +642,10 @@
           div.className = 'glass-panel p-2.5 rounded-2xl overflow-hidden';
           div.innerHTML = `
             <div class="aspect-[3/4] rounded-xl overflow-hidden mb-2 bg-black/50">
-              <img src="${item.img}" class="w-full h-full object-cover" />
+              <img src="${html(item.img)}" class="w-full h-full object-cover" />
             </div>
-            <p class="text-xs font-bold text-slate-100 truncate">${item.title}</p>
-            <span class="text-[9px] uppercase text-brand-gold tracking-wider">${item.badge || item.category}</span>
+            <p class="text-xs font-bold text-slate-100 truncate">${html(item.title)}</p>
+            <span class="text-[9px] uppercase text-brand-gold tracking-wider">${html(item.badge || item.category)}</span>
           `;
           recentContainer.appendChild(div);
         });
@@ -721,7 +690,7 @@
         card.innerHTML = `
           <div>
             <div class="aspect-[3/4] rounded-xl overflow-hidden mb-3.5 relative bg-black/80 flex items-center justify-center">
-              <img src="${item.img}" alt="${item.title}" class="w-full h-full object-contain transition-transform group-hover:scale-105 duration-500" loading="lazy" />
+              <img src="${html(item.img)}" alt="${html(item.title)}" class="w-full h-full object-contain transition-transform group-hover:scale-105 duration-500" loading="lazy" />
               
               <!-- Checkbox for Selection -->
               <div class="absolute top-2.5 right-2.5 z-10">
@@ -729,16 +698,16 @@
               </div>
 
               <div class="absolute top-2.5 left-2.5">
-                <span class="px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[9px] text-brand-gold uppercase tracking-wider border border-brand-gold/30 font-bold">${item.badge || item.category}</span>
+                <span class="px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[9px] text-brand-gold uppercase tracking-wider border border-brand-gold/30 font-bold">${html(item.badge || item.category)}</span>
               </div>
             </div>
-            <h4 class="font-serif font-bold text-sm text-slate-100 line-clamp-1">${item.title}</h4>
-            <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">${item.desc}</p>
+            <h4 class="font-serif font-bold text-sm text-slate-100 line-clamp-1">${html(item.title)}</h4>
+            <p class="text-[11px] text-slate-400 mt-1 line-clamp-2">${html(item.desc)}</p>
           </div>
 
           <div class="mt-4 pt-3 border-t border-slate-800/80 space-y-2">
             <!-- Download Single High-Res Button -->
-            <button onclick="downloadSinglePhoto('${item.img}', '${item.title}')" class="w-full py-1.5 rounded-lg btn-gold text-[11px] uppercase tracking-wider font-bold flex items-center justify-center gap-1.5 shadow-sm">
+            <button onclick="downloadSinglePhoto(${html(JSON.stringify(item.img))}, ${html(JSON.stringify(item.title))})" class="w-full py-1.5 rounded-lg btn-gold text-[11px] uppercase tracking-wider font-bold flex items-center justify-center gap-1.5 shadow-sm">
               <i data-lucide="download" class="w-3.5 h-3.5"></i>
               <span>Download Max Quality</span>
             </button>
@@ -949,7 +918,7 @@
       lucide.createIcons();
 
       try {
-        const response = await fetch('/api/portfolio', {
+        const response = await studioFetch('/api/portfolio', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
@@ -1010,7 +979,7 @@
       const desc = document.getElementById('edit-desc').value;
 
       try {
-        const response = await fetch('/api/portfolio', {
+        const response = await studioFetch('/api/portfolio', {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ id, title, category, desc })
@@ -1033,7 +1002,7 @@
       if (!confirm('Yakin ingin menghapus foto ini secara permanen dari server cloud?')) return;
 
       try {
-        const response = await fetch('/api/portfolio', {
+        const response = await studioFetch('/api/portfolio', {
           method: 'DELETE',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ id })
@@ -1053,7 +1022,7 @@
 
     // ================= MASTER SHOT & BACKGROUND CUSTOMIZER LOGIC =================
     const THEME_KEY = 'auravista_theme_customizer';
-    let currentSelectTarget = 'hero';
+    let currentSelectTarget = 'master';
 
     function getCustomizerSettings() {
       const saved = localStorage.getItem(THEME_KEY);
@@ -1119,9 +1088,9 @@
         div.className = `aspect-[3/4] rounded-xl overflow-hidden cursor-pointer relative group border-2 transition-all ${isSelected ? 'border-brand-gold ring-2 ring-brand-gold/50 scale-105' : 'border-slate-800 hover:border-slate-500'}`;
         div.onclick = () => selectPhotoForTarget(item.img, item.title);
         div.innerHTML = `
-          <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover" />
+          <img src="${html(item.img)}" alt="${html(item.title)}" class="w-full h-full object-cover" />
           <div class="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center p-1 text-center">
-            <span class="text-[9px] font-bold text-brand-gold bg-black/90 px-2 py-1 rounded line-clamp-2">${item.title}</span>
+            <span class="text-[9px] font-bold text-brand-gold bg-black/90 px-2 py-1 rounded line-clamp-2">${html(item.title)}</span>
           </div>
           ${isSelected ? '<span class="absolute top-1 right-1 px-1.5 py-0.5 rounded bg-brand-gold text-black text-[8px] font-black uppercase">SELECTED</span>' : ''}
         `;

@@ -3,3 +3,5 @@ node_modules/
 .vercel
 create_gist.json
 hero_scroll_tour.mp4
+test-results/
+playwright-report/

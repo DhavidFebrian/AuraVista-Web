@@ -1,16 +1,26 @@
 // Endpoint API Serverless Vercel untuk Upload & Sinkronisasi Portofolio ke GitHub & Cloud Database
+import { requireAdmin } from '../lib/admin-auth.js';
 export default async function handler(req, res) {
-  // CORS Headers
-  res.setHeader('Access-Control-Allow-Origin', '*');
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-
-  if (req.method === 'OPTIONS') {
-    return res.status(200).end();
-  }
+  if (!requireAdmin(req, res)) return;
 
   const GITHUB_TOKEN = process.env.AURAVISTA_GH_TOKEN;
   const REPO = 'DhavidFebrian/AuraVista-Web';
+  if (!GITHUB_TOKEN) return res.status(503).json({success:false,error:'Cloud storage is not configured.'});
+  if (!['GET','POST','PUT','DELETE'].includes(req.method)) return res.status(405).json({success:false,error:'Method not allowed'});
+  if (req.method !== 'GET') {
+    const body=req.body;
+    if (!body || typeof body!=='object' || Array.isArray(body)) return res.status(400).json({success:false,error:'A JSON object is required.'});
+    for (const [key,max] of Object.entries({id:100,title:160,category:40,desc:2000,badge:100,aspect:12})) {
+      if(body[key]!==undefined && (typeof body[key]!=='string' || body[key].length>max || /[<>]/.test(body[key]))) return res.status(400).json({success:false,error:'Invalid metadata: '+key});
+    }
+    if(body.category!==undefined && !['cilandak','dharmawangsa','dharmawangsa_residence','enhancement'].includes(body.category)) return res.status(400).json({success:false,error:'Invalid category.'});
+    if(req.method==='POST' && (!body.title?.trim() || typeof body.imageBase64!=='string' || body.imageBase64.length>4000000 || !/^data:image\/webp;base64,[A-Za-z0-9+/]+={0,2}$/.test(body.imageBase64))) return res.status(400).json({success:false,error:'A title and WebP image under 3 MB are required.'});
+    if(req.method==='POST') {
+      const image=Buffer.from(body.imageBase64.split(',')[1],'base64');
+      if(image.toString('ascii',0,4)!=='RIFF'||image.toString('ascii',8,12)!=='WEBP') return res.status(400).json({success:false,error:'Invalid WebP image.'});
+    }
+    if(['PUT','DELETE'].includes(req.method) && !/^[a-zA-Z0-9_-]+$/.test(body.id||'')) return res.status(400).json({success:false,error:'Valid item ID is required.'});
+  }
 
   async function ghRequest(path, method = 'GET', body = null) {
     const headers = {
@@ -171,6 +181,7 @@ export default async function handler(req, res) {
         branch: 'main'
       });
 
+      if (!updateDataRes.ok) return res.status(updateDataRes.status).json({success:false,error:'Cloud write failed. Reload and retry; changes were not saved.'});
       return res.status(200).json({ success: true, message: 'Item berhasil diupdate secara permanen!' });
     }
 
@@ -184,6 +195,7 @@ export default async function handler(req, res) {
 
       const currentContent = Buffer.from(getDataRes.data.content, 'base64').toString('utf8');
       const portfolioList = JSON.parse(currentContent.replace(/^\uFEFF/, ''));
+      if (!portfolioList.some(item => item.id === id)) return res.status(404).json({success:false,error:'Item not found'});
       const filteredList = portfolioList.filter(item => item.id !== id);
 
       const updatedJsonString = JSON.stringify(filteredList, null, 2);
@@ -194,12 +206,13 @@ export default async function handler(req, res) {
         branch: 'main'
       });
 
+      if (!updateDataRes.ok) return res.status(updateDataRes.status).json({success:false,error:'Cloud write failed. Reload and retry; changes were not saved.'});
       return res.status(200).json({ success: true, message: 'Item berhasil dihapus!' });
     }
 
     return res.status(405).json({ error: 'Method not allowed' });
   } catch (err) {
     console.error('API Handler Error:', err);
-    return res.status(500).json({ success: false, error: err.message });
+    return res.status(500).json({ success: false, error: 'Cloud request failed. Please retry.' });
   }
 }

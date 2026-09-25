@@ -85,6 +85,8 @@
       pointer-events: auto;
     }
   </style>
+  <link rel="stylesheet" href="assets/refinement.css">
+  <script src="assets/gallery.js" defer></script>
 </head>
 <body class="selection:bg-brand-gold selection:text-black antialiased">
 
@@ -155,23 +157,11 @@
   <!-- 18 PHOTOS GALLERY (3:4 PORTRAIT) -->
   <section class="pb-28 px-4 sm:px-6">
     <div class="max-w-7xl mx-auto">
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="dharmawangsa-grid">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="dharmawangsa-grid" data-category="dharmawangsa">
         <!-- Injected via JS -->
       </div>
     </div>
   </section>
-
-  <!-- LIGHTBOX MODAL -->
-  <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-xl flex flex-col items-center justify-center p-4 sm:p-8">
-    <button onclick="closeLightbox()" class="absolute top-6 right-6 w-12 h-12 rounded-full bg-slate-900/80 border border-white/20 text-white flex items-center justify-center hover:bg-brand-gold hover:text-black transition-colors">
-      <i data-lucide="x" class="w-6 h-6"></i>
-    </button>
-    <div class="max-w-4xl max-h-[80vh] flex flex-col items-center">
-      <img id="lightbox-img" src="" alt="Enlarged View" class="max-h-[72vh] w-auto object-contain rounded-xl shadow-2xl border border-brand-gold/30 mb-4" />
-      <h3 id="lightbox-title" class="font-serif text-xl sm:text-2xl font-bold text-slate-100 text-center"></h3>
-      <p id="lightbox-desc" class="text-xs sm:text-sm text-slate-400 text-center max-w-xl mt-1"></p>
-    </div>
-  </div>
 
   <!-- FOOTER -->
   <footer class="py-12 border-t border-slate-900 bg-black text-center text-xs text-slate-500">
@@ -184,57 +174,6 @@
     </div>
   </footer>
 
-  <script>
-    async function loadAlbum() {
-      const resp = await fetch('assets/portfolio_data.json?v=' + Date.now());
-      const data = await resp.json();
-      
-      // Filter 18 photos from 4711
-      const items = data.filter(item => item.category === 'dharmawangsa' || (item.img && item.img.includes('4711')));
-      const grid = document.getElementById('dharmawangsa-grid');
-      grid.innerHTML = '';
 
-      items.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'glass-card rounded-2xl overflow-hidden p-3.5 flex flex-col justify-between group cursor-pointer';
-        card.onclick = () => openLightbox(item.img, item.title, item.desc);
-
-        card.innerHTML = `
-          <div>
-            <div class="aspect-[3/4] rounded-xl overflow-hidden mb-3.5 relative bg-black/60">
-              <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-              <div class="absolute top-2.5 left-2.5">
-                <span class="px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[9px] text-brand-gold uppercase tracking-wider border border-brand-gold/30 font-bold">Photo ${String(index+1).padStart(2, '0')}</span>
-              </div>
-              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="p-3 rounded-full bg-black/70 text-brand-gold border border-brand-gold/40"><i data-lucide="maximize-2" class="w-5 h-5"></i></span>
-              </div>
-            </div>
-            <p class="text-[10px] text-brand-gold tracking-widest uppercase font-semibold">Dharmawangsa Apartment</p>
-            <h4 class="font-serif font-bold text-sm text-slate-100 line-clamp-1 mt-0.5">${item.title}</h4>
-            <p class="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">${item.desc}</p>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-
-      lucide.createIcons();
-    }
-
-    function openLightbox(src, title, desc) {
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-title').innerText = title;
-      document.getElementById('lightbox-desc').innerText = desc;
-      document.getElementById('lightbox').classList.add('active');
-    }
-
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      loadAlbum();
-    });
-  </script>
 </body>
 </html>
