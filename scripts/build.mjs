@@ -1,5 +1,4 @@
 import {mkdir, cp, readFile, writeFile, rm} from 'node:fs/promises';
-import {execFileSync} from 'node:child_process';
 await rm('public',{recursive:true,force:true});
 await mkdir('public/assets/vendor',{recursive:true});
 await cp('assets','public/assets',{recursive:true});
@@ -11,5 +10,6 @@ for(const file of ['index.html','album-cilandak.html','album-dharmawangsa.html',
  await writeFile('public/'+file,html);
 }
 await cp('node_modules/lucide/dist/umd/lucide.js','public/assets/vendor/lucide.js');
-execFileSync(process.execPath,['node_modules/tailwindcss/lib/cli.js','-i','assets/tailwind.css','-o','public/assets/site.css','--minify'],{stdio:'inherit'});
+// Frozen landing utilities: page-specific styles must not alter the landing design.
+await cp('node_modules/jszip/dist/jszip.min.js','public/assets/vendor/jszip.js');
 console.log('Built 5 pages with local, pinned CSS and icons.');

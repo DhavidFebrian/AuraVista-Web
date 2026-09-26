@@ -40,12 +40,19 @@
     search.id=grid.id+'-search'; label.htmlFor=search.id;
     const clear=element('button','text-action','Clear search');clear.type='button';
     const status=element('p','gallery-status','Loading photographs…');status.setAttribute('role','status');
-    label.append(search);toolbar.append(label,clear);grid.before(toolbar,status);
+    const sortLabel=element('label','','Sort photographs');
+    const sort=element('select');sort.id=grid.id+'-sort';sortLabel.htmlFor=sort.id;
+    for(const [value,text] of [['curated','Curated order'],['title','Title · A–Z']]){const option=element('option','',text);option.value=value;sort.append(option);}
+    sortLabel.append(sort);
+    const layout=element('button','layout-toggle','Contact sheet');layout.type='button';layout.setAttribute('aria-pressed','false');
+    layout.addEventListener('click',()=>{const compact=layout.getAttribute('aria-pressed')!=='true';layout.setAttribute('aria-pressed',String(compact));if(compact)grid.dataset.layout='compact';else delete grid.dataset.layout;});
+    label.append(search);toolbar.append(label,clear,sortLabel,layout);grid.before(toolbar,status);
     grid.className='editorial-gallery';grid.setAttribute('aria-busy','true');
     let items=[];
     function render() {
       const query=search.value.trim().toLocaleLowerCase();
       const filtered=items.filter(item=>[item.title,item.desc,item.location].join(' ').toLocaleLowerCase().includes(query));
+      if(sort.value==='title')filtered.sort((a,b)=>a.title.localeCompare(b.title));
       grid.replaceChildren();
       status.textContent=filtered.length ? `${filtered.length} photograph${filtered.length===1?'':'s'} · Select a frame to explore` : 'No photographs match your search.';
       filtered.forEach((item,index)=>{
@@ -63,12 +70,14 @@
         const response=await fetch('assets/portfolio_data.json');if(!response.ok)throw new Error('Unavailable');
         const data=await response.json();if(!Array.isArray(data))throw new Error('Invalid collection');
         items=data.filter(item=>item.category===grid.dataset.category && typeof item.title==='string' && /^assets\/porto\/[a-zA-Z0-9_(). -]+\.(webp|jpe?g|png)$/i.test(item.img));
+        document.querySelectorAll('[data-collection-count]').forEach(node=>node.textContent=items.length);
         render();
       } catch {
         status.textContent='The collection could not be loaded. Please try again.';
         const retry=element('button','text-action','Retry loading');retry.type='button';retry.addEventListener('click',load);status.append(' ',retry);
       } finally {grid.setAttribute('aria-busy','false');}
     }
+    sort.addEventListener('change',render);
     search.addEventListener('input',render);clear.addEventListener('click',()=>{search.value='';render();search.focus();});
     await load();
   }

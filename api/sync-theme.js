@@ -12,7 +12,8 @@ export default async function handler(req, res) {
       if(!themeData || typeof themeData!=='object' || Array.isArray(themeData) || JSON.stringify(themeData).length>5000) return res.status(400).json({success:false,error:'Invalid theme.'});
       const allowed=['masterShotImg','masterShotTitle','heroBgImg','heroBgTitle','neonBackground','bgMood','updatedAt'];
       for(const [key,value] of Object.entries(themeData)) {
-        let valid=allowed.includes(key);
+        if(!allowed.includes(key)) return res.status(400).json({success:false,error:'Unknown theme field.'});
+        let valid=false;
         if(key.endsWith('Img')) valid=typeof value==='string' && /^assets\/(porto\/)?[a-zA-Z0-9_(). -]+\.(webp|jpe?g|png)$/i.test(value);
         if(key.endsWith('Title')) valid=typeof value==='string' && value.length<=160 && !/[<>]/.test(value);
         if(key==='bgMood') valid=['obsidian','midnight','dark-slate'].includes(value);

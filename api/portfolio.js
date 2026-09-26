@@ -10,6 +10,10 @@ export default async function handler(req, res) {
   if (req.method !== 'GET') {
     const body=req.body;
     if (!body || typeof body!=='object' || Array.isArray(body)) return res.status(400).json({success:false,error:'A JSON object is required.'});
+    const allowed = req.method==='POST' ? ['title','category','desc','badge','aspect','imageBase64'] : ['id','title','category','desc','badge'];
+    if(Object.keys(body).some(key=>!allowed.includes(key))) return res.status(400).json({success:false,error:'Unknown portfolio field.'});
+    if(body.title!==undefined && (typeof body.title!=='string' || !body.title.trim())) return res.status(400).json({success:false,error:'A non-empty title is required.'});
+    if(body.aspect!==undefined && !['3:4','9:16','16:9','1:1'].includes(body.aspect)) return res.status(400).json({success:false,error:'Invalid aspect ratio.'});
     for (const [key,max] of Object.entries({id:100,title:160,category:40,desc:2000,badge:100,aspect:12})) {
       if(body[key]!==undefined && (typeof body[key]!=='string' || body[key].length>max || /[<>]/.test(body[key]))) return res.status(400).json({success:false,error:'Invalid metadata: '+key});
     }

@@ -20,6 +20,7 @@
    const response=await window.studioFetch('/api/portfolio');
    const data=await response.json();
    if(!response.ok||!data.success||!Array.isArray(data.items))throw new Error(data.error||'Studio tidak tersedia. Coba lagi.');
+   validateStudioItems(data.items);
    field.value='';
    document.getElementById('login-view').classList.add('hidden');document.getElementById('app-view').classList.remove('hidden');
    currentPortfolioList=data.items;updateDashboardStats(data.items);renderPortfolioList();window.lucide?.createIcons();
