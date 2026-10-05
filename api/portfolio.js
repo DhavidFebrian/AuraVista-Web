@@ -19,6 +19,14 @@ export default async function handler(req, res) {
         if (backup.some(x => !knownImages.has(x.img))) fail('Backup memuat foto yang tidak ada dalam koleksi saat ini. Pulihkan file foto terlebih dahulu.');
         return backup;
       }, 'Studio: restore portfolio metadata backup');
+    } else if (req.method === 'DELETE') {
+      const ids = body.ids ?? [body.id];
+      if (!Array.isArray(ids) || !ids.length || ids.length > 1000 || ids.some(id => typeof id !== 'string' || !/^[a-zA-Z0-9_-]{1,100}$/.test(id)) || new Set(ids).size !== ids.length) fail('Pilih foto yang valid untuk dihapus.');
+      const selected = new Set(ids);
+      result = await commitPortfolio(body.sha, items => {
+        if (ids.some(id => !items.some(item => item.id === id))) fail('Sebagian foto tidak ditemukan. Muat ulang koleksi sebelum menghapus.', 404);
+        return items.filter(item => !selected.has(item.id));
+      }, `Studio: remove ${ids.length} portfolio photo(s)`);
     } else {
       if (typeof body.id !== 'string') fail('ID foto diperlukan.');
       const changes = req.method === 'PUT' ? metadata(body) : null;

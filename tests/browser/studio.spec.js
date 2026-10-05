@@ -31,7 +31,7 @@ test('watermark upload, validation, atomic publish and delete with cancellation'
   await login(page); await page.locator('.sidebar [data-view="upload"]').click();
   await page.locator('#upload-file').setInputFiles({ name: 'invalid.txt', mimeType: 'text/plain', buffer: Buffer.from('invalid') }); await expect(page.locator('#upload-error')).toContainText('Pilih JPG');
   await page.locator('#upload-file').setInputFiles('assets/HD_04_living_depan.webp'); await expect(page.locator('#upload-preview')).toBeVisible(); await page.locator('#upload-title').fill('E2E temporary photograph'); await page.locator('#upload-category').selectOption('enhancement'); await page.locator('#upload-desc').fill('Temporary isolated fixture'); await page.locator('#publish').click(); await expect(page.locator('#view-portfolio')).toBeVisible(); await expect(page.locator('.media-info h3').first()).toHaveText('E2E temporary photograph');
-  await page.locator('.media-actions button').filter({ hasText: /^Hapus$/ }).first().click(); await page.locator('#confirm-cancel').click(); await expect(page.locator('.media-info h3').first()).toHaveText('E2E temporary photograph'); await page.locator('.media-actions button').filter({ hasText: /^Hapus$/ }).first().click(); await page.locator('#confirm-accept').click(); await expect(page.locator('#stat-total')).toHaveText(String(seed.length));
+  await page.locator('.media-actions button').filter({ hasText: /^Hapus foto$/ }).first().click(); await page.locator('#confirm-cancel').click(); await expect(page.locator('.media-info h3').first()).toHaveText('E2E temporary photograph'); await page.locator('.media-actions button').filter({ hasText: /^Hapus foto$/ }).first().click(); await page.locator('#confirm-accept').click(); await expect(page.locator('#stat-total')).toHaveText(String(seed.length));
 });
 test('backup validates, confirms and restores server metadata; appearance saves', async ({ page }) => {
   await login(page); await page.locator('.sidebar [data-view="settings"]').click(); await page.locator('#import-file').setInputFiles({ name: 'bad.json', mimeType: 'application/json', buffer: Buffer.from('{bad') }); await expect(page.locator('#toast')).toHaveClass(/error/);
@@ -54,4 +54,26 @@ test('saved photos and protected landing scroll hero work', async ({ page }) => 
   await page.locator('.photo-card').first().click(); await expect(page.getByRole('dialog')).toBeVisible(); await page.keyboard.press('Escape');
   await page.goto('/'); await expect(page.locator('#hero-scrub-canvas')).toBeVisible(); await page.evaluate(() => scrollTo(0, innerHeight * 2)); await expect(page.locator('#hero-stage-1')).toHaveCSS('opacity', '0');
   await page.setViewportSize({ width: 390, height: 844 }); await page.evaluate(() => scrollTo(0, document.querySelector('#curated-albums').offsetTop)); await page.screenshot({ path: 'work/landing-mobile.png' }); expect(errors).toEqual([]);
+});
+test('bulk delete confirms hidden selections, preserves data on failure and removes only selected photos', async ({ page }) => {
+  await login(page);
+  let current = await (await page.request.get('/api/portfolio')).json();
+  const originalIds = current.items.map(item => item.id);
+  for (const title of ['Bulk fixture one', 'Bulk fixture two']) {
+    const response = await page.request.post('/api/portfolio', { data: { title, category: 'enhancement', imageBase64: 'data:image/webp;base64,' + Buffer.from('RIFF0000WEBPfixture').toString('base64'), sha: current.sha } });
+    expect(response.ok()).toBe(true); current = await response.json();
+  }
+  await page.locator('#refresh').click(); await expect(page.locator('#stat-total')).toHaveText(String(originalIds.length + 2));
+  await page.locator('.sidebar [data-view="portfolio"]').click(); await page.locator('#search').fill('Bulk fixture'); await page.locator('#select-all').check();
+  await expect(page.locator('#delete-selected')).toHaveText('Hapus pilihan (2)');
+  await page.locator('#search').fill('Bulk fixture one'); await page.locator('#delete-selected').click();
+  await expect(page.locator('#confirm-description')).toContainText('1 foto pilihan berada di luar filter'); await page.locator('#confirm-cancel').click();
+  await expect(page.locator('#delete-selected')).toBeEnabled();
+  await page.route('**/api/portfolio', route => route.request().method() === 'DELETE' ? route.fulfill({ status: 503, json: { error: 'Penyimpanan sementara gagal.' } }) : route.continue());
+  await page.locator('#delete-selected').click(); await page.locator('#confirm-accept').click(); await expect(page.locator('#toast')).toContainText('Penyimpanan sementara gagal.');
+  await expect(page.locator('#delete-selected')).toHaveText('Hapus pilihan (2)'); await expect(page.locator('#stat-total')).toHaveText(String(originalIds.length + 2));
+  await page.unroute('**/api/portfolio'); await page.locator('#delete-selected').click(); await page.locator('#confirm-accept').click(); await expect(page.locator('#stat-total')).toHaveText(String(originalIds.length));
+  await expect(page.locator('#delete-selected')).toBeDisabled();
+  const final = await (await page.request.get('/api/portfolio')).json(); expect(final.items.map(item => item.id)).toEqual(originalIds);
+  await page.reload(); await expect(page.locator('#stat-total')).toHaveText(String(originalIds.length));
 });

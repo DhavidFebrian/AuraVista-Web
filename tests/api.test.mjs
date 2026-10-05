@@ -51,3 +51,15 @@ test('theme validates data, saves supported fields and omits protected hero sett
   const invalid = await call(theme, request('POST', { masterShotImg: 'javascript:alert(1)' }, cookie())); assert.equal(invalid.code, 400);
   const result = await call(theme, request('POST', { masterShotImg: 'assets/HD_04_living_depan.webp', masterShotTitle: 'Master', bgMood: 'obsidian', neonBackground: true, heroBgImg: 'changed' }, cookie())); assert.equal(result.code, 200); assert.equal(result.body.theme.heroBgImg, undefined);
 });
+test('bulk deletion is atomic, rejects missing ids and protects against stale writes', async () => {
+  const original = (await call(portfolio, request('GET'))).body;
+  const ids = original.items.slice(0, 2).map(item => item.id);
+  const invalid = await call(portfolio, request('DELETE', { ids: [ids[0], 'missing-id'], sha: original.sha }, cookie()));
+  assert.equal(invalid.code, 404);
+  assert.deepEqual((await call(portfolio, request('GET'))).body.items, original.items);
+  for (const value of [[], [ids[0], ids[0]], ['invalid/id'], 'not-an-array']) assert.equal((await call(portfolio, request('DELETE', { ids: value, sha: original.sha }, cookie()))).code, 400);
+  const deleted = await call(portfolio, request('DELETE', { ids, sha: original.sha }, cookie()));
+  assert.equal(deleted.code, 200);
+  assert.deepEqual(deleted.body.items, original.items.filter(item => !ids.includes(item.id)));
+  assert.equal((await call(portfolio, request('DELETE', { ids: [original.items[2].id], sha: original.sha }, cookie()))).code, 409);
+});

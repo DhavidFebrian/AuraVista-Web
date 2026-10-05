@@ -93,12 +93,12 @@ function renderPortfolio() {
     const label = node('label'), check = node('input'); check.type = 'checkbox'; check.checked = state.selected.has(item.id); check.setAttribute('aria-label', `Pilih ${item.title}`); check.onchange = () => { check.checked ? state.selected.add(item.id) : state.selected.delete(item.id); card.classList.toggle('selected', check.checked); selectionUI(); }; label.append(check);
     photo.append(open, label, node('span', 'category-tag', categories[item.category] || item.category));
     const info = node('div', 'media-info'); info.append(node('h3', '', item.title), node('p', '', item.location || 'Lokasi belum diisi'));
-    const actions = node('div', 'media-actions'); const download = node('button', '', 'Unduh ↓'), edit = node('button', '', 'Edit'), remove = node('button', '', 'Hapus');
+    const actions = node('div', 'media-actions'); const download = node('button', '', 'Unduh ↓'), edit = node('button', '', 'Edit'), remove = node('button', 'delete-photo', 'Hapus foto');
     download.onclick = () => downloadPhotos([item]); edit.onclick = () => openEdit(item); remove.onclick = () => deletePhoto(item); edit.disabled = remove.disabled = !state.sha || state.busy;
     [download, edit, remove].forEach(button => button.setAttribute('aria-label', `${button.textContent} ${item.title}`)); actions.append(download, edit, remove); info.append(actions); card.append(photo, info); $('portfolio-grid').append(card);
   }); selectionUI();
 }
-function selectionUI() { const items = filtered(), count = items.filter(x => state.selected.has(x.id)).length; $('select-all').checked = items.length > 0 && count === items.length; $('select-all').indeterminate = count > 0 && count < items.length; $('select-all').disabled = !items.length; $('download-selected').disabled = !state.selected.size; $('download-selected').textContent = `Unduh pilihan (${state.selected.size})`; $('clear-selection').disabled = !state.selected.size; }
+function selectionUI() { const items = filtered(), count = items.filter(x => state.selected.has(x.id)).length; $('select-all').checked = items.length > 0 && count === items.length; $('select-all').indeterminate = count > 0 && count < items.length; $('select-all').disabled = !items.length; $('download-selected').disabled = !state.selected.size; $('download-selected').textContent = `Unduh pilihan (${state.selected.size})`; $('clear-selection').disabled = !state.selected.size; $('delete-selected').disabled = !state.selected.size || !state.sha || state.busy; $('delete-selected').textContent = state.busy ? 'Menyimpan…' : `Hapus pilihan (${state.selected.size})`; }
 ['search', 'filter-category', 'sort'].forEach(id => $(id).addEventListener(id === 'search' ? 'input' : 'change', renderPortfolio));
 $('select-all').onchange = e => { filtered().forEach(x => e.target.checked ? state.selected.add(x.id) : state.selected.delete(x.id)); renderPortfolio(); };
 $('clear-selection').onclick = () => { state.selected.clear(); renderPortfolio(); };
@@ -124,6 +124,7 @@ function confirmAction(title, description, accept = 'Lanjutkan') { $('confirm-ti
 async function savePortfolio(method, body, message) {
   if (state.busy || !state.sha) throw new Error('Tunggu penyimpanan selesai atau muat ulang koneksi.');
   state.busy = true;
+  renderPortfolio();
   try { const data = await api('/api/portfolio', method, { ...body, sha: state.sha }); state.items = data.items; state.sha = data.sha; const ids = new Set(state.items.map(x => x.id)); state.selected = new Set([...state.selected].filter(x => ids.has(x))); activity(message); toast(message); return data; }
   finally { state.busy = false; renderAll(); }
 }
@@ -132,6 +133,16 @@ $('edit-form').oninput = () => state.editDirty = true;
 $('edit-dialog').addEventListener('close', () => state.editDirty = false);
 $('edit-form').onsubmit = async e => { e.preventDefault(); const button = e.submitter; button.disabled = true; button.textContent = 'Menyimpan…'; $('edit-error').textContent = ''; try { await savePortfolio('PUT', { id: $('edit-id').value, ...Object.fromEntries(new FormData(e.target)) }, 'Detail foto berhasil disimpan.'); state.editDirty = false; $('edit-dialog').close(); } catch (error) { $('edit-error').textContent = error.message; } finally { button.disabled = false; button.textContent = 'Simpan perubahan'; } };
 async function deletePhoto(item) { if (!await confirmAction('Hapus dari koleksi?', `“${item.title}” akan dihapus dari daftar website. File foto asli tetap tersimpan di repositori.`, 'Hapus foto')) return; try { await savePortfolio('DELETE', { id: item.id }, `Foto “${item.title}” dihapus dari koleksi.`); } catch (error) { toast(error.message, true); } }
+$('delete-selected').onclick = async () => {
+  const items = state.items.filter(item => state.selected.has(item.id));
+  if (!items.length || state.busy || !state.sha) return;
+  const visibleIds = new Set(filtered().map(item => item.id));
+  const hidden = items.filter(item => !visibleIds.has(item.id)).length;
+  const titles = items.slice(0, 5).map(item => `“${item.title}”`).join(', ');
+  const description = `${titles}${items.length > 5 ? `, dan ${items.length - 5} foto lainnya` : ''}. ${hidden ? `${hidden} foto pilihan berada di luar filter saat ini. ` : ''}Foto akan dihapus dari koleksi website. File asli tetap tersimpan di repositori.`;
+  if (!await confirmAction(`Hapus ${items.length} foto terpilih?`, description, `Hapus ${items.length} foto`)) return;
+  try { await savePortfolio('DELETE', { ids: items.map(item => item.id) }, `${items.length} foto berhasil dihapus dari koleksi.`); } catch (error) { toast(error.message, true); }
+};
 function updatePublish() { $('publish').disabled = !state.photo || !state.sha || state.busy; }
 const logo = new Image(); logo.src = 'assets/aura_vista_logo_cropped.png';
 async function processPhoto(file) {
