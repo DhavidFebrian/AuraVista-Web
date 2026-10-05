@@ -1,6 +1,37 @@
 [
-  { "id": "cilandak", "title": "Cilandak Estate", "location": "Cilandak, South Jakarta", "desc": "Contemporary residences, architecture and interiors.", "builtin": true },
-  { "id": "dharmawangsa", "title": "Dharmawangsa Apartment", "location": "Dharmawangsa Apartment", "desc": "Natural light, marble textures and intimate spaces.", "builtin": true },
-  { "id": "dharmawangsa_residence", "title": "Dharmawangsa Residence", "location": "Dharmawangsa, South Jakarta", "desc": "A study of space, material and considered living.", "builtin": true },
-  { "id": "enhancement", "title": "Enhancement", "location": "Studio Grade", "desc": "Light, detail and creative enhancement.", "builtin": true }
+  {
+    "id": "cilandak",
+    "title": "Cilandak Estate",
+    "location": "Cilandak, South Jakarta",
+    "desc": "Contemporary residences, architecture and interiors.",
+    "builtin": true
+  },
+  {
+    "id": "dharmawangsa",
+    "title": "Dharmawangsa Apartment",
+    "location": "Dharmawangsa Apartment",
+    "desc": "Natural light, marble textures and intimate spaces.",
+    "builtin": true
+  },
+  {
+    "id": "dharmawangsa_residence",
+    "title": "Dharmawangsa Residence",
+    "location": "Dharmawangsa, South Jakarta",
+    "desc": "A study of space, material and considered living.",
+    "builtin": true
+  },
+  {
+    "id": "enhancement",
+    "title": "Enhancement",
+    "location": "Studio Grade",
+    "desc": "Light, detail and creative enhancement.",
+    "builtin": true
+  },
+  {
+    "id": "album-grand-trevista",
+    "title": "Grand Trevista",
+    "location": "Ciputat",
+    "desc": "",
+    "createdAt": "2026-10-05T14:28:49.168Z"
+  }
 ]
