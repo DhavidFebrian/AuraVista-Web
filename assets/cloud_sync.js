@@ -12,22 +12,18 @@ window.AuraVistaCloud = {
       const res = await fetch(`${GIST_RAW_URL}?t=${Date.now()}`);
       if (res.ok) {
         const data = await res.json();
-        localStorage.setItem('auravista_theme_customizer', JSON.stringify(data));
+        try { localStorage.setItem('auravista_theme_customizer', JSON.stringify(data)); } catch {}
         return data;
       }
     } catch (e) {
       console.warn('Cloud fetch fallback to localStorage:', e);
     }
-    const local = localStorage.getItem('auravista_theme_customizer');
-    return local ? JSON.parse(local) : null;
+    try { const local = localStorage.getItem('auravista_theme_customizer'); return local ? JSON.parse(local) : null; } catch { return null; }
   },
 
   // Simpan tema ke Cloud Database secara realtime via API Serverless
   async saveTheme(themeData) {
-    // 1. Simpan ke local dulu untuk respon instan
-    localStorage.setItem('auravista_theme_customizer', JSON.stringify(themeData));
-
-    // 2. Push update ke Endpoint Sync API
+    // Only cache a server-confirmed save.
     try {
       const res = await fetch('/api/sync-theme', {
         method: 'POST',
@@ -40,6 +36,7 @@ window.AuraVistaCloud = {
       if (!res.ok) {
         throw new Error(`Sync API status: ${res.status}`);
       }
+      try { localStorage.setItem('auravista_theme_customizer', JSON.stringify(themeData)); } catch {}
       return { success: true };
     } catch (err) {
       console.error('Failed saving to cloud:', err);

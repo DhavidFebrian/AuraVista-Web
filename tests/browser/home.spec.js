@@ -1,0 +1,29 @@
+import {test,expect} from '@playwright/test';
+test('project brief validates input and prepares an encoded WhatsApp handoff',async({page})=>{
+ await page.goto('/#contact',{waitUntil:'domcontentloaded'});
+ await page.getByRole('button',{name:'Prepare inquiry'}).click();
+ await expect(page.locator('#inquiry-link')).toBeHidden();
+ await page.getByLabel('Your name').fill('Ayu & Partners');
+ await page.getByLabel('Project location').fill('Jakarta Selatan');
+ await page.getByLabel('Service needed').selectOption('Architectural photography');
+ await page.getByLabel('Project details').fill('Villa with 5 rooms & a pool');
+ await page.getByRole('button',{name:'Prepare inquiry'}).click();
+ const link=page.getByRole('link',{name:'Continue to WhatsApp'});
+ await expect(link).toBeVisible();
+ const url=new URL(await link.getAttribute('href'));
+ expect(url.hostname).toBe('wa.me');expect(url.pathname).toBe('/6285169671344');
+ expect(url.searchParams.get('text')).toContain('Ayu & Partners');
+ expect(url.searchParams.get('text')).toContain('Villa with 5 rooms & a pool');
+ await page.getByLabel('Your name').fill('Changed');await expect(link).toBeHidden();
+});
+test('mobile navigation opens, closes on Escape and navigates to collections',async({page})=>{
+ await page.setViewportSize({width:390,height:844});
+ await page.goto('/',{waitUntil:'domcontentloaded'});
+ const toggle=page.getByRole('button',{name:'Open navigation'});
+ await toggle.click();await expect(toggle).toHaveAttribute('aria-expanded','true');
+ await page.keyboard.press('Escape');await expect(toggle).toHaveAttribute('aria-expanded','false');
+ await toggle.click();await page.locator('#mobile-navigation').getByRole('link',{name:'Collections'}).click();
+ await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(page).toHaveURL(/#curated-albums/);
+ await expect(page.locator('.collection-card')).toHaveCount(3);
+ await expect(page.locator('#enhancement-grid .photo-card')).toHaveCount(12);
+});

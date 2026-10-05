@@ -1,4 +1,5 @@
 const $ = id => document.getElementById(id);
+const photoSource = path => /^assets\/porto\/porto-[0-9a-f-]{36}\.webp$/.test(path) ? `https://raw.githubusercontent.com/DhavidFebrian/AuraVista-Web/main/${path}` : path;
 const names = { overview: 'Ringkasan', portfolio: 'Koleksi media', upload: 'Unggah foto', appearance: 'Tampilan website', settings: 'Cadangan & aktivitas' };
 const categories = { cilandak: 'Cilandak Estate', dharmawangsa: 'Dharmawangsa Apartment', dharmawangsa_residence: 'Dharmawangsa Residence', enhancement: 'Enhancement' };
 const locations = { cilandak: 'Cilandak, South Jakarta', dharmawangsa: 'Dharmawangsa Apartment', dharmawangsa_residence: 'Dharmawangsa, South Jakarta', enhancement: 'Studio Grade' };
@@ -77,7 +78,7 @@ function renderAll() {
   $('stat-cilandak').textContent = state.items.filter(x => x.category === 'cilandak').length;
   $('stat-enhancement').textContent = state.items.filter(x => x.category === 'enhancement').length;
   $('recent-grid').replaceChildren();
-  state.items.slice(0, 4).forEach(item => { const card = node('button', 'recent-card'); const image = node('img'); image.src = item.img; image.alt = item.title; image.loading = 'lazy'; card.append(image, node('h3', '', item.title), node('small', '', categories[item.category] || item.category)); card.onclick = () => preview(item.id, state.items); $('recent-grid').append(card); });
+  state.items.slice(0, 4).forEach(item => { const card = node('button', 'recent-card'); const image = node('img'); image.src = photoSource(item.img); image.alt = item.title; image.loading = 'lazy'; card.append(image, node('h3', '', item.title), node('small', '', categories[item.category] || item.category)); card.onclick = () => preview(item.id, state.items); $('recent-grid').append(card); });
   if (!state.items.length) $('recent-grid').append(node('p', 'muted', 'Koleksi masih kosong. Unggah foto pertama Anda.'));
   $('category-summary').replaceChildren();
   for (const [cat, title] of Object.entries(categories)) { const count = state.items.filter(x => x.category === cat).length; const button = node('button', '', title); button.append(node('strong', '', count)); const progress = node('progress'); progress.value = count; progress.max = state.items.length || 1; progress.setAttribute('aria-label', `${title}: ${count} foto`); button.append(progress); button.onclick = () => { $('filter-category').value = cat; $('search').value = ''; setView('portfolio'); renderPortfolio(); }; $('category-summary').append(button); }
@@ -88,7 +89,7 @@ function renderPortfolio() {
   items.forEach(item => {
     const card = node('article', `media-card${state.selected.has(item.id) ? ' selected' : ''}`);
     const photo = node('div', 'media-photo'), open = node('button'); open.setAttribute('aria-label', `Pratinjau ${item.title}`);
-    const image = node('img'); image.src = item.img; image.alt = item.title; image.loading = 'lazy'; image.decoding = 'async'; image.onerror = () => { image.alt = `${item.title} — gambar belum tersedia`; }; open.append(image); open.onclick = () => preview(item.id, items);
+    const image = node('img'); image.src = photoSource(item.img); image.alt = item.title; image.loading = 'lazy'; image.decoding = 'async'; image.onerror = () => { image.alt = `${item.title} — gambar belum tersedia`; }; open.append(image); open.onclick = () => preview(item.id, items);
     const label = node('label'), check = node('input'); check.type = 'checkbox'; check.checked = state.selected.has(item.id); check.setAttribute('aria-label', `Pilih ${item.title}`); check.onchange = () => { check.checked ? state.selected.add(item.id) : state.selected.delete(item.id); card.classList.toggle('selected', check.checked); selectionUI(); }; label.append(check);
     photo.append(open, label, node('span', 'category-tag', categories[item.category] || item.category));
     const info = node('div', 'media-info'); info.append(node('h3', '', item.title), node('p', '', item.location || 'Lokasi belum diisi'));
@@ -103,7 +104,7 @@ $('select-all').onchange = e => { filtered().forEach(x => e.target.checked ? sta
 $('clear-selection').onclick = () => { state.selected.clear(); renderPortfolio(); };
 $('reset-filters').onclick = () => { $('search').value = ''; $('filter-category').value = 'all'; $('sort').value = 'default'; renderPortfolio(); };
 function preview(id, items) { state.preview = items; state.previewIndex = items.findIndex(x => x.id === id); showPreview(); if (!$('preview-dialog').open) $('preview-dialog').showModal(); }
-function showPreview() { const item = state.preview[state.previewIndex]; if (!item) return; $('preview-image').src = item.img; $('preview-image').alt = item.title; $('preview-title').textContent = item.title; $('preview-desc').textContent = item.desc || ''; $('preview-position').textContent = `${state.previewIndex + 1} / ${state.preview.length}`; }
+function showPreview() { const item = state.preview[state.previewIndex]; if (!item) return; $('preview-image').src = photoSource(item.img); $('preview-image').alt = item.title; $('preview-title').textContent = item.title; $('preview-desc').textContent = item.desc || ''; $('preview-position').textContent = `${state.previewIndex + 1} / ${state.preview.length}`; }
 function movePreview(delta) { state.previewIndex = (state.previewIndex + delta + state.preview.length) % state.preview.length; showPreview(); }
 $('preview-prev').onclick = () => movePreview(-1); $('preview-next').onclick = () => movePreview(1);
 $('preview-dialog').addEventListener('keydown', e => { if (e.key === 'ArrowLeft') movePreview(-1); if (e.key === 'ArrowRight') movePreview(1); });
@@ -113,7 +114,7 @@ async function downloadPhotos(items) {
   const button = $('download-selected'); button.disabled = true; button.textContent = 'Menyiapkan unduhan…';
   try {
     const zip = items.length > 1 ? new window.JSZip() : null;
-    for (let i = 0; i < items.length; i++) { const item = items[i]; const response = await fetch(item.img); if (!response.ok) throw new Error(`Foto “${item.title}” belum tersedia. Tunggu deployment selesai lalu coba lagi.`); const blob = await response.blob(); const ext = item.img.split('.').pop(); const filename = `${String(i + 1).padStart(2, '0')}_${item.title.replace(/[^a-z0-9_-]/gi, '_')}.${ext}`; if (zip) zip.file(filename, blob); else downloadBlob(blob, filename); }
+    for (let i = 0; i < items.length; i++) { const item = items[i]; const response = await fetch(photoSource(item.img)); if (!response.ok) throw new Error(`Foto “${item.title}” belum tersedia. Tunggu deployment selesai lalu coba lagi.`); const blob = await response.blob(); const ext = item.img.split('.').pop(); const filename = `${String(i + 1).padStart(2, '0')}_${item.title.replace(/[^a-z0-9_-]/gi, '_')}.${ext}`; if (zip) zip.file(filename, blob); else downloadBlob(blob, filename); }
     if (zip) downloadBlob(await zip.generateAsync({ type: 'blob' }), `AuraVista-${new Date().toISOString().slice(0, 10)}.zip`);
     toast(`${items.length} foto siap diunduh.`);
   } catch (error) { toast(error.message, true); } finally { selectionUI(); }
@@ -154,7 +155,7 @@ $('upload-file').onchange = e => processPhoto(e.target.files[0]);
 for (const event of ['dragenter', 'dragover']) $('dropzone').addEventListener(event, e => { e.preventDefault(); $('dropzone').classList.add('dragging'); });
 for (const event of ['dragleave', 'drop']) $('dropzone').addEventListener(event, e => { e.preventDefault(); $('dropzone').classList.remove('dragging'); });
 $('dropzone').addEventListener('drop', e => { if (e.dataTransfer.files.length) { $('upload-file').files = e.dataTransfer.files; processPhoto(e.dataTransfer.files[0]); } });
-$('upload-form').onsubmit = async e => { e.preventDefault(); if (!state.photo) return; const button = $('publish'); button.disabled = true; button.textContent = 'Menerbitkan…'; $('upload-error').textContent = ''; try { await savePortfolio('POST', { ...Object.fromEntries(new FormData(e.target)), imageBase64: state.photo, aspect: `${$('watermark-canvas').width}:${$('watermark-canvas').height}` }, 'Foto tersimpan. Gambar akan tampil setelah deployment selesai.'); state.photo = null; e.target.reset(); $('upload-location').value = locations[$('upload-category').value]; $('upload-preview').hidden = true; setView('portfolio'); } catch (error) { $('upload-error').textContent = error.message; } finally { button.textContent = 'Terbitkan foto ↗'; updatePublish(); } };
+$('upload-form').onsubmit = async e => { e.preventDefault(); if (!state.photo) return; const button = $('publish'); button.disabled = true; button.textContent = 'Menerbitkan…'; $('upload-error').textContent = ''; try { await savePortfolio('POST', { ...Object.fromEntries(new FormData(e.target)), imageBase64: state.photo, aspect: `${$('watermark-canvas').width}:${$('watermark-canvas').height}` }, 'Foto berhasil diterbitkan ke koleksi website.'); state.photo = null; e.target.reset(); $('upload-location').value = locations[$('upload-category').value]; $('upload-preview').hidden = true; setView('portfolio'); } catch (error) { $('upload-error').textContent = error.message; } finally { button.textContent = 'Terbitkan foto ↗'; updatePublish(); } };
 const defaultTheme = { masterShotImg: 'assets/HD_04_living_depan.webp', masterShotTitle: 'Grand Living Space HDR', bgMood: 'obsidian', neonBackground: true };
 async function loadTheme() { try { const response = await fetch('https://gist.githubusercontent.com/DhavidFebrian/9919d20671f866fda62afde6b90426e3/raw/auravista_theme_customizer.json?t=' + Date.now(), { signal: AbortSignal.timeout(15000) }); if (!response.ok) throw new Error(); const data = await response.json(); state.theme = { ...defaultTheme, ...data }; } catch { state.theme = { ...defaultTheme }; $('appearance-status').textContent = 'Pengaturan cloud belum dapat dimuat. Pratinjau menggunakan pengaturan default; periksa sebelum menyimpan.'; } if (!state.themeDirty) renderTheme(); }
 function renderTheme() {
@@ -164,7 +165,7 @@ function renderTheme() {
   if (!state.themeDirty) { $('mood').value = state.theme?.bgMood || 'obsidian'; $('ambient').checked = state.theme?.neonBackground !== false; }
   masterPreview();
 }
-function masterPreview() { $('master-preview').src = $('master-select').value; $('master-title').textContent = $('master-select').selectedOptions[0]?.textContent || 'Foto sorotan'; }
+function masterPreview() { $('master-preview').src = photoSource($('master-select').value); $('master-title').textContent = $('master-select').selectedOptions[0]?.textContent || 'Foto sorotan'; }
 $('master-select').onchange = masterPreview;
 $('appearance-form').oninput = () => { state.themeDirty = true; $('appearance-status').textContent = 'Perubahan belum disimpan.'; };
 $('appearance-form').onsubmit = async e => { e.preventDefault(); if (state.busy) return; state.busy = true; const button = e.submitter; button.disabled = true; button.textContent = 'Menyimpan…'; const theme = { masterShotImg: $('master-select').value, masterShotTitle: $('master-title').textContent, bgMood: $('mood').value, neonBackground: $('ambient').checked }; try { const data = await api('/api/sync-theme', 'POST', theme); state.theme = data.theme; state.themeDirty = false; try { localStorage.setItem('auravista_theme_customizer', JSON.stringify(data.theme)); } catch {} $('appearance-status').textContent = 'Tersimpan ke cloud. Buka ulang website untuk melihat perubahan.'; activity('Pengaturan tampilan disimpan.'); toast('Tampilan website berhasil disimpan.'); } catch (error) { $('appearance-status').textContent = error.message; toast(error.message, true); } finally { state.busy = false; button.disabled = false; button.textContent = 'Simpan tampilan'; } };

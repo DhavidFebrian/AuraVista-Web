@@ -12,48 +12,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Playfair+Display:ital,wght@0,500;0,600;0,700;1,400;1,600&family=Plus+Jakarta+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&display=swap" rel="stylesheet">
   
   <!-- Lucide Icons -->
-  <script src="https://unpkg.com/lucide@latest"></script>
+  <script src="assets/vendor/lucide.js"></script>
   
   <!-- Tailwind CSS -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="assets/site.css">
   <!-- Aura Vista Cloud Sync Database Engine -->
   <script src="assets/cloud_sync.js"></script>
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          colors: {
-            brand: {
-              gold: '#D4AF37',
-              goldLight: '#F3E5AB',
-              goldDark: '#997B1E',
-              dark: '#07090E',
-              darker: '#040508',
-              card: '#0D121D',
-              cardHover: '#131A29',
-              border: 'rgba(212, 175, 55, 0.15)',
-              borderStrong: 'rgba(212, 175, 55, 0.35)',
-            }
-          },
-          fontFamily: {
-            serif: ['"Cormorant Garamond"', 'serif'],
-            display: ['"Playfair Display"', 'serif'],
-            sans: ['"Plus Jakarta Sans"', '-apple-system', 'BlinkMacSystemFont', 'sans-serif'],
-          },
-          animation: {
-            'glow-pulse': 'glowPulse 3s ease-in-out infinite',
-          },
-          keyframes: {
-            glowPulse: {
-              '0%, 100%': { opacity: '0.4' },
-              '50%': { opacity: '0.8' },
-            }
-          }
-        }
-      }
-    }
-  </script>
+  
 
   <style>
     :root {
@@ -222,10 +187,15 @@
       z-index: 1;
     }
   </style>
-  <link rel="stylesheet" href="assets/experience.css">
+  <link rel="stylesheet" href="assets/refinement.css">
+  <script src="assets/gallery.js" defer></script>
+  <script src="assets/site.js" defer></script>
+  <link rel="stylesheet" href="assets/gallery-tools.css">
+  <link rel="stylesheet" href="assets/gallery-tools.css">
 </head>
 <body class="bg-noise selection:bg-brand-gold selection:text-black antialiased relative">
 
+  <a class="skip-link" href="#curated-albums">Skip to collections</a>
   <!-- LUXURY AMBIENT MESH ORBS & FLOATING GOLD DUST -->
   <div id="ambient-mesh-container" class="mesh-gradient-bg">
     <div class="mesh-orb mesh-orb-1"></div>
@@ -264,21 +234,19 @@
 
       <!-- Right Action & Admin Trigger -->
       <div class="flex items-center gap-3">
-        <!-- Admin Studio Button -->
-        <a href="admin.html" id="admin-nav-btn" class="flex items-center gap-2 px-3.5 py-2.5 rounded-xl glass-panel text-slate-300 hover:text-brand-gold text-xs uppercase tracking-wider border border-brand-gold/20 hover:border-brand-gold/50 transition-all">
-          <i data-lucide="shield" class="w-3.5 h-3.5 text-brand-gold"></i>
-          <span class="hidden sm:inline">Admin Studio</span>
-        </a>
-
+        <button id="navigation-toggle" class="navigation-toggle" type="button" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded="false">Menu <span aria-hidden="true">☰</span></button>
         <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-gold text-xs uppercase tracking-wider">
           <i data-lucide="send" class="w-3.5 h-3.5"></i>
           <span>Contact Us</span>
         </a>
-        <a href="https://wa.me/6285169671344?text=Hello%20Aura%20Vista%20Media,%20I%20would%20like%20to%20inquire%20about%20architectural%20media%20production." target="_blank" class="p-2.5 sm:hidden rounded-xl btn-gold">
+        <a href="https://wa.me/6285169671344?text=Hello%20Aura%20Vista%20Media,%20I%20would%20like%20to%20inquire%20about%20architectural%20media%20production." target="_blank" rel="noopener noreferrer" aria-label="Contact Aura Vista on WhatsApp" class="p-2.5 sm:hidden rounded-xl btn-gold">
           <i data-lucide="message-circle" class="w-4 h-4"></i>
         </a>
       </div>
     </div>
+    <nav id="mobile-navigation" class="mobile-navigation" aria-label="Mobile navigation" hidden>
+      <a href="#curated-albums">Collections</a><a href="#about">The studio</a><a href="#services">Services</a><a href="#enhancement-showcase">Enhancement</a><a href="#workflow">Our process</a><a href="#contact">Start a project</a>
+    </nav>
   </header>
 
   <!-- ================= ULTRA-LUXURY VIDEO SCROLL VILLA TOUR ($18,000 SITE LOOK) ================= -->
@@ -389,26 +357,6 @@
       </div>
     </div>
   </section>
-        <div class="p-4 rounded-xl glass-panel">
-          <p class="font-serif text-xl sm:text-2xl font-bold text-brand-gold">Photography</p>
-          <p class="text-[11px] uppercase tracking-wider text-slate-400 mt-1">Architectural & Interior</p>
-        </div>
-        <div class="p-4 rounded-xl glass-panel">
-          <p class="font-serif text-xl sm:text-2xl font-bold text-slate-100">Videography</p>
-          <p class="text-[11px] uppercase tracking-wider text-slate-400 mt-1">Cinematic Walkthroughs</p>
-        </div>
-        <div class="p-4 rounded-xl glass-panel">
-          <p class="font-serif text-xl sm:text-2xl font-bold text-slate-100">Cinematography</p>
-          <p class="text-[11px] uppercase tracking-wider text-slate-400 mt-1">FAA Drone & Aerials</p>
-        </div>
-        <div class="p-4 rounded-xl glass-panel">
-          <p class="font-serif text-xl sm:text-2xl font-bold text-slate-100">Editing</p>
-          <p class="text-[11px] uppercase tracking-wider text-slate-400 mt-1">Master Retouch & Grade</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- BRAND ESSENCE / ABOUT -->
   <section id="about" class="py-24 sm:py-32 relative">
     <div class="max-w-7xl mx-auto px-6">
@@ -544,7 +492,7 @@
             </p>
           </div>
           <ul class="text-xs text-slate-300 space-y-2 pt-4 border-t border-slate-800">
-            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-purple-400"></i> Drone Aerials</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-purple-400"></i> FAA Drone Aerials</li>
             <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-purple-400"></i> Narrative Estate Films</li>
           </ul>
         </div>
@@ -586,177 +534,10 @@
         </p>
       </div>
 
-      <!-- 2 COLUMNS ALBUMS GRID -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10">
-        
-        <!-- ALBUM 1 CARD: DHARMAWANGSA APARTMENT -->
-        <a href="album-dharmawangsa.html" class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between group relative overflow-hidden border border-brand-gold/20 hover:border-brand-gold transition-all">
-          <div class="absolute -right-16 -top-16 w-64 h-64 bg-brand-gold/10 rounded-full blur-3xl pointer-events-none group-hover:bg-brand-gold/20 transition-all duration-700"></div>
-
-          <div>
-            <!-- Cover Photo Collage / Preview -->
-            <div class="aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden mb-6 relative bg-black/60 shadow-2xl">
-              <img src="assets/porto/porto_11_4711_image_01.webp" alt="Dharmawangsa Apartment Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-[0.9]" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
-              
-              <div class="absolute top-4 left-4">
-                <span class="px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-[10px] text-brand-gold uppercase tracking-widest border border-brand-gold/40 font-bold">
-                  Collection Folio 01
-                </span>
-              </div>
-
-              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                <span class="text-xs text-white/90 font-medium tracking-wider flex items-center gap-1.5 backdrop-blur-md bg-black/50 px-3 py-1 rounded-full border border-white/10">
-                  <i data-lucide="image" class="w-3.5 h-3.5 text-brand-gold"></i>
-                  18 Curated Captures
-                </span>
-                <span class="text-xs text-brand-gold font-bold tracking-wider flex items-center gap-1">
-                  View Full Album <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                </span>
-              </div>
-            </div>
-
-            <!-- Album Meta & Story -->
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs text-brand-gold uppercase tracking-[0.2em] font-semibold">Residential Suite Staging</span>
-              <span class="text-xs text-slate-400">Dharmawangsa, South Jakarta</span>
-            </div>
-
-            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-slate-100 group-hover:text-gold-gradient transition-colors mb-3">
-              Dharmawangsa Apartment
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed line-clamp-3">
-              An intimate visual exploration of high-end apartment suites, emphasizing natural daylight balancing, bespoke marble kitchen staging, and master bedroom atmosphere.
-            </p>
-          </div>
-
-          <!-- Preview Thumbnails Bar -->
-          <div class="mt-6 pt-6 border-t border-slate-800/80 flex items-center justify-between">
-            <div class="flex items-center -space-x-2 overflow-hidden">
-              <img src="assets/porto/porto_12_4711_image_02.webp" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 1" />
-              <img src="assets/porto/porto_13_4711_image_04.webp" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 2" />
-              <img src="assets/porto/porto_14_4711_image_05.webp" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 3" />
-              <img src="assets/porto/porto_15_4711_image_06.webp" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 4" />
-              <span class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-brand-gold/20 text-brand-gold text-[10px] font-bold ring-2 ring-brand-card">+14</span>
-            </div>
-            <span class="text-xs font-semibold text-slate-300 group-hover:text-brand-gold transition-colors flex items-center gap-1">
-              Explore Gallery <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </span>
-          </div>
-        </a>
-
-        <!-- ALBUM 2 CARD: CILANDAK SOUTH JAKARTA -->
-        <a href="album-cilandak.html" class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between group relative overflow-hidden border border-brand-gold/20 hover:border-brand-gold transition-all">
-          <div class="absolute -right-16 -top-16 w-64 h-64 bg-blue-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-blue-500/20 transition-all duration-700"></div>
-
-          <div>
-            <!-- Cover Photo Collage / Preview -->
-            <div class="aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden mb-6 relative bg-black/60 shadow-2xl">
-              <img src="assets/porto/porto_01_12302_image_01.webp" alt="Cilandak South Jakarta Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-[0.9]" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
-              
-              <div class="absolute top-4 left-4">
-                <span class="px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-[10px] text-blue-400 uppercase tracking-widest border border-blue-400/40 font-bold">
-                  Collection Folio 02
-                </span>
-              </div>
-
-              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                <span class="text-xs text-white/90 font-medium tracking-wider flex items-center gap-1.5 backdrop-blur-md bg-black/50 px-3 py-1 rounded-full border border-white/10">
-                  <i data-lucide="image" class="w-3.5 h-3.5 text-blue-400"></i>
-                  10 Curated Captures
-                </span>
-                <span class="text-xs text-blue-300 font-bold tracking-wider flex items-center gap-1">
-                  View Full Album <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                </span>
-              </div>
-            </div>
-
-            <!-- Album Meta & Story -->
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs text-blue-400 uppercase tracking-[0.2em] font-semibold">Modern Villa Architecture</span>
-              <span class="text-xs text-slate-400">Cilandak, South Jakarta</span>
-            </div>
-
-            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-slate-100 group-hover:text-blue-200 transition-colors mb-3">
-              Cilandak South Jakarta
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed line-clamp-3">
-              Striking architectural photography of private contemporary residences, highlighting geometric facades, resort swimming pool courtyards, and twilight outdoor illuminations.
-            </p>
-          </div>
-
-          <!-- Preview Thumbnails Bar -->
-          <div class="mt-6 pt-6 border-t border-slate-800/80 flex items-center justify-between">
-            <div class="flex items-center -space-x-2 overflow-hidden">
-              <img src="assets/porto/porto_02_12302_image_02.webp" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 1" />
-              <img src="assets/porto/porto_03_12302_image_05.webp" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 2" />
-              <img src="assets/porto/porto_04_12302_image_06.webp" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 3" />
-              <img src="assets/porto/porto_05_12302_image_07.webp" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 4" />
-              <span class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-blue-500/20 text-blue-300 text-[10px] font-bold ring-2 ring-brand-card">+6</span>
-            </div>
-            <span class="text-xs font-semibold text-slate-300 group-hover:text-blue-300 transition-colors flex items-center gap-1">
-              Explore Gallery <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </span>
-          </div>
-        </a>
-
-        <!-- ALBUM 3 CARD: DHARMAWANGSA RESIDENCE -->
-        <a href="album-dharmawangsa-residence.html" class="glass-card rounded-3xl p-6 sm:p-8 flex flex-col justify-between group relative overflow-hidden border border-brand-gold/20 hover:border-brand-gold transition-all">
-          <div class="absolute -right-16 -top-16 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl pointer-events-none group-hover:bg-amber-500/20 transition-all duration-700"></div>
-
-          <div>
-            <!-- Cover Photo Collage / Preview -->
-            <div class="aspect-[16/10] sm:aspect-[16/9] rounded-2xl overflow-hidden mb-6 relative bg-black/60 shadow-2xl">
-              <img src="assets/porto/porto_41_dharmawangsa_new_2026_09_14_10_55_56_IMG_0825.jpg" alt="Dharmawangsa Cover" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 brightness-[0.9]" />
-              <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-black/30"></div>
-              
-              <div class="absolute top-4 left-4">
-                <span class="px-3 py-1 rounded-full bg-black/80 backdrop-blur-md text-[10px] text-brand-gold uppercase tracking-widest border border-brand-gold/40 font-bold">
-                  Collection Folio 03
-                </span>
-              </div>
-
-              <div class="absolute bottom-4 left-4 right-4 flex items-center justify-between">
-                <span class="text-xs text-white/90 font-medium tracking-wider flex items-center gap-1.5 backdrop-blur-md bg-black/50 px-3 py-1 rounded-full border border-white/10">
-                  <i data-lucide="image" class="w-3.5 h-3.5 text-brand-gold"></i>
-                  14 Curated Captures
-                </span>
-                <span class="text-xs text-brand-gold font-bold tracking-wider flex items-center gap-1">
-                  View Full Album <i data-lucide="arrow-up-right" class="w-4 h-4 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform"></i>
-                </span>
-              </div>
-            </div>
-
-            <!-- Album Meta & Story -->
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs text-brand-gold uppercase tracking-[0.2em] font-semibold">Luxury Residential Staging</span>
-              <span class="text-xs text-slate-400">Dharmawangsa, South Jakarta</span>
-            </div>
-
-            <h3 class="font-serif text-2xl sm:text-3xl font-bold text-slate-100 group-hover:text-gold-gradient transition-colors mb-3">
-              Dharmawangsa
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed line-clamp-3">
-              A bespoke architectural and interior showcase of Dharmawangsa residential property, highlighting open-concept living elegance, master bedroom suites, and gourmet culinary spaces.
-            </p>
-          </div>
-
-          <!-- Preview Thumbnails Bar -->
-          <div class="mt-6 pt-6 border-t border-slate-800/80 flex items-center justify-between">
-            <div class="flex items-center -space-x-2 overflow-hidden">
-              <img src="assets/porto/porto_42_dharmawangsa_new_2026_09_14_10_58_11_IMG_0828.jpg" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 1" />
-              <img src="assets/porto/porto_43_dharmawangsa_new_2026_09_14_10_59_28_IMG_0831.jpg" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 2" />
-              <img src="assets/porto/porto_44_dharmawangsa_new_2026_09_14_10_59_53_IMG_0833.jpg" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 3" />
-              <img src="assets/porto/porto_45_dharmawangsa_new_2026_09_14_11_17_48_IMG_0868.jpg" class="inline-block h-9 w-9 rounded-full ring-2 ring-brand-card object-cover" alt="Preview 4" />
-              <span class="inline-flex items-center justify-center h-9 w-9 rounded-full bg-brand-gold/20 text-brand-gold text-[10px] font-bold ring-2 ring-brand-card">+10</span>
-            </div>
-            <span class="text-xs font-semibold text-slate-300 group-hover:text-brand-gold transition-colors flex items-center gap-1">
-              Explore Gallery <i data-lucide="chevron-right" class="w-4 h-4"></i>
-            </span>
-          </div>
-        </a>
-
+      <div class="collection-grid">
+        <a class="collection-card" href="album-dharmawangsa.html"><div class="collection-meta"><span>Collection 01</span><span>18 photographs</span></div><img src="assets/porto/porto_11_4711_image_01.webp" alt="Dharmawangsa Apartment" loading="lazy" width="800" height="600"><h3>Dharmawangsa Apartment</h3><p>Natural light, marble textures and intimate spaces.</p><span class="collection-link">Explore collection ↗</span></a>
+        <a class="collection-card" href="album-cilandak.html"><div class="collection-meta"><span>Collection 02</span><span>10 photographs</span></div><img src="assets/porto/porto_01_12302_image_01.webp" alt="Cilandak Residence" loading="lazy" width="800" height="600"><h3>Cilandak Residence</h3><p>Geometric facades, open courtyards and evening light.</p><span class="collection-link">Explore collection ↗</span></a>
+        <a class="collection-card" href="album-dharmawangsa-residence.html"><div class="collection-meta"><span>Collection 03</span><span>14 photographs</span></div><img src="assets/porto/porto_41_dharmawangsa_new_2026_09_14_10_55_56_IMG_0825.jpg" alt="Dharmawangsa Residence" loading="lazy" width="800" height="600"><h3>Dharmawangsa Residence</h3><p>A study of space, material and considered living.</p><span class="collection-link">Explore collection ↗</span></a>
       </div>
     </div>
   </section>
@@ -779,32 +560,11 @@
       </div>
 
       <!-- 9:16 VERTICAL REELS / EDITORIAL GRID FOR ENHANCEMENT -->
-      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="enhancement-grid">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6" id="enhancement-grid" data-category="enhancement">
         <!-- Rendered via JS -->
       </div>
     </div>
   </section>
-
-  <!-- FULLSCREEN LIGHTBOX MODAL -->
-  <div id="lightbox" class="fixed inset-0 z-50 bg-black/95 backdrop-blur-2xl flex flex-col justify-between p-6 opacity-0 pointer-events-none transition-all duration-300">
-    <div class="flex items-center justify-between z-10">
-      <div class="flex items-center gap-3">
-        <span class="px-3 py-1 rounded-full bg-brand-gold/20 text-brand-gold text-xs font-bold border border-brand-gold/30">Master Preview</span>
-        <h4 id="lightbox-title" class="font-serif text-slate-100 font-bold text-sm sm:text-base truncate"></h4>
-      </div>
-      <button onclick="closeLightbox()" class="p-2.5 rounded-full bg-slate-900 border border-slate-700 text-slate-300 hover:text-white hover:border-brand-gold transition-colors">
-        <i data-lucide="x" class="w-5 h-5"></i>
-      </button>
-    </div>
-
-    <div class="flex-1 flex items-center justify-center p-2 sm:p-6 overflow-hidden">
-      <img id="lightbox-img" src="" alt="Enlarged Visual" class="max-h-[82vh] max-w-full object-contain rounded-2xl shadow-2xl border border-brand-gold/20" />
-    </div>
-
-    <div class="max-w-2xl mx-auto text-center z-10">
-      <p id="lightbox-desc" class="text-xs sm:text-sm text-slate-300 line-clamp-2"></p>
-    </div>
-  </div>
 
   <!-- SIGNATURE ARCHITECTURAL SPACES -->
   <section id="architecture-spaces" class="py-24 bg-brand-card/40 border-t border-brand-gold/10">
@@ -886,25 +646,20 @@
     </div>
   </section>
 
-  <!-- CONTACT & COLLABORATION -->
-  <section id="contact" class="py-24 bg-brand-darker/80 border-t border-brand-gold/10 relative">
-    <div class="max-w-5xl mx-auto px-6 text-center">
-      <span class="text-xs uppercase tracking-[0.3em] text-brand-gold font-semibold">Let's Collaborate</span>
-      <h2 class="font-serif text-3xl sm:text-5xl font-bold text-slate-100 mt-2 mb-6">Ready to Elevate Your Architectural Visuals?</h2>
-      <p class="text-slate-400 text-sm sm:text-base max-w-xl mx-auto mb-10 leading-relaxed">
-        Inquire with Aura Vista Media for commissioned architectural captures, luxury estate walkthroughs, or bespoke production dates.
-      </p>
-
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
-        <a href="https://wa.me/6285169671344?text=Hello%20Aura%20Vista%20Media,%20I%20would%20like%20to%20book%20a%20production." target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl btn-gold text-xs uppercase tracking-widest flex items-center justify-center gap-2 shadow-xl">
-          <i data-lucide="phone-call" class="w-4 h-4"></i>
-          <span>WhatsApp Studio (+62 851-6967-1344)</span>
-        </a>
-        <a href="https://instagram.com/auravista.media" target="_blank" class="w-full sm:w-auto px-8 py-4 rounded-xl glass-panel text-slate-100 hover:text-brand-gold text-xs uppercase tracking-widest border border-white/20 hover:border-brand-gold/50 transition-all flex items-center justify-center gap-2">
-          <i data-lucide="instagram" class="w-4 h-4"></i>
-          <span>@auravista.media</span>
-        </a>
-      </div>
+  <section id="contact" class="project-contact">
+    <div class="contact-layout">
+      <div class="contact-copy"><p class="eyebrow">LET’S MAKE SOMETHING CONSIDERED</p><h2>Your space.<br>Our perspective.</h2><p>Tell us about the property, the light, and what you want people to feel. We’ll start with a conversation.</p><a href="https://wa.me/6285169671344" target="_blank" rel="noopener noreferrer">Prefer a direct conversation? Chat on WhatsApp ↗</a><a href="https://www.instagram.com/auravista.media/" target="_blank" rel="noopener noreferrer">Follow @auravista.media ↗</a>
+      <div class="contact-faq"><details><summary>What should I include in my brief?</summary><p>Share the location, property type, spaces to capture, intended use and preferred shoot date. A reference mood or sample collection helps us understand the direction.</p></details><details><summary>How is a project scoped?</summary><p>We discuss the shot list, site access, timing, deliverables and usage before confirming the production scope and quote.</p></details><details><summary>Can I request editing only?</summary><p>Yes. Select visual enhancement and describe your source images and desired result so we can discuss suitable post-production.</p></details></div></div>
+      <form id="project-brief" class="brief-form">
+        <h3>Start a project</h3><p class="form-intro">A short brief is all we need to get started.</p>
+        <div class="brief-row"><label for="brief-name">Your name<input id="brief-name" name="name" autocomplete="name" required maxlength="100" placeholder="Name or studio"></label><label for="brief-location">Project location<input id="brief-location" name="location" required maxlength="160" placeholder="City / neighbourhood"></label></div>
+        <label for="brief-service">Service needed<select id="brief-service" name="service" required><option value="">Select a service</option><option>Architectural photography</option><option>Cinematic walkthrough</option><option>Aerial cinematography</option><option>Visual enhancement</option><option>Full production</option></select></label>
+        <label for="brief-details">Project details<textarea id="brief-details" name="details" rows="4" required maxlength="1200" placeholder="Property type, spaces, preferred timing and intended use…"></textarea></label>
+        <p class="form-note">Nothing is sent or stored here. Review your brief, then send it yourself in WhatsApp. Availability and pricing are confirmed in conversation.</p>
+        <button type="submit" class="brief-submit">Prepare inquiry <span aria-hidden="true">↗</span></button>
+        <p id="inquiry-status" role="status"></p><a id="inquiry-link" class="inquiry-link" hidden target="_blank" rel="noopener noreferrer">Continue to WhatsApp</a>
+        <noscript><p>JavaScript is needed to prepare a brief. Please use the direct WhatsApp link instead.</p></noscript>
+      </form>
     </div>
   </section>
 
@@ -1062,7 +817,7 @@
         // Update Master Shot Image & Title if changed
         if (theme.masterShotImg) {
           const imgEl = document.getElementById('homepage-master-shot-img');
-          if (imgEl) imgEl.src = theme.masterShotImg;
+          if (imgEl) imgEl.src = /^assets\/porto\/porto-[0-9a-f-]{36}\.webp$/.test(theme.masterShotImg) ? 'https://raw.githubusercontent.com/DhavidFebrian/AuraVista-Web/main/' + theme.masterShotImg : theme.masterShotImg;
         }
         if (theme.masterShotTitle) {
           const titleEl = document.getElementById('homepage-master-shot-title');
@@ -1148,11 +903,10 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
-      initHomePage();
+      applyThemeCustomizer().catch(() => {});
       initGoldDustParticles();
       initSpatialScrollDive();
     });
   </script>
-  <script src="assets/experience.js"></script>
 </body>
 </html>
