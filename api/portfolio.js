@@ -1,6 +1,6 @@
 import { protect } from '../lib/auth.js';
-import { metadata, newPhoto, validateBackup, fail } from '../lib/portfolio.js';
-import { readPortfolio, commitPortfolio } from '../lib/github.js';
+import { metadata, newPhoto, validateBackup, fail, albumCatalog } from '../lib/portfolio.js';
+import { readPortfolio, commitPortfolio, readAlbums } from '../lib/github.js';
 export default async function handler(req, res) {
   res.setHeader('Cache-Control', 'no-store');
   if (!['GET', 'POST', 'PUT', 'DELETE', 'PATCH'].includes(req.method)) { res.setHeader('Allow', 'GET, POST, PUT, DELETE, PATCH'); return res.status(405).json({ error: 'Method not allowed' }); }
@@ -8,12 +8,13 @@ export default async function handler(req, res) {
   try {
     if (req.method === 'GET') return res.status(200).json({ success: true, ...await readPortfolio() });
     const body = req.body || {};
+    const catalog = req.method !== 'DELETE' ? albumCatalog((await readAlbums()).albums) : null;
     let result;
     if (req.method === 'POST') {
-      const photo = newPhoto(body);
+      const photo = newPhoto(body, catalog);
       result = await commitPortfolio(body.sha, items => [photo.item, ...items], `Studio: upload ${photo.item.title}`, photo);
     } else if (req.method === 'PATCH') {
-      const backup = validateBackup(body.items);
+      const backup = validateBackup(body.items, catalog);
       result = await commitPortfolio(body.sha, current => {
         const knownImages = new Set(current.map(x => x.img));
         if (backup.some(x => !knownImages.has(x.img))) fail('Backup memuat foto yang tidak ada dalam koleksi saat ini. Pulihkan file foto terlebih dahulu.');
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
       }, `Studio: remove ${ids.length} portfolio photo(s)`);
     } else {
       if (typeof body.id !== 'string') fail('ID foto diperlukan.');
-      const changes = req.method === 'PUT' ? metadata(body) : null;
+      const changes = metadata(body, catalog);
       result = await commitPortfolio(body.sha, items => {
         if (!items.some(x => x.id === body.id)) fail('Foto tidak ditemukan.', 404);
         return changes ? items.map(x => x.id === body.id ? { ...x, ...changes } : x) : items.filter(x => x.id !== body.id);

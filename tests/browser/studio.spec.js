@@ -49,7 +49,7 @@ test('desktop and mobile layouts have no horizontal overflow or runtime errors',
 });
 test('saved photos and protected landing scroll hero work', async ({ page }) => {
   const errors = []; page.on('pageerror', e => errors.push(e.message));
-  await page.goto('/album-cilandak.html'); await expect(page.locator('.photo-card')).toHaveCount(10);
+  await page.goto('/album-cilandak.html'); await expect(page.locator('.photo-card')).toHaveCount(seed.filter(item=>item.category==='cilandak').length);
   await page.locator('.gallery-save').first().click(); await page.getByRole('button', { name: 'Saved photos', exact: true }).click(); await expect(page.locator('.photo-card')).toHaveCount(1);
   await page.locator('.photo-card').first().click(); await expect(page.getByRole('dialog')).toBeVisible(); await page.keyboard.press('Escape');
   await page.goto('/'); await expect(page.locator('#hero-scrub-canvas')).toBeVisible(); await page.evaluate(() => scrollTo(0, innerHeight * 2)); await expect(page.locator('#hero-stage-1')).toHaveCSS('opacity', '0');

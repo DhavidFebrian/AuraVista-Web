@@ -6,3 +6,5 @@
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
 
 .button.danger,.media-actions .delete-photo{color:#a32f29;border:1px solid #d8aaa5;background:#fff4f2;border-radius:4px;padding:8px 10px;min-height:36px}.button.danger:hover:not(:disabled),.media-actions .delete-photo:hover:not(:disabled){background:#fbe1dc;text-decoration:none}.selection-bar>div{flex-wrap:wrap}
+
+.album-label-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:19px}.form-panel .album-label-row label{margin:0}.album-label-row .text-link{padding:5px 0;white-space:nowrap}#album-status:empty{display:none}

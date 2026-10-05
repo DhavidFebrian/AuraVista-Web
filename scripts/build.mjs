@@ -6,5 +6,5 @@ if (output !== root + (process.platform === 'win32' ? '\\public' : '/public')) t
 await rm(output, { recursive: true, force: true });
 await mkdir(output, { recursive: true });
 await cp(resolve(root, 'assets'), resolve(output, 'assets'), { recursive: true });
-for (const file of ['index.html', 'admin.html', 'album-cilandak.html', 'album-dharmawangsa.html', 'album-dharmawangsa-residence.html']) await cp(resolve(root, file), resolve(output, file));
-console.log('Built public website: 5 pages and assets. Server source and local tools excluded.');
+for (const file of ['index.html', 'admin.html', 'album.html', 'album-cilandak.html', 'album-dharmawangsa.html', 'album-dharmawangsa-residence.html']) await cp(resolve(root, file), resolve(output, file));
+console.log('Built public website: 6 pages and assets. Server source and local tools excluded.');

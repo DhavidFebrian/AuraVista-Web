@@ -5,6 +5,7 @@ import { scryptSync } from 'node:crypto';
 import auth from '../api/auth.js';
 import portfolio from '../api/portfolio.js';
 import theme from '../api/sync-theme.js';
+import albums from '../api/albums.js';
 const root = resolve(import.meta.dirname, '..');
 if (process.env.AV_TEST_FIXTURES === '1') {
   process.env.ADMIN_USERNAME = 'studio-test';
@@ -19,7 +20,7 @@ const server = http.createServer(async (req, res) => {
   res.json = value => { res.setHeader('Content-Type', 'application/json'); res.end(JSON.stringify(value)); };
   try {
     const url = new URL(req.url, 'http://localhost');
-    const handler = { '/api/auth': auth, '/api/portfolio': portfolio, '/api/sync-theme': theme }[url.pathname];
+    const handler = { '/api/auth': auth, '/api/portfolio': portfolio, '/api/sync-theme': theme, '/api/albums': albums }[url.pathname];
     if (handler) {
       let body = ''; for await (const chunk of req) { body += chunk; if (body.length > 4400000) return res.status(413).json({ error: 'Request too large' }); }
       if (body) { try { req.body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON' }); } }

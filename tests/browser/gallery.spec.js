@@ -1,7 +1,9 @@
 import { test, expect } from '@playwright/test';
+import {readFileSync} from 'node:fs';
+const count=JSON.parse(readFileSync('assets/portfolio_data.json','utf8')).filter(item=>item.category==='cilandak').length;
 test('album search, empty state and keyboard lightbox navigation', async ({page}) => {
  await page.goto('/album-cilandak.html', {waitUntil:'domcontentloaded'});
- await expect(page.getByRole('button', {name: /View photograph:/})).toHaveCount(10);
+ await expect(page.getByRole('button', {name: /View photograph:/})).toHaveCount(count);
  const search=page.getByRole('searchbox', {name:'Search photographs'});
  await search.fill('no-such-room');
  await expect(page.getByText('No photographs match your search.')).toBeVisible();
@@ -9,9 +11,9 @@ test('album search, empty state and keyboard lightbox navigation', async ({page}
  const first=page.getByRole('button',{name:/View photograph:/}).first();
  await first.focus(); await page.keyboard.press('Enter');
  await expect(page.getByRole('dialog')).toBeVisible();
- await expect(page.locator('#viewer-count')).toHaveText('1 / 10');
+ await expect(page.locator('#viewer-count')).toHaveText(`1 / ${count}`);
  await page.keyboard.press('ArrowRight');
- await expect(page.locator('#viewer-count')).toHaveText('2 / 10');
+ await expect(page.locator('#viewer-count')).toHaveText(`2 / ${count}`);
  await page.keyboard.press('Escape');
  await expect(page.getByRole('dialog')).not.toBeVisible();
  await expect(first).toBeFocused();

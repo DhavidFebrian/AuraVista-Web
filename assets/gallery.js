@@ -9,6 +9,25 @@
   const photoSource = path => /^assets\/porto\/porto-[0-9a-f-]{36}\.webp$/.test(path) ? `https://raw.githubusercontent.com/DhavidFebrian/AuraVista-Web/main/${path}` : path;
   let savedIds = []; try { savedIds = JSON.parse(localStorage.getItem('av-favorites') || '[]'); } catch {}
   const favorites = new Set(Array.isArray(savedIds) ? savedIds : []);
+  function renderAlbumLinks(albums, photos) {
+    document.querySelectorAll('[data-custom-album]').forEach(card => card.remove());
+    const home = document.querySelector('.collection-grid');
+    const tabs = document.querySelector('.collection-tabs');
+    for (const album of albums.filter(item => !item.builtin)) {
+      const items = photos.filter(item => item.category === album.id);
+      const href = `album.html?id=${encodeURIComponent(album.id)}`;
+      if (home && items.length) {
+        const card = element('a', 'collection-card'); card.href = href; card.dataset.customAlbum = album.id;
+        const meta = element('div', 'collection-meta'); meta.append(element('span', '', 'Collection'), element('span', '', `${items.length} photographs`));
+        const img = element('img'); img.src = photoSource(items[0].img); img.alt = album.title; img.loading = 'lazy';
+        card.append(meta, img, element('h3', '', album.title), element('p', '', album.desc || album.location), element('span', 'collection-link', 'Explore collection ↗')); home.append(card);
+      }
+      if (tabs && (items.length || new URLSearchParams(location.search).get('id') === album.id)) {
+        const link = element('a', '', album.title); link.href = href; link.dataset.customAlbum = album.id;
+        if (new URLSearchParams(location.search).get('id') === album.id) link.setAttribute('aria-current', 'page'); tabs.append(link);
+      }
+    }
+  }
   const dialog = element('dialog', 'photo-viewer');
   dialog.setAttribute('aria-labelledby', 'viewer-title');
   const close = element('button', 'viewer-close', 'Close ×'); close.type = 'button';
@@ -60,7 +79,7 @@
       const filtered=items.filter(item=>(!onlySaved || favorites.has(item.id)) && [item.title,item.desc,item.location].join(' ').toLocaleLowerCase().includes(query));
       if(sort.value==='title')filtered.sort((a,b)=>a.title.localeCompare(b.title));
       grid.replaceChildren();
-      status.textContent=filtered.length ? `${filtered.length} photograph${filtered.length===1?'':'s'} · Select a frame to explore` : 'No photographs match your search.';
+      status.textContent=filtered.length ? `${filtered.length} photograph${filtered.length===1?'':'s'} · Select a frame to explore` : items.length ? 'No photographs match your search.' : 'This collection has no photographs yet.';
       filtered.forEach((item,index)=>{
         const card=element('button','photo-card');card.type='button';card.setAttribute('aria-label',`View photograph: ${item.title}`);
         const frame=element('div','photo-frame');const img=element('img');img.src=photoSource(item.img);img.alt=item.title;img.loading='lazy';img.decoding='async';
@@ -75,11 +94,21 @@
     async function load() {
       grid.setAttribute('aria-busy','true');status.textContent='Loading photographs…';
       try {
-        let data;
-        try { const live = await fetch('/api/portfolio', { signal: AbortSignal.timeout(12000) }); if (!live.ok) throw new Error(); const payload = await live.json(); if (!Array.isArray(payload.items)) throw new Error(); data = payload.items; }
-        catch { const response=await fetch('assets/portfolio_data.json');if(!response.ok)throw new Error('Unavailable'); data=await response.json(); }
+        let data, albums = [];
+        try { const live = await fetch('/api/portfolio', { signal: AbortSignal.timeout(12000) }); if (!live.ok) throw new Error(); const payload = await live.json(); if (!Array.isArray(payload.items)) throw new Error(); data = payload.items; albums = payload.albums || []; }
+        catch { const response=await fetch('assets/portfolio_data.json');if(!response.ok)throw new Error('Unavailable'); data=await response.json(); const albumResponse = await fetch('assets/albums.json'); if (albumResponse.ok) albums = await albumResponse.json(); }
         if(!Array.isArray(data))throw new Error('Invalid collection');
+        if (grid.hasAttribute('data-dynamic-album')) {
+          const id = new URLSearchParams(location.search).get('id'); const album = albums.find(item => item.id === id);
+          if (!album) { document.getElementById('collection-title').textContent = 'Collection not found'; status.textContent = 'This album does not exist. Return to All collections to explore the portfolio.'; return; }
+          grid.dataset.category = album.id; document.title = `${album.title} — Aura Vista Media`;
+          document.getElementById('collection-title').textContent = album.title; document.getElementById('album-location').textContent = album.location; document.getElementById('album-description').textContent = album.desc || 'A curated collection by Aura Vista Media.';
+          const cover = data.find(item => item.category === album.id);
+          document.getElementById('album-cover').hidden = !cover;
+          if (cover) { const img = document.getElementById('album-cover-image'); img.src = photoSource(cover.img); img.alt = cover.title; document.getElementById('album-cover-title').textContent = cover.title; }
+        }
         document.querySelectorAll('.collection-card').forEach(card => { const href = card.getAttribute('href'); const category = href.includes('residence') ? 'dharmawangsa_residence' : href.includes('cilandak') ? 'cilandak' : 'dharmawangsa'; const counter = card.querySelector('.collection-meta span:last-child'); if (counter) counter.textContent = `${data.filter(x => x.category === category).length} photographs`; });
+        renderAlbumLinks(albums, data);
         items=data.filter(item=>item.category===grid.dataset.category && typeof item.title==='string' && /^assets\/porto\/[a-zA-Z0-9_(). -]+\.(webp|jpe?g|png)$/i.test(item.img));
         document.querySelectorAll('[data-collection-count]').forEach(node=>node.textContent=items.length);
         render();

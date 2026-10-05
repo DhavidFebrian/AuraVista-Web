@@ -4,6 +4,7 @@ import { scryptSync } from 'node:crypto';
 import auth from '../api/auth.js';
 import portfolio from '../api/portfolio.js';
 import theme from '../api/sync-theme.js';
+import albums from '../api/albums.js';
 import { authenticated, sessionCookie } from '../lib/auth.js';
 import { metadata, validateBackup, newPhoto } from '../lib/portfolio.js';
 import { installFixture } from './fixtures/github.mjs';
@@ -62,4 +63,20 @@ test('bulk deletion is atomic, rejects missing ids and protects against stale wr
   assert.equal(deleted.code, 200);
   assert.deepEqual(deleted.body.items, original.items.filter(item => !ids.includes(item.id)));
   assert.equal((await call(portfolio, request('DELETE', { ids: [original.items[2].id], sha: original.sha }, cookie()))).code, 409);
+});
+test('album creation requires auth, validates names and rejects duplicates or stale versions', async () => {
+  assert.equal((await call(albums, request('POST', {}))).code, 401);
+  const initial = (await call(albums, request('GET'))).body;
+  for (const title of ['', '  ', 'x'.repeat(101)]) assert.equal((await call(albums, request('POST', { title, location: 'Jakarta', sha: initial.sha }, cookie()))).code, 400);
+  const result = await call(albums, request('POST', { title: 'Kemang Residence', location: 'Jakarta Selatan', desc: 'New project', sha: initial.sha }, cookie()));
+  assert.equal(result.code, 201); assert.equal(result.body.album.id, 'album-kemang-residence');
+  const latest = (await call(albums, request('GET'))).body;
+  assert.equal(latest.albums.length, initial.albums.length + 1);
+  assert.equal((await call(albums, request('POST', { title: 'Another project', location: 'Jakarta', sha: initial.sha }, cookie()))).code, 409);
+  assert.equal((await call(albums, request('POST', { title: 'kemang residence', location: 'Jakarta', sha: latest.sha }, cookie()))).code, 409);
+  const portfolioData = (await call(portfolio, request('GET'))).body;
+  const uploaded = await call(portfolio, request('POST', { title: 'New album photo', category: result.body.album.id, imageBase64: 'data:image/webp;base64,' + Buffer.from('RIFF0000WEBPfixture').toString('base64'), sha: portfolioData.sha }, cookie()));
+  assert.equal(uploaded.code, 200); assert.equal(uploaded.body.items[0].location, 'Jakarta Selatan');
+  const edit = await call(portfolio, request('PUT', { ...uploaded.body.items[0], title: 'Edited album photo', sha: uploaded.body.sha }, cookie())); assert.equal(edit.code, 200);
+  const restore = await call(portfolio, request('PATCH', { items: edit.body.items, sha: edit.body.sha }, cookie())); assert.equal(restore.code, 200);
 });

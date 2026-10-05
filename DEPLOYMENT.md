@@ -5,7 +5,7 @@
 Use Node.js 24. Run `npm ci`, `npm run build`, `npm test`, and `npm run test:e2e`.
 `npm run dev` serves the source at http://127.0.0.1:4173 with the real API handlers.
 Browser tests launch an isolated in-memory GitHub upstream fixture; they never mutate production data.
-`public/` is generated output and is not tracked. Only the five HTML pages and `assets/` are published;
+`public/` is generated output and is not tracked. Only the six HTML pages and `assets/` are published;
 local scripts, environment files, tests, and server source are not public static files.
 
 Push to GitHub, then run `vercel deploy --prod --yes` while authenticated to the existing `davv/aura-vista` project.
@@ -33,6 +33,12 @@ The public gallery reads the live API, with the deployed JSON as an explicit ava
 New uploaded image paths use GitHub's public raw endpoint, so publishing a photo does not depend on a Vercel rebuild.
 Source-code changes still require deployment. Preview and production both target the same repository if given its token;
 never run destructive QA against those environments. Use local isolated fixtures.
+
+Album metadata lives in `assets/albums.json`. Administrators create albums from the upload form through
+`POST /api/albums`; the registry uses the same SHA conflict protection as photo metadata. Album names must
+be unique and each album requires a location. Newly created albums are immediately available in upload,
+edit, filters, and `album.html?id=<album-id>`. The landing page shows custom albums once they contain a photo.
+Album creation does not reset the current upload draft and does not require another deployment.
 
 Uploads accept JPG, PNG, and WebP under 20 MB, scale to 2,400 px, apply the studio watermark, and produce
 WebP below 2.8 MB. JSON restore previews the item count, requires confirmation, validates every item,

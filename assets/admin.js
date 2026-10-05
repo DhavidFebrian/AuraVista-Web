@@ -5,6 +5,19 @@ const categories = { cilandak: 'Cilandak Estate', dharmawangsa: 'Dharmawangsa Ap
 const locations = { cilandak: 'Cilandak, South Jakarta', dharmawangsa: 'Dharmawangsa Apartment', dharmawangsa_residence: 'Dharmawangsa, South Jakarta', enhancement: 'Studio Grade' };
 const state = { items: [], sha: null, selected: new Set(), view: 'overview', busy: false, photo: null, uploadVersion: 0, preview: [], previewIndex: 0, theme: null, themeDirty: false, editDirty: false, authenticated: false, loading: false };
 let toastTimer;
+state.albumsSha = null;
+function syncAlbums(albums, sha) {
+  if (!Array.isArray(albums)) return;
+  state.albumsSha = sha || null;
+  for (const album of albums) { categories[album.id] = album.title; locations[album.id] = album.location; }
+  for (const id of ['filter-category', 'upload-category', 'edit-category']) {
+    const selected = $(id).value; $(id).replaceChildren();
+    if (id === 'filter-category') { const all = node('option', '', 'Semua album'); all.value = 'all'; $(id).append(all); }
+    for (const [value, title] of Object.entries(categories)) { const option = node('option', '', title); option.value = value; $(id).append(option); }
+    if ([...$(id).options].some(option => option.value === selected)) $(id).value = selected;
+  }
+  $('new-album').disabled = !state.albumsSha || state.busy;
+}
 function node(tag, cls, text) { const el = document.createElement(tag); if (cls) el.className = cls; if (text !== undefined) el.textContent = text; return el; }
 function toast(message, error = false) { clearTimeout(toastTimer); $('toast').textContent = message; $('toast').className = `toast${error ? ' error' : ''}`; $('toast').hidden = false; toastTimer = setTimeout(() => $('toast').hidden = true, error ? 10000 : 6000); }
 function activity(message) { let entries = []; try { entries = JSON.parse(localStorage.getItem('av-studio-activity') || '[]'); if (!Array.isArray(entries)) entries = []; } catch {} entries.unshift({ message, at: Date.now() }); try { localStorage.setItem('av-studio-activity', JSON.stringify(entries.slice(0, 30))); } catch {} renderActivity(); }
@@ -56,14 +69,29 @@ async function loadData() {
   try {
     const data = await api('/api/portfolio');
     if (!Array.isArray(data.items)) throw new Error('Format koleksi tidak valid.');
-    state.items = data.items; state.sha = data.sha; $('data-warning').hidden = true; $('connection').textContent = 'Terhubung';
+    state.items = data.items; state.sha = data.sha; syncAlbums(data.albums, data.albumsSha); $('data-warning').hidden = true; $('connection').textContent = 'Terhubung';
   } catch (error) {
-    state.sha = null; $('connection').textContent = 'Mode baca saja'; $('data-warning').hidden = false;
+    state.sha = null; state.albumsSha = null; $('new-album').disabled = true; $('connection').textContent = 'Mode baca saja'; $('data-warning').hidden = false;
     $('data-warning').textContent = `${error.message} Penyuntingan dinonaktifkan sampai koneksi pulih. Gunakan tombol muat ulang di atas.`;
     if (!state.items.length) { try { const response = await fetch('assets/portfolio_data.json'); if (!response.ok) throw new Error(); const items = await response.json(); if (Array.isArray(items)) state.items = items; } catch {} }
   } finally { state.loading = false; $('refresh').disabled = false; const ids = new Set(state.items.map(x => x.id)); state.selected = new Set([...state.selected].filter(x => ids.has(x))); renderAll(); }
 }
 $('refresh').onclick = () => loadData();
+$('new-album').onclick = () => { if (state.busy || !state.albumsSha) return; $('album-error').textContent = ''; $('album-dialog').showModal(); };
+$('album-form').onsubmit = async e => {
+  e.preventDefault(); if (state.busy || !state.albumsSha) return;
+  state.busy = true; const button = e.submitter; button.disabled = true; button.textContent = 'Membuat album…'; $('album-error').textContent = '';
+  try {
+    const result = await api('/api/albums', 'POST', { ...Object.fromEntries(new FormData(e.target)), sha: state.albumsSha });
+    syncAlbums(result.albums, result.sha); $('upload-category').value = result.album.id; $('upload-location').value = result.album.location;
+    $('album-dialog').close(); e.target.reset();
+    $('album-status').textContent = `Album “${result.album.title}” siap digunakan. Album muncul di website setelah foto pertama diterbitkan.`;
+    activity(`Album “${result.album.title}” dibuat.`); toast('Album berhasil dibuat dan dipilih untuk unggahan ini.');
+  } catch (error) {
+    $('album-error').textContent = error.message;
+    if (error.status === 409) { try { const latest = await api('/api/albums'); syncAlbums(latest.albums, latest.sha); } catch {} }
+  } finally { state.busy = false; button.disabled = false; button.textContent = 'Buat album'; $('new-album').disabled = !state.albumsSha; renderAll(); }
+};
 function filtered() {
   const query = $('search').value.trim().toLowerCase(), cat = $('filter-category').value;
   const items = state.items.filter(x => (cat === 'all' || x.category === cat) && `${x.title} ${x.desc || ''} ${x.location || ''}`.toLowerCase().includes(query));
