@@ -1,0 +1,16 @@
+work
+tests
+test-results
+playwright-report
+node_modules
+.env*
+*.py
+create_gist.json
+playwright.config.js
+design-system.md
+typography.md
+ux-guidelines.md
+landing.md
+README.md
+scripts/dev-server.mjs
+scripts/configure-admin.mjs

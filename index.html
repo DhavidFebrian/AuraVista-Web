@@ -222,6 +222,7 @@
       z-index: 1;
     }
   </style>
+  <link rel="stylesheet" href="assets/experience.css">
 </head>
 <body class="bg-noise selection:bg-brand-gold selection:text-black antialiased relative">
 
@@ -543,7 +544,7 @@
             </p>
           </div>
           <ul class="text-xs text-slate-300 space-y-2 pt-4 border-t border-slate-800">
-            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-purple-400"></i> FAA Drone Aerials</li>
+            <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-purple-400"></i> Drone Aerials</li>
             <li class="flex items-center gap-2"><i data-lucide="check-circle-2" class="w-3.5 h-3.5 text-purple-400"></i> Narrative Estate Films</li>
           </ul>
         </div>
@@ -1087,73 +1088,6 @@
       }
     }
 
-    async function initHomePage() {
-      await applyThemeCustomizer();
-      try {
-        const resp = await fetch('assets/portfolio_data.json?v=' + Date.now());
-        portfolioData = await resp.json();
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(portfolioData));
-      } catch (e) {
-        console.error('Failed fetching portfolio data:', e);
-        const saved = localStorage.getItem(STORAGE_KEY);
-        if (saved) portfolioData = JSON.parse(saved);
-      }
-
-      // Render Enhancement Section (Items that are not in DH or CIL)
-      const enhancementItems = portfolioData.filter(item => 
-        !item.img.includes('4711') && !item.img.includes('12302') && item.category !== 'dharmawangsa' && item.category !== 'cilandak'
-      );
-      renderEnhancementGrid(enhancementItems);
-
-      lucide.createIcons();
-    }
-
-    function renderEnhancementGrid(items) {
-      const container = document.getElementById('enhancement-grid');
-      if (!container) return;
-      container.innerHTML = '';
-
-      items.forEach(item => {
-        const card = document.createElement('div');
-        card.className = 'glass-card rounded-2xl overflow-hidden p-3.5 flex flex-col justify-between group hover:border-brand-gold/40 transition-all cursor-pointer';
-        card.onclick = () => openLightbox(item.img, item.title, item.desc);
-
-        card.innerHTML = `
-          <div>
-            <div class="aspect-[9/16] rounded-xl overflow-hidden mb-3 relative bg-black/70 flex items-center justify-center">
-              <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-              <div class="absolute top-2.5 left-2.5">
-                <span class="px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[9px] text-brand-gold uppercase tracking-wider border border-brand-gold/30 font-bold">${item.badge || 'Master Grade'}</span>
-              </div>
-              <!-- Hover Zoom / Lightbox Trigger -->
-              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="p-3 rounded-full bg-black/70 text-brand-gold border border-brand-gold/40 shadow-xl"><i data-lucide="maximize-2" class="w-5 h-5"></i></span>
-              </div>
-            </div>
-            <p class="text-[10px] text-brand-gold tracking-widest uppercase font-semibold">${item.location || 'Visual Enhancement'}</p>
-            <h4 class="font-serif font-bold text-sm text-slate-100 line-clamp-1 mt-0.5">${item.title}</h4>
-            <p class="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">${item.desc}</p>
-          </div>
-        `;
-        container.appendChild(card);
-      });
-      lucide.createIcons();
-    }
-
-    function openLightbox(src, title, desc) {
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-title').innerText = title || 'Aura Vista Visual Enhancement';
-      document.getElementById('lightbox-desc').innerText = desc || '';
-      document.getElementById('lightbox').classList.add('active');
-      document.body.style.overflow = 'hidden';
-      lucide.createIcons();
-    }
-
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
-      document.body.style.overflow = 'auto';
-    }
-
     // Floating Luxury Gold Dust Particles
     function initGoldDustParticles() {
       const canvas = document.getElementById('particles-canvas');
@@ -1219,5 +1153,6 @@
       initSpatialScrollDive();
     });
   </script>
+  <script src="assets/experience.js"></script>
 </body>
 </html>

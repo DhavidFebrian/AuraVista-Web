@@ -74,6 +74,7 @@
       pointer-events: auto;
     }
   </style>
+  <link rel="stylesheet" href="assets/experience.css">
 </head>
 <body class="min-h-screen bg-brand-darker text-slate-100 flex flex-col justify-between selection:bg-brand-gold/30 selection:text-brand-goldLight">
 
@@ -144,56 +145,10 @@
   </footer>
 
   <script>
-    async function loadAlbum() {
-      const resp = await fetch('assets/portfolio_data.json?v=' + Date.now());
-      const data = await resp.json();
-      
-      // Filter 14 new photos of Dharmawangsa (porto-41 to porto-54)
-      const items = data.filter(item => item.category === 'dharmawangsa_residence' || (item.id && parseInt(item.id.replace('porto-', '')) >= 41 && parseInt(item.id.replace('porto-', '')) <= 54));
-      const grid = document.getElementById('dharmawangsa-residence-grid');
-      grid.innerHTML = '';
-
-      items.forEach((item, index) => {
-        const card = document.createElement('div');
-        card.className = 'glass-card rounded-2xl overflow-hidden p-3.5 flex flex-col justify-between group cursor-pointer';
-        card.onclick = () => openLightbox(item.img, item.title, item.desc);
-
-        card.innerHTML = `
-          <div>
-            <div class="aspect-[3/4] rounded-xl overflow-hidden mb-3.5 relative bg-black/60">
-              <img src="${item.img}" alt="${item.title}" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" loading="lazy" />
-              <div class="absolute top-2.5 left-2.5">
-                <span class="px-2.5 py-0.5 rounded-full bg-black/80 backdrop-blur-md text-[9px] text-brand-gold uppercase tracking-wider border border-brand-gold/30 font-bold">Photo ${String(index+1).padStart(2, '0')}</span>
-              </div>
-              <div class="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span class="p-3 rounded-full bg-black/70 text-brand-gold border border-brand-gold/40"><i data-lucide="maximize-2" class="w-5 h-5"></i></span>
-              </div>
-            </div>
-            <p class="text-[10px] text-brand-gold tracking-widest uppercase font-semibold">Dharmawangsa</p>
-            <h4 class="font-serif font-bold text-sm text-slate-100 line-clamp-1 mt-0.5">${item.title}</h4>
-            <p class="text-[11px] text-slate-400 mt-1 line-clamp-2 leading-relaxed">${item.desc}</p>
-          </div>
-        `;
-        grid.appendChild(card);
-      });
-
-      lucide.createIcons();
-    }
-
-    function openLightbox(src, title, desc) {
-      document.getElementById('lightbox-img').src = src;
-      document.getElementById('lightbox-title').innerText = title;
-      document.getElementById('lightbox-desc').innerText = desc;
-      document.getElementById('lightbox').classList.add('active');
-    }
-
-    function closeLightbox() {
-      document.getElementById('lightbox').classList.remove('active');
-    }
-
     window.addEventListener('DOMContentLoaded', () => {
       loadAlbum();
     });
   </script>
+  <script src="assets/experience.js"></script>
 </body>
 </html>
