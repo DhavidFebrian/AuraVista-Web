@@ -212,7 +212,7 @@
     <div class="max-w-7xl mx-auto h-16 sm:h-20 glass-panel rounded-2xl px-5 sm:px-8 flex items-center justify-between shadow-[0_10px_30px_rgba(0,0,0,0.5)]">
       
       <!-- Brand Logo -->
-      <a href="index.html" class="flex items-center gap-3 group">
+      <a href="index.html" class="header-brand flex items-center gap-3 group">
         <img src="assets/aura_vista_logo_cropped.png" alt="Aura Vista Media Logo" class="h-9 sm:h-11 w-auto object-contain filter drop-shadow-[0_2px_10px_rgba(212,175,55,0.4)] transition-transform group-hover:scale-105" />
         <div class="flex flex-col">
           <span class="font-serif text-lg sm:text-xl tracking-[0.25em] font-bold text-gold-gradient leading-none">AURA VISTA</span>
@@ -221,7 +221,7 @@
       </a>
 
       <!-- Desktop Navigation -->
-      <nav class="hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
+      <nav class="desktop-navigation hidden lg:flex items-center gap-8 text-xs font-semibold uppercase tracking-[0.2em] text-slate-300">
         <a href="#about" class="hover:text-brand-gold transition-colors py-2">About</a>
         <a href="#services" class="hover:text-brand-gold transition-colors py-2">Disciplines</a>
         <a href="#curated-albums" class="hover:text-brand-gold text-brand-goldLight transition-colors py-2 flex items-center gap-1.5">
@@ -233,14 +233,12 @@
       </nav>
 
       <!-- Right Action & Admin Trigger -->
-      <div class="flex items-center gap-3">
+      <div class="header-actions flex items-center gap-3">
+        <a href="admin.html" class="header-admin" aria-label="Masuk dashboard admin">Admin <span aria-hidden="true">↗</span></a>
         <button id="navigation-toggle" class="navigation-toggle" type="button" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded="false">Menu <span aria-hidden="true">☰</span></button>
         <a href="#contact" class="hidden sm:inline-flex items-center gap-2 px-5 py-2.5 rounded-xl btn-gold text-xs uppercase tracking-wider">
           <i data-lucide="send" class="w-3.5 h-3.5"></i>
           <span>Contact Us</span>
-        </a>
-        <a href="https://wa.me/6285169671344?text=Hello%20Aura%20Vista%20Media,%20I%20would%20like%20to%20inquire%20about%20architectural%20media%20production." target="_blank" rel="noopener noreferrer" aria-label="Contact Aura Vista on WhatsApp" class="p-2.5 sm:hidden rounded-xl btn-gold">
-          <i data-lucide="message-circle" class="w-4 h-4"></i>
         </a>
       </div>
     </div>
