@@ -8,7 +8,7 @@ let toastTimer;
 state.albumsSha = null;
 function syncAlbums(albums, sha) {
   if (!Array.isArray(albums)) return;
-  state.albumsSha = sha || null;
+  state.albums = albums; state.albumsSha = sha || null;
   for (const album of albums) { categories[album.id] = album.title; locations[album.id] = album.location; }
   for (const id of ['filter-category', 'upload-category', 'edit-category']) {
     const selected = $(id).value; $(id).replaceChildren();
@@ -123,8 +123,23 @@ function renderPortfolio() {
     const info = node('div', 'media-info'); info.append(node('h3', '', item.title), node('p', '', item.location || 'Lokasi belum diisi'));
     const actions = node('div', 'media-actions'); const download = node('button', '', 'Unduh ↓'), edit = node('button', '', 'Edit'), remove = node('button', 'delete-photo', 'Hapus foto');
     download.onclick = () => downloadPhotos([item]); edit.onclick = () => openEdit(item); remove.onclick = () => deletePhoto(item); edit.disabled = remove.disabled = !state.sha || state.busy;
-    [download, edit, remove].forEach(button => button.setAttribute('aria-label', `${button.textContent} ${item.title}`)); actions.append(download, edit, remove); info.append(actions); card.append(photo, info); $('portfolio-grid').append(card);
+    [download, edit, remove].forEach(button => button.setAttribute('aria-label', `${button.textContent} ${item.title}`)); const cover = node('button', 'set-cover', 'Jadikan cover');
+    const album = state.albums?.find(album => album.id === item.category);
+    const currentCover = state.items.find(photo => photo.id === album?.coverPhotoId && photo.category === item.category);
+    if (currentCover?.id === item.id) { cover.textContent = '✓ Cover album'; cover.setAttribute('aria-pressed', 'true'); }
+    cover.disabled = !state.albumsSha || state.busy || currentCover?.id === item.id;
+    cover.setAttribute('aria-label', `${cover.textContent} ${item.title}`); cover.onclick = () => setAlbumCover(item);
+    actions.append(download, edit, remove, cover); info.append(actions); card.append(photo, info); $('portfolio-grid').append(card);
   }); selectionUI();
+}
+async function setAlbumCover(item) {
+  if (state.busy || !state.albumsSha) return;
+  state.busy = true; renderPortfolio();
+  try {
+    const result = await api('/api/albums', 'PUT', { id: item.category, coverPhotoId: item.id, sha: state.albumsSha });
+    syncAlbums(result.albums, result.sha); activity(`Cover album “${categories[item.category]}” diperbarui.`); toast('Cover album berhasil disimpan.');
+  } catch (error) { toast(error.message, true); if (error.status === 409) { try { const latest = await api('/api/albums'); syncAlbums(latest.albums, latest.sha); } catch {} } }
+  finally { state.busy = false; renderAll(); }
 }
 function selectionUI() { const items = filtered(), count = items.filter(x => state.selected.has(x.id)).length; $('select-all').checked = items.length > 0 && count === items.length; $('select-all').indeterminate = count > 0 && count < items.length; $('select-all').disabled = !items.length; $('download-selected').disabled = !state.selected.size; $('download-selected').textContent = `Unduh pilihan (${state.selected.size})`; $('clear-selection').disabled = !state.selected.size; $('delete-selected').disabled = !state.selected.size || !state.sha || state.busy; $('delete-selected').textContent = state.busy ? 'Menyimpan…' : `Hapus pilihan (${state.selected.size})`; }
 ['search', 'filter-category', 'sort'].forEach(id => $(id).addEventListener(id === 'search' ? 'input' : 'change', renderPortfolio));

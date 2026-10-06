@@ -55,3 +55,5 @@ Landing utilities remain the frozen `assets/site.css`. Icons and ZIP libraries a
 Admin and collection fonts are self-hosted with their OFL licenses.
 
 Upload supports up to 20 photographs per queue (20 MB per input). Each image is watermarked and compressed separately; sequential requests respect the function body limit. Successful entries leave the queue, and pending entries remain available after a failure. Album, location, and description apply to the batch; each photograph has its own title.
+
+Album covers are selected from existing photos in the media library. Authenticated PUT /api/albums stores coverPhotoId with album SHA protection and validates photo membership against the same Git commit. Public album cards and collection covers resolve the selected photo, falling back to the first remaining album photo if it is deleted or moved. The landing scroll hero is unchanged.

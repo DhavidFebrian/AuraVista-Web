@@ -80,3 +80,15 @@ test('album creation requires auth, validates names and rejects duplicates or st
   const edit = await call(portfolio, request('PUT', { ...uploaded.body.items[0], title: 'Edited album photo', sha: uploaded.body.sha }, cookie())); assert.equal(edit.code, 200);
   const restore = await call(portfolio, request('PATCH', { items: edit.body.items, sha: edit.body.sha }, cookie())); assert.equal(restore.code, 200);
 });
+test('album covers require auth, membership and current version; choice persists', async () => {
+  assert.equal((await call(albums, request('PUT', {}))).code, 401);
+  const data = (await call(portfolio, request('GET'))).body;
+  const target = data.items.find(item => item.category === 'cilandak');
+  const input = { id: 'cilandak', coverPhotoId: target.id, sha: data.albumsSha };
+  assert.equal((await call(albums, request('PUT', { ...input, coverPhotoId: 'missing' }, cookie()))).code, 400);
+  assert.equal((await call(albums, request('PUT', { ...input, id: 'dharmawangsa' }, cookie()))).code, 400);
+  assert.equal((await call(albums, request('PUT', { ...input, id: 'missing' }, cookie()))).code, 404);
+  const result = await call(albums, request('PUT', input, cookie())); assert.equal(result.code, 200);
+  assert.equal((await call(albums, request('GET'))).body.albums.find(x => x.id === input.id).coverPhotoId, target.id);
+  assert.equal((await call(albums, request('PUT', input, cookie()))).code, 409);
+});
