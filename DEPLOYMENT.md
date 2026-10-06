@@ -53,3 +53,5 @@ baseline `80d6c96`. Other page sections may change, as requested. The inherited 
 narrowed to original media assets; it no longer prevents authorized changes to galleries or contact forms.
 Landing utilities remain the frozen `assets/site.css`. Icons and ZIP libraries are pinned local assets.
 Admin and collection fonts are self-hosted with their OFL licenses.
+
+Upload supports up to 20 photographs per queue (20 MB per input). Each image is watermarked and compressed separately; sequential requests respect the function body limit. Successful entries leave the queue, and pending entries remain available after a failure. Album, location, and description apply to the batch; each photograph has its own title.

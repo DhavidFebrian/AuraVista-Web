@@ -3,7 +3,7 @@ const photoSource = path => /^assets\/porto\/porto-[0-9a-f-]{36}\.webp$/.test(pa
 const names = { overview: 'Ringkasan', portfolio: 'Koleksi media', upload: 'Unggah foto', appearance: 'Tampilan website', settings: 'Cadangan & aktivitas' };
 const categories = { cilandak: 'Cilandak Estate', dharmawangsa: 'Dharmawangsa Apartment', dharmawangsa_residence: 'Dharmawangsa Residence', enhancement: 'Enhancement' };
 const locations = { cilandak: 'Cilandak, South Jakarta', dharmawangsa: 'Dharmawangsa Apartment', dharmawangsa_residence: 'Dharmawangsa, South Jakarta', enhancement: 'Studio Grade' };
-const state = { items: [], sha: null, selected: new Set(), view: 'overview', busy: false, photo: null, uploadVersion: 0, preview: [], previewIndex: 0, theme: null, themeDirty: false, editDirty: false, authenticated: false, loading: false };
+const state = { items: [], sha: null, selected: new Set(), view: 'overview', busy: false, photo: null, photos: [], preparing: false, uploading: false, preview: [], previewIndex: 0, theme: null, themeDirty: false, editDirty: false, authenticated: false, loading: false };
 let toastTimer;
 state.albumsSha = null;
 function syncAlbums(albums, sha) {
@@ -58,7 +58,7 @@ $('login-form').onsubmit = async e => {
   finally { button.disabled = false; button.textContent = 'Masuk ke studio ↗'; }
 };
 $('logout').onclick = async () => {
-  if (state.busy) return toast('Tunggu hingga penyimpanan selesai.', true);
+  if (state.busy || state.uploading || state.preparing) return toast('Tunggu hingga penyimpanan selesai.', true);
   if ((state.photo || state.themeDirty || state.editDirty) && !await confirmAction('Keluar dari studio?', 'Perubahan formulir yang belum tersimpan akan hilang.', 'Keluar')) return;
   try { await api('/api/auth', 'DELETE'); location.href = 'admin.html'; } catch (error) { toast(error.message, true); }
 };
@@ -171,30 +171,75 @@ $('delete-selected').onclick = async () => {
   if (!await confirmAction(`Hapus ${items.length} foto terpilih?`, description, `Hapus ${items.length} foto`)) return;
   try { await savePortfolio('DELETE', { ids: items.map(item => item.id) }, `${items.length} foto berhasil dihapus dari koleksi.`); } catch (error) { toast(error.message, true); }
 };
-function updatePublish() { $('publish').disabled = !state.photo || !state.sha || state.busy; }
+function updatePublish() { for (const id of ['upload-category', 'upload-location', 'upload-desc']) $(id).disabled = state.uploading; $('upload-file').disabled = state.preparing || state.uploading; $('publish').disabled = !state.photos.length || !state.sha || state.busy || state.preparing || state.uploading; }
+function renderQueue() {
+  state.photo = state.photos[0]?.data || null;
+  $('upload-preview').hidden = !state.photos.length;
+  $('upload-queue').replaceChildren();
+  for (const photo of state.photos) {
+    const row = node('div', 'upload-queue-row'); const image = node('img'); image.src = photo.data; image.alt = photo.name;
+    const title = node('input'); title.value = photo.title; title.maxLength = 160; title.required = true; title.setAttribute('aria-label', `Judul ${photo.name}`); title.disabled = state.uploading;
+    title.oninput = () => { photo.title = title.value; if (state.photos.length === 1) $('upload-title').value = title.value; };
+    const remove = node('button', 'button', 'Hapus'); remove.type = 'button'; remove.disabled = state.uploading || state.preparing; remove.setAttribute('aria-label', `Hapus ${photo.name} dari antrean`);
+    remove.onclick = () => { state.photos = state.photos.filter(x => x !== photo); if (state.photos.length === 1) $('upload-title').value = state.photos[0].title; renderQueue(); };
+    row.append(image, title, remove); $('upload-queue').append(row);
+  }
+  $('upload-title').required = state.photos.length <= 1;
+  $('upload-title').disabled = state.photos.length > 1 || state.uploading;
+  $('upload-info').textContent = `${state.photos.length} foto siap. Album, lokasi, dan deskripsi berlaku untuk semua foto.`;
+  updatePublish();
+}
 const logo = new Image(); logo.src = 'assets/aura_vista_logo_cropped.png';
 async function processPhoto(file) {
-  const version = ++state.uploadVersion; state.photo = null; updatePublish(); $('upload-error').textContent = ''; $('upload-preview').hidden = true;
+
   if (!file) return;
-  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 20 * 1024 * 1024) { $('upload-error').textContent = 'Pilih JPG, PNG, atau WebP dengan ukuran maksimal 20 MB.'; return; }
+  if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 20 * 1024 * 1024) throw new Error('Pilih JPG, PNG, atau WebP dengan ukuran maksimal 20 MB.');
   const url = URL.createObjectURL(file);
   try {
     const image = new Image(); image.src = url; await image.decode(); await logo.decode();
-    if (version !== state.uploadVersion) return;
+
     if (image.width * image.height > 80000000) throw new Error('Resolusi terlalu besar. Gunakan foto di bawah 80 megapiksel.');
     const ratio = Math.min(1, 2400 / Math.max(image.width, image.height)); const canvas = $('watermark-canvas'); canvas.width = Math.round(image.width * ratio); canvas.height = Math.round(image.height * ratio); const ctx = canvas.getContext('2d'); ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     const width = canvas.width * .2, height = width * logo.height / logo.width; ctx.globalAlpha = .9; ctx.drawImage(logo, (canvas.width - width) / 2, canvas.height * .035, width, height); ctx.globalAlpha = 1;
     let quality = .9, data = canvas.toDataURL('image/webp', quality); while (data.length > 3800000 && quality > .45) { quality -= .1; data = canvas.toDataURL('image/webp', quality); }
     if (!data.startsWith('data:image/webp;') || data.length > 3800000) throw new Error('Foto belum dapat dikompresi. Gunakan gambar yang lebih kecil.');
-    state.photo = data; $('upload-preview').hidden = false; $('upload-info').textContent = `${canvas.width} × ${canvas.height} px · WebP · sekitar ${Math.round(data.length * .75 / 1024)} KB`;
-    if (!$('upload-title').value) $('upload-title').value = file.name.replace(/\.[^.]+$/, '').replace(/[_-]/g, ' ').slice(0, 160);
-  } catch (error) { $('upload-error').textContent = error.message || 'Gambar tidak dapat dibaca.'; } finally { URL.revokeObjectURL(url); updatePublish(); }
+    return { data, aspect: `${canvas.width}:${canvas.height}`, title: file.name.replace(/\.[^.]+$/, '').replace(/[_-]/g, ' ').slice(0, 160), name: file.name };
+  } finally { URL.revokeObjectURL(url); }
 }
-$('upload-file').onchange = e => processPhoto(e.target.files[0]);
+
+async function addPhotos(files) {
+  if (state.uploading || state.preparing) return;
+  if (state.photos.length === 1) state.photos[0].title = $('upload-title').value;
+  state.preparing = true; updatePublish(); const errors = [];
+  const available = Math.max(0, 20 - state.photos.length);
+  if (files.length > available) errors.push('Maksimal 20 foto per unggahan. Foto selebihnya belum ditambahkan.');
+  for (const file of Array.from(files).slice(0, available)) {
+    $('upload-progress').textContent = `Menyiapkan ${file.name}…`;
+    try { state.photos.push(await processPhoto(file)); } catch (error) { errors.push(`${file.name}: ${error.message}`); }
+  }
+  state.preparing = false; $('upload-file').value = ''; $('upload-error').textContent = errors.join(' ');
+  if (state.photos.length === 1 && !$('upload-title').value) $('upload-title').value = state.photos[0].title;
+  $('upload-progress').textContent = ''; renderQueue();
+}
+$('upload-file').onchange = e => addPhotos(e.target.files);
 for (const event of ['dragenter', 'dragover']) $('dropzone').addEventListener(event, e => { e.preventDefault(); $('dropzone').classList.add('dragging'); });
 for (const event of ['dragleave', 'drop']) $('dropzone').addEventListener(event, e => { e.preventDefault(); $('dropzone').classList.remove('dragging'); });
-$('dropzone').addEventListener('drop', e => { if (e.dataTransfer.files.length) { $('upload-file').files = e.dataTransfer.files; processPhoto(e.dataTransfer.files[0]); } });
-$('upload-form').onsubmit = async e => { e.preventDefault(); if (!state.photo) return; const button = $('publish'); button.disabled = true; button.textContent = 'Menerbitkan…'; $('upload-error').textContent = ''; try { await savePortfolio('POST', { ...Object.fromEntries(new FormData(e.target)), imageBase64: state.photo, aspect: `${$('watermark-canvas').width}:${$('watermark-canvas').height}` }, 'Foto berhasil diterbitkan ke koleksi website.'); state.photo = null; e.target.reset(); $('upload-location').value = locations[$('upload-category').value]; $('upload-preview').hidden = true; setView('portfolio'); } catch (error) { $('upload-error').textContent = error.message; } finally { button.textContent = 'Terbitkan foto ↗'; updatePublish(); } };
+$('dropzone').addEventListener('drop', e => addPhotos(e.dataTransfer.files));
+$('upload-form').onsubmit = async e => {
+  e.preventDefault(); if (!state.photos.length || state.uploading || state.preparing || state.busy) return;
+  const details = Object.fromEntries(new FormData(e.target)); const single = state.photos.length === 1;
+  state.uploading = true; renderQueue(); $('upload-error').textContent = '';
+  const total = state.photos.length; let completed = 0;
+  try {
+    while (state.photos.length) {
+      const photo = state.photos[0]; $('upload-progress').textContent = `Mengunggah ${completed + 1} dari ${total} foto…`;
+      await savePortfolio('POST', { ...details, title: single ? details.title : photo.title, imageBase64: photo.data, aspect: photo.aspect }, `Foto “${photo.title}” berhasil diterbitkan.`);
+      state.photos.shift(); completed++; renderQueue();
+    }
+    e.target.reset(); $('upload-location').value = locations[$('upload-category').value]; setView('portfolio');
+  } catch (error) { $('upload-error').textContent = `${error.message} Foto yang belum berhasil tetap berada di antrean. Muat ulang koneksi jika diperlukan, lalu coba lagi.`; }
+  finally { state.uploading = false; if (state.photos.length === 1) $('upload-title').value = state.photos[0].title; $('upload-progress').textContent = `${completed} dari ${total} foto berhasil diterbitkan.`; renderQueue(); }
+};
 const defaultTheme = { masterShotImg: 'assets/HD_04_living_depan.webp', masterShotTitle: 'Grand Living Space HDR', bgMood: 'obsidian', neonBackground: true };
 async function loadTheme() { try { const response = await fetch('https://gist.githubusercontent.com/DhavidFebrian/9919d20671f866fda62afde6b90426e3/raw/auravista_theme_customizer.json?t=' + Date.now(), { signal: AbortSignal.timeout(15000) }); if (!response.ok) throw new Error(); const data = await response.json(); state.theme = { ...defaultTheme, ...data }; } catch { state.theme = { ...defaultTheme }; $('appearance-status').textContent = 'Pengaturan cloud belum dapat dimuat. Pratinjau menggunakan pengaturan default; periksa sebelum menyimpan.'; } if (!state.themeDirty) renderTheme(); }
 function renderTheme() {
@@ -221,7 +266,7 @@ $('import-file').onchange = async e => {
     await savePortfolio('PATCH', { items }, 'Cadangan metadata berhasil dipulihkan ke server.'); setView('portfolio');
   } catch (error) { toast(error.message, true); } finally { e.target.value = ''; }
 };
-window.addEventListener('beforeunload', e => { if (state.busy || state.photo || state.themeDirty || state.editDirty) { e.preventDefault(); e.returnValue = ''; } });
+window.addEventListener('beforeunload', e => { if (state.busy || state.preparing || state.uploading || state.photo || state.themeDirty || state.editDirty) { e.preventDefault(); e.returnValue = ''; } });
 async function init() { try { const data = await api('/api/auth'); if (data.authenticated) await enterStudio(); else if (!data.configured) { $('login-error').textContent = 'Login admin belum dikonfigurasi di server.'; $('login-error').hidden = false; } } catch (error) { $('login-error').textContent = error.message; $('login-error').hidden = false; } }
 init();
 

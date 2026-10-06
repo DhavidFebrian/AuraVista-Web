@@ -8,3 +8,5 @@
 .button.danger,.media-actions .delete-photo{color:#a32f29;border:1px solid #d8aaa5;background:#fff4f2;border-radius:4px;padding:8px 10px;min-height:36px}.button.danger:hover:not(:disabled),.media-actions .delete-photo:hover:not(:disabled){background:#fbe1dc;text-decoration:none}.selection-bar>div{flex-wrap:wrap}
 
 .album-label-row{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-top:19px}.form-panel .album-label-row label{margin:0}.album-label-row .text-link{padding:5px 0;white-space:nowrap}#album-status:empty{display:none}
+
+.upload-queue-row{display:grid;grid-template-columns:64px minmax(0,1fr) auto;gap:10px;align-items:center;margin:12px 0}.upload-queue-row img{width:64px;height:64px;object-fit:cover;border-radius:8px}.upload-queue-row input{min-width:0;width:100%}#watermark-canvas{display:none}
