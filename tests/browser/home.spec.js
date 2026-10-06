@@ -1,5 +1,7 @@
 import {test,expect} from '@playwright/test';
 import {readFileSync} from 'node:fs';
+const items=JSON.parse(readFileSync('assets/portfolio_data.json','utf8'));
+const albumCount=3+JSON.parse(readFileSync('assets/albums.json','utf8')).filter(album=>!album.builtin&&items.some(item=>item.category===album.id)).length;
 const enhancementCount=JSON.parse(readFileSync('assets/portfolio_data.json','utf8')).filter(item=>item.category==='enhancement').length;
 test('project brief validates input and prepares an encoded WhatsApp handoff',async({page})=>{
  await page.goto('/#contact',{waitUntil:'domcontentloaded'});
@@ -26,6 +28,6 @@ test('mobile navigation opens, closes on Escape and navigates to collections',as
  await page.keyboard.press('Escape');await expect(toggle).toHaveAttribute('aria-expanded','false');
  await toggle.click();await page.locator('#mobile-navigation').getByRole('link',{name:'Collections'}).click();
  await expect(toggle).toHaveAttribute('aria-expanded','false');await expect(page).toHaveURL(/#curated-albums/);
- await expect(page.locator('.collection-card')).toHaveCount(3);
+ await expect(page.locator('.collection-card')).toHaveCount(albumCount);
  await expect(page.locator('#enhancement-grid .photo-card')).toHaveCount(enhancementCount);
 });
