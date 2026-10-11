@@ -4,7 +4,8 @@
     "title": "Cilandak Estate",
     "location": "Cilandak, South Jakarta",
     "desc": "Contemporary residences, architecture and interiors.",
-    "builtin": true
+    "builtin": true,
+    "coverPhotoId": "porto-01"
   },
   {
     "id": "dharmawangsa",
