@@ -35,5 +35,12 @@
     "desc": "",
     "createdAt": "2026-10-05T14:28:49.168Z",
     "coverPhotoId": "porto-a9f34f47-bfcc-4bfb-b2ac-5984a2b9ddc9"
+  },
+  {
+    "id": "album-kebayoran-baru",
+    "title": "Kebayoran Baru",
+    "location": "Kebayoran",
+    "desc": "",
+    "createdAt": "2026-10-12T09:14:04.639Z"
   }
 ]
