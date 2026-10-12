@@ -29,7 +29,7 @@ test('edit persists after reload; untrusted text stays text; backup JSON and CSV
 });
 test('watermark upload, validation, atomic publish and delete with cancellation', async ({ page }) => {
   await login(page); await page.locator('.sidebar [data-view="upload"]').click();
-  await page.locator('#upload-file').setInputFiles({ name: 'invalid.txt', mimeType: 'text/plain', buffer: Buffer.from('invalid') }); await expect(page.locator('#upload-error')).toContainText('Pilih JPG');
+  await page.locator('#upload-file').setInputFiles({ name: 'invalid.txt', mimeType: 'text/plain', buffer: Buffer.from('invalid') }); await expect(page.locator('#upload-error')).toContainText(/pilih JPG/i);
   await page.locator('#upload-file').setInputFiles('assets/HD_04_living_depan.webp'); await expect(page.locator('#upload-preview')).toBeVisible(); await page.locator('#upload-title').fill('E2E temporary photograph'); await page.locator('#upload-category').selectOption('enhancement'); await page.locator('#upload-desc').fill('Temporary isolated fixture'); await page.locator('#publish').click(); await expect(page.locator('#view-portfolio')).toBeVisible(); await expect(page.locator('.media-info h3').first()).toHaveText('E2E temporary photograph');
   await page.locator('.media-actions button').filter({ hasText: /^Hapus foto$/ }).first().click(); await page.locator('#confirm-cancel').click(); await expect(page.locator('.media-info h3').first()).toHaveText('E2E temporary photograph'); await page.locator('.media-actions button').filter({ hasText: /^Hapus foto$/ }).first().click(); await page.locator('#confirm-accept').click(); await expect(page.locator('#stat-total')).toHaveText(String(seed.length));
 });

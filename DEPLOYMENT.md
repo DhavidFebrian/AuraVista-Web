@@ -56,4 +56,6 @@ Admin and collection fonts are self-hosted with their OFL licenses.
 
 Upload supports up to 20 photographs per queue (20 MB per input). Each image is watermarked and compressed separately; sequential requests respect the function body limit. Successful entries leave the queue, and pending entries remain available after a failure. Album, location, and description apply to the batch; each photograph has its own title.
 
+Batch uploads show local thumbnails immediately while asynchronous WebP and watermark preparation continues. Per-photo title entry is not required: batches receive stable album-based sequence names (for example `Kebayoran Baru 01`), while a single upload can still use an optional custom title. Newly published photos retain their processed local preview for the current dashboard session so GitHub CDN propagation does not delay review.
+
 Album covers are selected from existing photos in the media library. Authenticated PUT /api/albums stores coverPhotoId with album SHA protection and validates photo membership against the same Git commit. Public album cards and collection covers resolve the selected photo, falling back to the first remaining album photo if it is deleted or moved. The landing scroll hero is unchanged.
