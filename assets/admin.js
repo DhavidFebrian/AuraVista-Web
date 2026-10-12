@@ -193,7 +193,7 @@ function renderQueue() {
   $('upload-preview').hidden = !state.photos.length;
   $('upload-queue').replaceChildren();
   state.photos.forEach((photo, index) => {
-    const row = node('div', `upload-queue-row${photo.ready ? ' ready' : ' processing'}`); const image = node('img'); image.src = photo.previewUrl; image.alt = `Pratinjau ${index + 1}`;
+    const row = node('div', `upload-queue-row${photo.ready ? ' ready' : ' processing'}`); const image = node('img'); image.src = photo.ready ? photo.data : photo.previewUrl; image.alt = `Pratinjau ${index + 1}`;
     const details = node('div', 'upload-queue-details'); details.append(node('strong', '', `Foto ${index + 1}`), node('span', '', photo.ready ? 'Pratinjau siap' : 'Menyiapkan watermark…'));
     const remove = node('button', 'button', 'Hapus'); remove.type = 'button'; remove.disabled = state.uploading || state.preparing; remove.setAttribute('aria-label', `Hapus ${photo.name} dari antrean`);
     remove.onclick = () => { URL.revokeObjectURL(photo.previewUrl); state.photos = state.photos.filter(x => x !== photo); renderQueue(); };
@@ -214,7 +214,7 @@ async function processPhoto(file, draft) {
     image = await createImageBitmap(file, { imageOrientation: 'from-image' }); await logo.decode();
     if (image.width * image.height > 80000000) throw new Error('Resolusi terlalu besar. Gunakan foto di bawah 80 megapiksel.');
     const ratio = Math.min(1, 2400 / Math.max(image.width, image.height)); const canvas = document.createElement('canvas'); canvas.width = Math.round(image.width * ratio); canvas.height = Math.round(image.height * ratio); const ctx = canvas.getContext('2d'); ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    const width = canvas.width * .2, height = width * logo.height / logo.width; ctx.globalAlpha = .9; ctx.drawImage(logo, (canvas.width - width) / 2, canvas.height * .035, width, height); ctx.globalAlpha = 1;
+    const width = canvas.width * .14, height = width * logo.height / logo.width; ctx.globalAlpha = .9; ctx.drawImage(logo, (canvas.width - width) / 2, canvas.height * .035, width, height); ctx.globalAlpha = 1;
     let quality = .88, blob = await canvasBlob(canvas, quality), data = blob && await blobDataUrl(blob); while (data?.length > 3800000 && quality > .45) { quality -= .1; blob = await canvasBlob(canvas, quality); data = blob && await blobDataUrl(blob); }
     if (!data?.startsWith('data:image/webp;') || data.length > 3800000) throw new Error('Foto belum dapat dikompresi. Gunakan gambar yang lebih kecil.');
     Object.assign(draft, { data, aspect: `${canvas.width}:${canvas.height}`, ready: true });

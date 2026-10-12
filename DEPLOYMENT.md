@@ -40,8 +40,9 @@ be unique and each album requires a location. Newly created albums are immediate
 edit, filters, and `album.html?id=<album-id>`. The landing page shows custom albums once they contain a photo.
 Album creation does not reset the current upload draft and does not require another deployment.
 
-Uploads accept JPG, PNG, and WebP under 20 MB, scale to 2,400 px, apply the studio watermark, and produce
-WebP below 2.8 MB. JSON restore previews the item count, requires confirmation, validates every item,
+Uploads accept JPG, PNG, and WebP under 20 MB, scale to 2,400 px, apply the studio watermark at 14% of the
+processed image width, and produce WebP below 2.8 MB. Existing files keep their baked-in watermark until
+they are uploaded again from the original source. JSON restore previews the item count, requires confirmation, validates every item,
 and persists to the server; references must be existing collection images. Deletion removes metadata,
 while original image files remain in GitHub. Download JSON and selected image ZIPs for a complete backup.
 CSV exports neutralize spreadsheet formula prefixes. The activity list is local browser history, not a server audit log.
