@@ -17,6 +17,7 @@ process.env.AURAVISTA_GH_TOKEN = 'fixture';
 const request = (method, body, cookie = '') => ({ method, body, headers: { 'content-type': 'application/json', host: 'localhost', origin: 'http://localhost', cookie }, socket: { remoteAddress: 'test' } });
 async function call(handler, req) { const res = { code: 200, headers: {}, setHeader(k, v) { this.headers[k] = v; }, status(c) { this.code = c; return this; }, json(value) { this.body = value; return this; }, end() {} }; await handler(req, res); return res; }
 const cookie = () => sessionCookie(request('GET')).split(';')[0];
+const originalBase64 = 'data:image/jpeg;base64,' + Buffer.from([0xff, 0xd8, 0xff, 0xd9]).toString('base64');
 beforeEach(async () => { globalThis.fetch = fetchOriginal; await installFixture(root); });
 after(() => globalThis.fetch = fetchOriginal);
 test('credentials are checked server-side; cookie is HttpOnly and tampering fails', async () => {
@@ -42,7 +43,7 @@ test('edit persists and stale saves cannot overwrite newer data', async () => {
 });
 test('upload, restore and deletion persist; deleting missing ids returns 404', async () => {
   const initial = (await call(portfolio, request('GET'))).body;
-  const upload = await call(portfolio, request('POST', { title: 'Fixture photo', category: 'enhancement', imageBase64: 'data:image/webp;base64,' + Buffer.from('RIFF0000WEBPfixture').toString('base64'), sha: initial.sha }, cookie()));
+  const upload = await call(portfolio, request('POST', { title: 'Fixture photo', category: 'enhancement', imageBase64: 'data:image/webp;base64,' + Buffer.from('RIFF0000WEBPfixture').toString('base64'), originalBase64, sha: initial.sha }, cookie()));
   assert.equal(upload.code, 200); assert.equal(upload.body.items.length, initial.items.length + 1);
   const restore = await call(portfolio, request('PATCH', { items: initial.items, sha: upload.body.sha }, cookie())); assert.equal(restore.code, 200);
   const missing = await call(portfolio, request('DELETE', { id: 'nonexistent', sha: restore.body.sha }, cookie())); assert.equal(missing.code, 404);
@@ -75,7 +76,7 @@ test('album creation requires auth, validates names and rejects duplicates or st
   assert.equal((await call(albums, request('POST', { title: 'Another project', location: 'Jakarta', sha: initial.sha }, cookie()))).code, 409);
   assert.equal((await call(albums, request('POST', { title: 'kemang residence', location: 'Jakarta', sha: latest.sha }, cookie()))).code, 409);
   const portfolioData = (await call(portfolio, request('GET'))).body;
-  const uploaded = await call(portfolio, request('POST', { title: 'New album photo', category: result.body.album.id, imageBase64: 'data:image/webp;base64,' + Buffer.from('RIFF0000WEBPfixture').toString('base64'), sha: portfolioData.sha }, cookie()));
+  const uploaded = await call(portfolio, request('POST', { title: 'New album photo', category: result.body.album.id, imageBase64: 'data:image/webp;base64,' + Buffer.from('RIFF0000WEBPfixture').toString('base64'), originalBase64, sha: portfolioData.sha }, cookie()));
   assert.equal(uploaded.code, 200); assert.equal(uploaded.body.items[0].location, 'Jakarta Selatan');
   const edit = await call(portfolio, request('PUT', { ...uploaded.body.items[0], title: 'Edited album photo', sha: uploaded.body.sha }, cookie())); assert.equal(edit.code, 200);
   const restore = await call(portfolio, request('PATCH', { items: edit.body.items, sha: edit.body.sha }, cookie())); assert.equal(restore.code, 200);

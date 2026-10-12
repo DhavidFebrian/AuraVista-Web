@@ -14,6 +14,7 @@ test('category counts, location search, filtered selection, sort and preview key
   await login(page); await expect(page.locator('#stat-total')).toHaveText(String(seed.length));
   const categories = ['dharmawangsa', 'dharmawangsa_residence']; await expect(page.locator('#stat-dharmawangsa')).toHaveText(String(seed.filter(x => categories.includes(x.category)).length));
   await page.locator('.sidebar [data-view="portfolio"]').click(); await page.locator('#filter-category').selectOption('cilandak');
+  const downloadPromise = page.waitForEvent('download'); await page.locator('.media-actions button').filter({ hasText: /^Unduh/ }).first().click(); expect((await downloadPromise).suggestedFilename()).toMatch(/\.jpg$/);
   const expected = seed.filter(x => x.category === 'cilandak').length; await expect(page.locator('.media-card')).toHaveCount(expected); await page.locator('#select-all').check(); await expect(page.locator('#download-selected')).toContainText(`(${expected})`);
   await page.locator('#filter-category').selectOption('all'); await expect(page.locator('#select-all')).not.toBeChecked();
   await page.locator('#search').fill('South Jakarta'); await expect(page.locator('.media-card')).toHaveCount(seed.filter(x => `${x.title} ${x.desc || ''} ${x.location || ''}`.toLowerCase().includes('south jakarta')).length);
@@ -31,7 +32,7 @@ test('watermark upload, validation, atomic publish and delete with cancellation'
   await page.addInitScript(() => { const original = CanvasRenderingContext2D.prototype.drawImage; CanvasRenderingContext2D.prototype.drawImage = function(image, ...args) { if (image?.src?.includes('aura_vista_logo')) window.__watermarkRatio = args[2] / this.canvas.width; return original.call(this, image, ...args); }; });
   await login(page); await page.locator('.sidebar [data-view="upload"]').click();
   await page.locator('#upload-file').setInputFiles({ name: 'invalid.txt', mimeType: 'text/plain', buffer: Buffer.from('invalid') }); await expect(page.locator('#upload-error')).toContainText(/pilih JPG/i);
-  await page.locator('#upload-file').setInputFiles('assets/HD_04_living_depan.webp'); await expect(page.locator('#upload-preview')).toBeVisible(); await expect.poll(() => page.evaluate(() => window.__watermarkRatio)).toBeCloseTo(.14, 4); await page.locator('#upload-title').fill('E2E temporary photograph'); await page.locator('#upload-category').selectOption('enhancement'); await page.locator('#upload-desc').fill('Temporary isolated fixture'); await page.locator('#publish').click(); await expect(page.locator('#view-portfolio')).toBeVisible(); await expect(page.locator('.media-info h3').first()).toHaveText('E2E temporary photograph');
+  await page.locator('#upload-file').setInputFiles('assets/HD_04_living_depan.webp'); await expect(page.locator('#upload-preview')).toBeVisible(); await expect.poll(() => page.evaluate(() => window.__watermarkRatio)).toBeCloseTo(.08, 4); await page.locator('#upload-title').fill('E2E temporary photograph'); await page.locator('#upload-category').selectOption('enhancement'); await page.locator('#upload-desc').fill('Temporary isolated fixture'); await page.locator('#publish').click(); await expect(page.locator('#view-portfolio')).toBeVisible(); await expect(page.locator('.media-info h3').first()).toHaveText('E2E temporary photograph');
   await page.locator('.media-actions button').filter({ hasText: /^Hapus foto$/ }).first().click(); await page.locator('#confirm-cancel').click(); await expect(page.locator('.media-info h3').first()).toHaveText('E2E temporary photograph'); await page.locator('.media-actions button').filter({ hasText: /^Hapus foto$/ }).first().click(); await page.locator('#confirm-accept').click(); await expect(page.locator('#stat-total')).toHaveText(String(seed.length));
 });
 test('backup validates, confirms and restores server metadata; appearance saves', async ({ page }) => {
@@ -61,7 +62,7 @@ test('bulk delete confirms hidden selections, preserves data on failure and remo
   let current = await (await page.request.get('/api/portfolio')).json();
   const originalIds = current.items.map(item => item.id);
   for (const title of ['Bulk fixture one', 'Bulk fixture two']) {
-    const response = await page.request.post('/api/portfolio', { data: { title, category: 'enhancement', imageBase64: 'data:image/webp;base64,' + Buffer.from('RIFF0000WEBPfixture').toString('base64'), sha: current.sha } });
+    const response = await page.request.post('/api/portfolio', { data: { title, category: 'enhancement', imageBase64: 'data:image/webp;base64,' + Buffer.from('RIFF0000WEBPfixture').toString('base64'), originalBase64: 'data:image/jpeg;base64,/9j/2Q==', sha: current.sha } });
     expect(response.ok()).toBe(true); current = await response.json();
   }
   await page.locator('#refresh').click(); await expect(page.locator('#stat-total')).toHaveText(String(originalIds.length + 2));

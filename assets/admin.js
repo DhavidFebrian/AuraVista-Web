@@ -1,5 +1,5 @@
 const $ = id => document.getElementById(id);
-const photoSource = path => /^assets\/porto\/porto-[0-9a-f-]{36}\.webp$/.test(path) ? `https://raw.githubusercontent.com/DhavidFebrian/AuraVista-Web/main/${path}` : path;
+const photoSource = path => /^assets\/(?:porto|originals)\/porto-[0-9a-f-]{36}\.(?:webp|jpg)$/.test(path) ? `https://raw.githubusercontent.com/DhavidFebrian/AuraVista-Web/main/${path}` : path;
 const names = { overview: 'Ringkasan', portfolio: 'Koleksi media', upload: 'Unggah foto', appearance: 'Tampilan website', settings: 'Cadangan & aktivitas' };
 const categories = { cilandak: 'Cilandak Estate', dharmawangsa: 'Dharmawangsa Apartment', dharmawangsa_residence: 'Dharmawangsa Residence', enhancement: 'Enhancement' };
 const locations = { cilandak: 'Cilandak, South Jakarta', dharmawangsa: 'Dharmawangsa Apartment', dharmawangsa_residence: 'Dharmawangsa, South Jakarta', enhancement: 'Studio Grade' };
@@ -158,7 +158,7 @@ async function downloadPhotos(items) {
   const button = $('download-selected'); button.disabled = true; button.textContent = 'Menyiapkan unduhan…';
   try {
     const zip = items.length > 1 ? new window.JSZip() : null;
-    for (let i = 0; i < items.length; i++) { const item = items[i]; const response = await fetch(photoSource(item.img)); if (!response.ok) throw new Error(`Foto “${item.title}” belum tersedia. Tunggu deployment selesai lalu coba lagi.`); const blob = await response.blob(); const ext = item.img.split('.').pop(); const filename = `${String(i + 1).padStart(2, '0')}_${item.title.replace(/[^a-z0-9_-]/gi, '_')}.${ext}`; if (zip) zip.file(filename, blob); else downloadBlob(blob, filename); }
+    for (let i = 0; i < items.length; i++) { const item = items[i]; const source = item.original || item.img; const response = await fetch(photoSource(source)); if (!response.ok) throw new Error(`Foto asli “${item.title}” belum tersedia. Tunggu deployment selesai lalu coba lagi.`); const blob = await response.blob(); const ext = source.split('.').pop(); const filename = `${String(i + 1).padStart(2, '0')}_${item.title.replace(/[^a-z0-9_-]/gi, '_')}.${ext}`; if (zip) zip.file(filename, blob); else downloadBlob(blob, filename); }
     if (zip) downloadBlob(await zip.generateAsync({ type: 'blob' }), `AuraVista-${new Date().toISOString().slice(0, 10)}.zip`);
     toast(`${items.length} foto siap diunduh.`);
   } catch (error) { toast(error.message, true); } finally { selectionUI(); }
@@ -205,7 +205,7 @@ function renderQueue() {
   updatePublish();
 }
 const logo = new Image(); logo.src = 'assets/aura_vista_logo_cropped.png';
-const canvasBlob = (canvas, quality) => new Promise(resolve => canvas.toBlob(resolve, 'image/webp', quality));
+const canvasBlob = (canvas, type, quality) => new Promise(resolve => canvas.toBlob(resolve, type, quality));
 const blobDataUrl = blob => new Promise((resolve, reject) => { const reader = new FileReader(); reader.onload = () => resolve(reader.result); reader.onerror = () => reject(new Error('Pratinjau tidak dapat dibaca.')); reader.readAsDataURL(blob); });
 async function processPhoto(file, draft) {
   if (!['image/jpeg', 'image/png', 'image/webp'].includes(file.type) || file.size > 20 * 1024 * 1024) throw new Error('Pilih JPG, PNG, atau WebP dengan ukuran maksimal 20 MB.');
@@ -213,11 +213,14 @@ async function processPhoto(file, draft) {
   try {
     image = await createImageBitmap(file, { imageOrientation: 'from-image' }); await logo.decode();
     if (image.width * image.height > 80000000) throw new Error('Resolusi terlalu besar. Gunakan foto di bawah 80 megapiksel.');
+    const originalCanvas = document.createElement('canvas'); originalCanvas.width = image.width; originalCanvas.height = image.height; originalCanvas.getContext('2d').drawImage(image, 0, 0);
+    let originalQuality = .9, originalBlob = await canvasBlob(originalCanvas, 'image/jpeg', originalQuality), originalData = originalBlob && await blobDataUrl(originalBlob); while (originalData?.length > 2350000 && originalQuality > .35) { originalQuality -= .08; originalBlob = await canvasBlob(originalCanvas, 'image/jpeg', originalQuality); originalData = originalBlob && await blobDataUrl(originalBlob); }
+    if (!originalData?.startsWith('data:image/jpeg;') || originalData.length > 2350000) throw new Error('Foto asli belum dapat disiapkan. Gunakan gambar dengan resolusi lebih kecil.');
     const ratio = Math.min(1, 2400 / Math.max(image.width, image.height)); const canvas = document.createElement('canvas'); canvas.width = Math.round(image.width * ratio); canvas.height = Math.round(image.height * ratio); const ctx = canvas.getContext('2d'); ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
-    const width = canvas.width * .14, height = width * logo.height / logo.width; ctx.globalAlpha = .9; ctx.drawImage(logo, (canvas.width - width) / 2, canvas.height * .035, width, height); ctx.globalAlpha = 1;
-    let quality = .88, blob = await canvasBlob(canvas, quality), data = blob && await blobDataUrl(blob); while (data?.length > 3800000 && quality > .45) { quality -= .1; blob = await canvasBlob(canvas, quality); data = blob && await blobDataUrl(blob); }
-    if (!data?.startsWith('data:image/webp;') || data.length > 3800000) throw new Error('Foto belum dapat dikompresi. Gunakan gambar yang lebih kecil.');
-    Object.assign(draft, { data, aspect: `${canvas.width}:${canvas.height}`, ready: true });
+    const width = canvas.width * .08, height = width * logo.height / logo.width; ctx.globalAlpha = .82; ctx.drawImage(logo, (canvas.width - width) / 2, canvas.height * .035, width, height); ctx.globalAlpha = 1;
+    let quality = .84, blob = await canvasBlob(canvas, 'image/webp', quality), data = blob && await blobDataUrl(blob); while (data?.length > 900000 && quality > .4) { quality -= .08; blob = await canvasBlob(canvas, 'image/webp', quality); data = blob && await blobDataUrl(blob); }
+    if (!data?.startsWith('data:image/webp;') || data.length > 900000) throw new Error('Pratinjau belum dapat dikompresi. Gunakan gambar yang lebih kecil.');
+    Object.assign(draft, { data, originalData, aspect: `${image.width}:${image.height}`, ready: true });
   } finally { image?.close?.(); }
 }
 
@@ -253,7 +256,7 @@ $('upload-form').onsubmit = async e => {
       const photo = state.photos[0]; $('upload-progress').textContent = `Mengunggah ${completed + 1} dari ${total} foto…`;
       const automaticTitle = `${categories[details.category] || 'Foto'} ${String(firstNumber + completed).padStart(2, '0')}`;
       const title = single && details.title.trim() ? details.title.trim() : automaticTitle;
-      const result = await savePortfolio('POST', { ...details, title, imageBase64: photo.data, aspect: photo.aspect }, `Foto ${completed + 1} berhasil diterbitkan.`);
+      const result = await savePortfolio('POST', { ...details, title, imageBase64: photo.data, originalBase64: photo.originalData, aspect: photo.aspect }, `Foto ${completed + 1} berhasil diterbitkan.`);
       if (result.items[0]?.id) state.localSources.set(result.items[0].id, photo.data);
       URL.revokeObjectURL(photo.previewUrl);
       state.photos.shift(); completed++; renderQueue();

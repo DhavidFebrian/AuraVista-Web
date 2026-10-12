@@ -8,7 +8,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-f89d770e-6ba5-4379-bea7-76d6da4f2566.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T10:12:00.297Z"
+    "uploadedAt": "2026-10-12T10:12:00.297Z",
+    "original": "assets/originals/porto-f89d770e-6ba5-4379-bea7-76d6da4f2566.jpg"
   },
   {
     "id": "porto-2eda2b76-76a6-4ae4-81c1-7254d6dd891f",
@@ -19,7 +20,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-2eda2b76-76a6-4ae4-81c1-7254d6dd891f.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:55.270Z"
+    "uploadedAt": "2026-10-12T10:11:55.270Z",
+    "original": "assets/originals/porto-2eda2b76-76a6-4ae4-81c1-7254d6dd891f.jpg"
   },
   {
     "id": "porto-92e63d8b-2b0f-46a1-9df0-91a7afbf3519",
@@ -30,7 +32,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-92e63d8b-2b0f-46a1-9df0-91a7afbf3519.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:50.288Z"
+    "uploadedAt": "2026-10-12T10:11:50.288Z",
+    "original": "assets/originals/porto-92e63d8b-2b0f-46a1-9df0-91a7afbf3519.jpg"
   },
   {
     "id": "porto-ebedac75-4302-478f-a442-9c7015861f13",
@@ -41,7 +44,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-ebedac75-4302-478f-a442-9c7015861f13.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:45.629Z"
+    "uploadedAt": "2026-10-12T10:11:45.629Z",
+    "original": "assets/originals/porto-ebedac75-4302-478f-a442-9c7015861f13.jpg"
   },
   {
     "id": "porto-ff260e0e-4291-4af2-a390-dc9b12b575d9",
@@ -52,7 +56,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-ff260e0e-4291-4af2-a390-dc9b12b575d9.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:41.097Z"
+    "uploadedAt": "2026-10-12T10:11:41.097Z",
+    "original": "assets/originals/porto-ff260e0e-4291-4af2-a390-dc9b12b575d9.jpg"
   },
   {
     "id": "porto-6325b845-92a6-4cfd-9a28-d83d45a887d9",
@@ -63,7 +68,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-6325b845-92a6-4cfd-9a28-d83d45a887d9.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:36.307Z"
+    "uploadedAt": "2026-10-12T10:11:36.307Z",
+    "original": "assets/originals/porto-6325b845-92a6-4cfd-9a28-d83d45a887d9.jpg"
   },
   {
     "id": "porto-be10cffe-118d-47b7-97dc-473e56997ebc",
@@ -74,7 +80,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-be10cffe-118d-47b7-97dc-473e56997ebc.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:32.410Z"
+    "uploadedAt": "2026-10-12T10:11:32.410Z",
+    "original": "assets/originals/porto-be10cffe-118d-47b7-97dc-473e56997ebc.jpg"
   },
   {
     "id": "porto-cbc4134a-b3b8-451a-8c5c-d02de6edbb63",
@@ -85,7 +92,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-cbc4134a-b3b8-451a-8c5c-d02de6edbb63.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:27.469Z"
+    "uploadedAt": "2026-10-12T10:11:27.469Z",
+    "original": "assets/originals/porto-cbc4134a-b3b8-451a-8c5c-d02de6edbb63.jpg"
   },
   {
     "id": "porto-12b3700e-3ac4-498e-9138-03fba1337eba",
@@ -96,7 +104,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-12b3700e-3ac4-498e-9138-03fba1337eba.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:23.311Z"
+    "uploadedAt": "2026-10-12T10:11:23.311Z",
+    "original": "assets/originals/porto-12b3700e-3ac4-498e-9138-03fba1337eba.jpg"
   },
   {
     "id": "porto-cdfb3f01-b5a6-4d16-ad2e-22c13b9f8180",
@@ -107,7 +116,8 @@
     "location": "Kebayoran Lama, Jakarta Selatan",
     "img": "assets/porto/porto-cdfb3f01-b5a6-4d16-ad2e-22c13b9f8180.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:11:18.742Z"
+    "uploadedAt": "2026-10-12T10:11:18.742Z",
+    "original": "assets/originals/porto-cdfb3f01-b5a6-4d16-ad2e-22c13b9f8180.jpg"
   },
   {
     "id": "porto-973aaee2-9cbc-4a52-8de3-8971c7267362",
@@ -118,7 +128,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-973aaee2-9cbc-4a52-8de3-8971c7267362.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T10:08:03.023Z"
+    "uploadedAt": "2026-10-12T10:08:03.023Z",
+    "original": "assets/originals/porto-973aaee2-9cbc-4a52-8de3-8971c7267362.jpg"
   },
   {
     "id": "porto-abf0a2d8-4499-4c32-9a64-ed925ceccd52",
@@ -129,7 +140,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-abf0a2d8-4499-4c32-9a64-ed925ceccd52.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:58.659Z"
+    "uploadedAt": "2026-10-12T10:07:58.659Z",
+    "original": "assets/originals/porto-abf0a2d8-4499-4c32-9a64-ed925ceccd52.jpg"
   },
   {
     "id": "porto-448575c7-8c70-4a2a-92a9-1527b665db9d",
@@ -140,7 +152,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-448575c7-8c70-4a2a-92a9-1527b665db9d.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:53.816Z"
+    "uploadedAt": "2026-10-12T10:07:53.816Z",
+    "original": "assets/originals/porto-448575c7-8c70-4a2a-92a9-1527b665db9d.jpg"
   },
   {
     "id": "porto-1b48a67b-08ac-44c7-811f-a35edfaacbed",
@@ -151,7 +164,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-1b48a67b-08ac-44c7-811f-a35edfaacbed.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:48.864Z"
+    "uploadedAt": "2026-10-12T10:07:48.864Z",
+    "original": "assets/originals/porto-1b48a67b-08ac-44c7-811f-a35edfaacbed.jpg"
   },
   {
     "id": "porto-fb070d80-3479-48da-8ff3-dfab81b2cadd",
@@ -162,7 +176,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-fb070d80-3479-48da-8ff3-dfab81b2cadd.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:44.423Z"
+    "uploadedAt": "2026-10-12T10:07:44.423Z",
+    "original": "assets/originals/porto-fb070d80-3479-48da-8ff3-dfab81b2cadd.jpg"
   },
   {
     "id": "porto-44f24650-659a-4087-b2fc-167caaf3cc25",
@@ -173,7 +188,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-44f24650-659a-4087-b2fc-167caaf3cc25.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:39.819Z"
+    "uploadedAt": "2026-10-12T10:07:39.819Z",
+    "original": "assets/originals/porto-44f24650-659a-4087-b2fc-167caaf3cc25.jpg"
   },
   {
     "id": "porto-dffed2c0-4815-4461-bde5-ce5fa8f6eabd",
@@ -184,7 +200,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-dffed2c0-4815-4461-bde5-ce5fa8f6eabd.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:35.053Z"
+    "uploadedAt": "2026-10-12T10:07:35.053Z",
+    "original": "assets/originals/porto-dffed2c0-4815-4461-bde5-ce5fa8f6eabd.jpg"
   },
   {
     "id": "porto-0b02e19a-941f-4668-9e8f-139a0335f48e",
@@ -195,7 +212,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-0b02e19a-941f-4668-9e8f-139a0335f48e.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:30.222Z"
+    "uploadedAt": "2026-10-12T10:07:30.222Z",
+    "original": "assets/originals/porto-0b02e19a-941f-4668-9e8f-139a0335f48e.jpg"
   },
   {
     "id": "porto-8704b202-3aae-4707-8006-4d42689738c4",
@@ -206,7 +224,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-8704b202-3aae-4707-8006-4d42689738c4.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:25.215Z"
+    "uploadedAt": "2026-10-12T10:07:25.215Z",
+    "original": "assets/originals/porto-8704b202-3aae-4707-8006-4d42689738c4.jpg"
   },
   {
     "id": "porto-e07828f9-ec8b-410c-84bc-9384b846d0ae",
@@ -217,7 +236,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-e07828f9-ec8b-410c-84bc-9384b846d0ae.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:07:20.946Z"
+    "uploadedAt": "2026-10-12T10:07:20.946Z",
+    "original": "assets/originals/porto-e07828f9-ec8b-410c-84bc-9384b846d0ae.jpg"
   },
   {
     "id": "porto-5dcda4a3-4df5-4022-96cb-9c2c6f4dec57",
@@ -228,7 +248,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-5dcda4a3-4df5-4022-96cb-9c2c6f4dec57.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T10:07:15.999Z"
+    "uploadedAt": "2026-10-12T10:07:15.999Z",
+    "original": "assets/originals/porto-5dcda4a3-4df5-4022-96cb-9c2c6f4dec57.jpg"
   },
   {
     "id": "porto-c2f56574-b9e3-4599-b282-7688cacf7ad3",
@@ -239,7 +260,8 @@
     "location": "Kemang, Jakarta Selatan",
     "img": "assets/porto/porto-c2f56574-b9e3-4599-b282-7688cacf7ad3.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T10:07:11.086Z"
+    "uploadedAt": "2026-10-12T10:07:11.086Z",
+    "original": "assets/originals/porto-c2f56574-b9e3-4599-b282-7688cacf7ad3.jpg"
   },
   {
     "id": "porto-3061f5f4-9719-4195-8560-c15295c4232a",
@@ -250,7 +272,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-3061f5f4-9719-4195-8560-c15295c4232a.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T10:03:39.912Z"
+    "uploadedAt": "2026-10-12T10:03:39.912Z",
+    "original": "assets/originals/porto-3061f5f4-9719-4195-8560-c15295c4232a.jpg"
   },
   {
     "id": "porto-f7f7deb7-1ed4-4cda-ac13-4d1bf81142aa",
@@ -261,7 +284,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-f7f7deb7-1ed4-4cda-ac13-4d1bf81142aa.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T10:03:35.216Z"
+    "uploadedAt": "2026-10-12T10:03:35.216Z",
+    "original": "assets/originals/porto-f7f7deb7-1ed4-4cda-ac13-4d1bf81142aa.jpg"
   },
   {
     "id": "porto-ee4f05ae-cec9-461a-a057-8795624f531b",
@@ -272,7 +296,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-ee4f05ae-cec9-461a-a057-8795624f531b.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T10:03:31.261Z"
+    "uploadedAt": "2026-10-12T10:03:31.261Z",
+    "original": "assets/originals/porto-ee4f05ae-cec9-461a-a057-8795624f531b.jpg"
   },
   {
     "id": "porto-04708978-f7c1-4d94-9e5c-a605b4e75de6",
@@ -283,7 +308,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-04708978-f7c1-4d94-9e5c-a605b4e75de6.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:03:26.704Z"
+    "uploadedAt": "2026-10-12T10:03:26.704Z",
+    "original": "assets/originals/porto-04708978-f7c1-4d94-9e5c-a605b4e75de6.jpg"
   },
   {
     "id": "porto-2c86dd53-57e9-4e41-821f-7ec2bf8aa10b",
@@ -294,7 +320,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-2c86dd53-57e9-4e41-821f-7ec2bf8aa10b.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:03:22.140Z"
+    "uploadedAt": "2026-10-12T10:03:22.140Z",
+    "original": "assets/originals/porto-2c86dd53-57e9-4e41-821f-7ec2bf8aa10b.jpg"
   },
   {
     "id": "porto-dbdaaaa1-eb3b-41f9-be27-22c95e2753fd",
@@ -305,7 +332,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-dbdaaaa1-eb3b-41f9-be27-22c95e2753fd.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:03:17.774Z"
+    "uploadedAt": "2026-10-12T10:03:17.774Z",
+    "original": "assets/originals/porto-dbdaaaa1-eb3b-41f9-be27-22c95e2753fd.jpg"
   },
   {
     "id": "porto-1917f95e-26b5-4469-bd55-e29757460c6c",
@@ -316,7 +344,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-1917f95e-26b5-4469-bd55-e29757460c6c.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:03:13.106Z"
+    "uploadedAt": "2026-10-12T10:03:13.106Z",
+    "original": "assets/originals/porto-1917f95e-26b5-4469-bd55-e29757460c6c.jpg"
   },
   {
     "id": "porto-5d00038b-14f1-4c52-b381-0d2ae2bed377",
@@ -327,7 +356,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-5d00038b-14f1-4c52-b381-0d2ae2bed377.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:03:07.896Z"
+    "uploadedAt": "2026-10-12T10:03:07.896Z",
+    "original": "assets/originals/porto-5d00038b-14f1-4c52-b381-0d2ae2bed377.jpg"
   },
   {
     "id": "porto-ff27cb5c-6069-459c-a3ce-a21e0054b8a9",
@@ -338,7 +368,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-ff27cb5c-6069-459c-a3ce-a21e0054b8a9.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:03:03.012Z"
+    "uploadedAt": "2026-10-12T10:03:03.012Z",
+    "original": "assets/originals/porto-ff27cb5c-6069-459c-a3ce-a21e0054b8a9.jpg"
   },
   {
     "id": "porto-2f29c0ee-52da-4b59-8979-7e5e6f913bb1",
@@ -349,7 +380,8 @@
     "location": "Ampera Jaksel",
     "img": "assets/porto/porto-2f29c0ee-52da-4b59-8979-7e5e6f913bb1.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T10:02:58.819Z"
+    "uploadedAt": "2026-10-12T10:02:58.819Z",
+    "original": "assets/originals/porto-2f29c0ee-52da-4b59-8979-7e5e6f913bb1.jpg"
   },
   {
     "id": "porto-af794bb9-d88f-4b3b-8901-34f7bdec5085",
@@ -360,7 +392,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-af794bb9-d88f-4b3b-8901-34f7bdec5085.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T09:18:48.128Z"
+    "uploadedAt": "2026-10-12T09:18:48.128Z",
+    "original": "assets/originals/porto-af794bb9-d88f-4b3b-8901-34f7bdec5085.jpg"
   },
   {
     "id": "porto-5d15e9c8-c84d-41ca-821a-fde3a2e6f5b7",
@@ -371,7 +404,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-5d15e9c8-c84d-41ca-821a-fde3a2e6f5b7.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T09:18:43.266Z"
+    "uploadedAt": "2026-10-12T09:18:43.266Z",
+    "original": "assets/originals/porto-5d15e9c8-c84d-41ca-821a-fde3a2e6f5b7.jpg"
   },
   {
     "id": "porto-48da07ab-2934-4f26-a5f7-f75db643ee88",
@@ -382,7 +416,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-48da07ab-2934-4f26-a5f7-f75db643ee88.webp",
     "aspect": "1792:2400",
-    "uploadedAt": "2026-10-12T09:18:38.155Z"
+    "uploadedAt": "2026-10-12T09:18:38.155Z",
+    "original": "assets/originals/porto-48da07ab-2934-4f26-a5f7-f75db643ee88.jpg"
   },
   {
     "id": "porto-6f9d54e3-3b57-450f-ba62-a3f0883ea570",
@@ -393,7 +428,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-6f9d54e3-3b57-450f-ba62-a3f0883ea570.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:18:33.285Z"
+    "uploadedAt": "2026-10-12T09:18:33.285Z",
+    "original": "assets/originals/porto-6f9d54e3-3b57-450f-ba62-a3f0883ea570.jpg"
   },
   {
     "id": "porto-57333753-aea4-448c-ad64-841e219a1bbd",
@@ -404,7 +440,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-57333753-aea4-448c-ad64-841e219a1bbd.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:18:27.665Z"
+    "uploadedAt": "2026-10-12T09:18:27.665Z",
+    "original": "assets/originals/porto-57333753-aea4-448c-ad64-841e219a1bbd.jpg"
   },
   {
     "id": "porto-ca1f0ce4-9641-4046-9e20-9193351c12e7",
@@ -415,7 +452,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-ca1f0ce4-9641-4046-9e20-9193351c12e7.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:18:22.556Z"
+    "uploadedAt": "2026-10-12T09:18:22.556Z",
+    "original": "assets/originals/porto-ca1f0ce4-9641-4046-9e20-9193351c12e7.jpg"
   },
   {
     "id": "porto-fe4fd73c-bf23-4b05-b9d0-68f8b07d6db6",
@@ -426,7 +464,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-fe4fd73c-bf23-4b05-b9d0-68f8b07d6db6.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:18:17.044Z"
+    "uploadedAt": "2026-10-12T09:18:17.044Z",
+    "original": "assets/originals/porto-fe4fd73c-bf23-4b05-b9d0-68f8b07d6db6.jpg"
   },
   {
     "id": "porto-c34fcf4c-36b6-4a8b-b8ec-e801f26c305a",
@@ -437,7 +476,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-c34fcf4c-36b6-4a8b-b8ec-e801f26c305a.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:18:11.599Z"
+    "uploadedAt": "2026-10-12T09:18:11.599Z",
+    "original": "assets/originals/porto-c34fcf4c-36b6-4a8b-b8ec-e801f26c305a.jpg"
   },
   {
     "id": "porto-a350604e-926c-4320-88a2-bcdf1f399265",
@@ -448,7 +488,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-a350604e-926c-4320-88a2-bcdf1f399265.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:18:06.303Z"
+    "uploadedAt": "2026-10-12T09:18:06.303Z",
+    "original": "assets/originals/porto-a350604e-926c-4320-88a2-bcdf1f399265.jpg"
   },
   {
     "id": "porto-686dd0a2-76be-45ba-87da-a2e67a502c42",
@@ -459,7 +500,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-686dd0a2-76be-45ba-87da-a2e67a502c42.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:18:00.306Z"
+    "uploadedAt": "2026-10-12T09:18:00.306Z",
+    "original": "assets/originals/porto-686dd0a2-76be-45ba-87da-a2e67a502c42.jpg"
   },
   {
     "id": "porto-074e1fb9-3ad2-4570-aa8a-4fe124b9dc9b",
@@ -470,7 +512,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-074e1fb9-3ad2-4570-aa8a-4fe124b9dc9b.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:17:52.863Z"
+    "uploadedAt": "2026-10-12T09:17:52.863Z",
+    "original": "assets/originals/porto-074e1fb9-3ad2-4570-aa8a-4fe124b9dc9b.jpg"
   },
   {
     "id": "porto-27b95697-8e2f-4dd7-9836-9e511c3fe57b",
@@ -481,7 +524,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-27b95697-8e2f-4dd7-9836-9e511c3fe57b.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:17:48.037Z"
+    "uploadedAt": "2026-10-12T09:17:48.037Z",
+    "original": "assets/originals/porto-27b95697-8e2f-4dd7-9836-9e511c3fe57b.jpg"
   },
   {
     "id": "porto-7838788c-22f9-494b-bbc7-55c601546c77",
@@ -492,7 +536,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-7838788c-22f9-494b-bbc7-55c601546c77.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:17:43.214Z"
+    "uploadedAt": "2026-10-12T09:17:43.214Z",
+    "original": "assets/originals/porto-7838788c-22f9-494b-bbc7-55c601546c77.jpg"
   },
   {
     "id": "porto-93ac8550-bb4e-4bc3-8a97-6914858602c9",
@@ -503,7 +548,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-93ac8550-bb4e-4bc3-8a97-6914858602c9.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:17:37.844Z"
+    "uploadedAt": "2026-10-12T09:17:37.844Z",
+    "original": "assets/originals/porto-93ac8550-bb4e-4bc3-8a97-6914858602c9.jpg"
   },
   {
     "id": "porto-4cf0b3b2-f836-4fe2-8112-3be0de241d17",
@@ -514,7 +560,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-4cf0b3b2-f836-4fe2-8112-3be0de241d17.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:17:32.798Z"
+    "uploadedAt": "2026-10-12T09:17:32.798Z",
+    "original": "assets/originals/porto-4cf0b3b2-f836-4fe2-8112-3be0de241d17.jpg"
   },
   {
     "id": "porto-bb2699c9-035c-453c-a09b-636b10da9c46",
@@ -525,7 +572,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-bb2699c9-035c-453c-a09b-636b10da9c46.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:17:27.789Z"
+    "uploadedAt": "2026-10-12T09:17:27.789Z",
+    "original": "assets/originals/porto-bb2699c9-035c-453c-a09b-636b10da9c46.jpg"
   },
   {
     "id": "porto-937999b5-d38f-44da-ad17-d7a8b1031eb6",
@@ -536,7 +584,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-937999b5-d38f-44da-ad17-d7a8b1031eb6.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:17:21.421Z"
+    "uploadedAt": "2026-10-12T09:17:21.421Z",
+    "original": "assets/originals/porto-937999b5-d38f-44da-ad17-d7a8b1031eb6.jpg"
   },
   {
     "id": "porto-d42cc5c2-b385-40a3-acf6-a55bcecea4e6",
@@ -547,7 +596,8 @@
     "location": "Kebayoran",
     "img": "assets/porto/porto-d42cc5c2-b385-40a3-acf6-a55bcecea4e6.webp",
     "aspect": "1800:2400",
-    "uploadedAt": "2026-10-12T09:17:16.632Z"
+    "uploadedAt": "2026-10-12T09:17:16.632Z",
+    "original": "assets/originals/porto-d42cc5c2-b385-40a3-acf6-a55bcecea4e6.jpg"
   },
   {
     "id": "porto-63b2a77e-9eff-4f9c-9a8f-1b36cd28574f",
@@ -558,7 +608,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-63b2a77e-9eff-4f9c-9a8f-1b36cd28574f.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:44:22.435Z"
+    "uploadedAt": "2026-10-06T03:44:22.435Z",
+    "original": "assets/originals/porto-63b2a77e-9eff-4f9c-9a8f-1b36cd28574f.jpg"
   },
   {
     "id": "porto-85761268-5b49-4d0f-8d27-b946510c1086",
@@ -569,7 +620,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-85761268-5b49-4d0f-8d27-b946510c1086.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:44:18.804Z"
+    "uploadedAt": "2026-10-06T03:44:18.804Z",
+    "original": "assets/originals/porto-85761268-5b49-4d0f-8d27-b946510c1086.jpg"
   },
   {
     "id": "porto-f1de536e-f9aa-4ba0-9eaf-c2ba4cec9024",
@@ -580,7 +632,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-f1de536e-f9aa-4ba0-9eaf-c2ba4cec9024.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:44:14.994Z"
+    "uploadedAt": "2026-10-06T03:44:14.994Z",
+    "original": "assets/originals/porto-f1de536e-f9aa-4ba0-9eaf-c2ba4cec9024.jpg"
   },
   {
     "id": "porto-d89c9332-01ed-4a7c-9495-4349542e801a",
@@ -591,7 +644,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-d89c9332-01ed-4a7c-9495-4349542e801a.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:44:11.823Z"
+    "uploadedAt": "2026-10-06T03:44:11.823Z",
+    "original": "assets/originals/porto-d89c9332-01ed-4a7c-9495-4349542e801a.jpg"
   },
   {
     "id": "porto-cd748b81-6f12-4696-9c96-fa02d9b6330b",
@@ -602,7 +656,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-cd748b81-6f12-4696-9c96-fa02d9b6330b.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:44:08.253Z"
+    "uploadedAt": "2026-10-06T03:44:08.253Z",
+    "original": "assets/originals/porto-cd748b81-6f12-4696-9c96-fa02d9b6330b.jpg"
   },
   {
     "id": "porto-44127dce-21b9-4983-90d4-2b26af1b3da7",
@@ -613,7 +668,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-44127dce-21b9-4983-90d4-2b26af1b3da7.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:44:05.231Z"
+    "uploadedAt": "2026-10-06T03:44:05.231Z",
+    "original": "assets/originals/porto-44127dce-21b9-4983-90d4-2b26af1b3da7.jpg"
   },
   {
     "id": "porto-83fbf350-7458-462b-930b-80471ef9bd57",
@@ -624,7 +680,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-83fbf350-7458-462b-930b-80471ef9bd57.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:44:02.133Z"
+    "uploadedAt": "2026-10-06T03:44:02.133Z",
+    "original": "assets/originals/porto-83fbf350-7458-462b-930b-80471ef9bd57.jpg"
   },
   {
     "id": "porto-61355587-50c6-4398-9a71-f657eaf11024",
@@ -635,7 +692,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-61355587-50c6-4398-9a71-f657eaf11024.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:43:58.596Z"
+    "uploadedAt": "2026-10-06T03:43:58.596Z",
+    "original": "assets/originals/porto-61355587-50c6-4398-9a71-f657eaf11024.jpg"
   },
   {
     "id": "porto-da2865f9-926d-4374-abf0-9c9bda6a5e95",
@@ -646,7 +704,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-da2865f9-926d-4374-abf0-9c9bda6a5e95.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:43:54.888Z"
+    "uploadedAt": "2026-10-06T03:43:54.888Z",
+    "original": "assets/originals/porto-da2865f9-926d-4374-abf0-9c9bda6a5e95.jpg"
   },
   {
     "id": "porto-2ac11988-ab85-4d5d-b3d5-b51911934070",
@@ -657,7 +716,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-2ac11988-ab85-4d5d-b3d5-b51911934070.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:43:51.476Z"
+    "uploadedAt": "2026-10-06T03:43:51.476Z",
+    "original": "assets/originals/porto-2ac11988-ab85-4d5d-b3d5-b51911934070.jpg"
   },
   {
     "id": "porto-f8393646-9d08-467c-9106-f4c9343e841f",
@@ -668,7 +728,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-f8393646-9d08-467c-9106-f4c9343e841f.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:43:48.532Z"
+    "uploadedAt": "2026-10-06T03:43:48.532Z",
+    "original": "assets/originals/porto-f8393646-9d08-467c-9106-f4c9343e841f.jpg"
   },
   {
     "id": "porto-2c2a401e-7ac7-4c9b-bdc6-ab9c352a4868",
@@ -679,7 +740,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-2c2a401e-7ac7-4c9b-bdc6-ab9c352a4868.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-06T03:43:45.328Z"
+    "uploadedAt": "2026-10-06T03:43:45.328Z",
+    "original": "assets/originals/porto-2c2a401e-7ac7-4c9b-bdc6-ab9c352a4868.jpg"
   },
   {
     "id": "porto-4374476b-0e0c-49aa-a09c-5519785a2f27",
@@ -690,7 +752,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-4374476b-0e0c-49aa-a09c-5519785a2f27.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-05T14:30:06.720Z"
+    "uploadedAt": "2026-10-05T14:30:06.720Z",
+    "original": "assets/originals/porto-4374476b-0e0c-49aa-a09c-5519785a2f27.jpg"
   },
   {
     "id": "porto-a9f34f47-bfcc-4bfb-b2ac-5984a2b9ddc9",
@@ -701,7 +764,8 @@
     "location": "Ciputat",
     "img": "assets/porto/porto-a9f34f47-bfcc-4bfb-b2ac-5984a2b9ddc9.webp",
     "aspect": "805:1080",
-    "uploadedAt": "2026-10-05T14:29:44.669Z"
+    "uploadedAt": "2026-10-05T14:29:44.669Z",
+    "original": "assets/originals/porto-a9f34f47-bfcc-4bfb-b2ac-5984a2b9ddc9.jpg"
   },
   {
     "id": "porto-01",
@@ -710,7 +774,8 @@
     "badge": "Cilandak",
     "desc": "Geometric framing with balanced natural daylight and horizon lines.",
     "img": "assets/porto/porto_01_12302_image_01.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-01.jpg"
   },
   {
     "id": "porto-02",
@@ -719,7 +784,8 @@
     "badge": "Cilandak",
     "desc": "Architectural lighting design emphasizing linear structural symmetry.",
     "img": "assets/porto/porto_02_12302_image_02.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-02.jpg"
   },
   {
     "id": "porto-03",
@@ -728,7 +794,8 @@
     "badge": "Cilandak",
     "desc": "Spacious open-concept living area with seamless outdoor integration.",
     "img": "assets/porto/porto_03_12302_image_05.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-03.jpg"
   },
   {
     "id": "porto-04",
@@ -737,7 +804,8 @@
     "badge": "Cilandak",
     "desc": "Warm evening ambiance highlighting bespoke textures and curated finishes.",
     "img": "assets/porto/porto_04_12302_image_06.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-04.jpg"
   },
   {
     "id": "porto-05",
@@ -746,7 +814,8 @@
     "badge": "Cilandak",
     "desc": "Clean marble countertops framed by warm recessed architectural lighting.",
     "img": "assets/porto/porto_05_12302_image_07.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-05.jpg"
   },
   {
     "id": "porto-06",
@@ -755,7 +824,8 @@
     "badge": "Cilandak",
     "desc": "Relaxing master bedroom staging with floor-to-ceiling glass paneling.",
     "img": "assets/porto/porto_06_12302_image_13.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-06.jpg"
   },
   {
     "id": "porto-07",
@@ -764,7 +834,8 @@
     "badge": "Cilandak",
     "desc": "Refined timber wall paneling with soft focused task illumination.",
     "img": "assets/porto/porto_07_12302_image_15.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-07.jpg"
   },
   {
     "id": "porto-08",
@@ -773,7 +844,8 @@
     "badge": "Cilandak",
     "desc": "Natural stone textures and subtle water reflections in master bath.",
     "img": "assets/porto/porto_08_12302_image_16.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-08.jpg"
   },
   {
     "id": "porto-09",
@@ -782,7 +854,8 @@
     "badge": "Cilandak",
     "desc": "Linear shade structure overlooking lush landscape vistas.",
     "img": "assets/porto/porto_09_12302_image_21.webp",
-    "location": "Cilandak, South Jakarta"
+    "location": "Cilandak, South Jakarta",
+    "original": "assets/originals/porto-09.jpg"
   },
   {
     "id": "porto-11",
@@ -791,7 +864,8 @@
     "badge": "Dharmawangsa",
     "desc": "Monumental classical pillars with balanced landscape symmetry.",
     "img": "assets/porto/porto_11_4711_image_01.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-11.jpg"
   },
   {
     "id": "porto-12",
@@ -800,7 +874,8 @@
     "badge": "Dharmawangsa",
     "desc": "Sweeping entrance perspective showcasing manicured gardens.",
     "img": "assets/porto/porto_12_4711_image_02.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-12.jpg"
   },
   {
     "id": "porto-13",
@@ -809,7 +884,8 @@
     "badge": "Dharmawangsa",
     "desc": "Elevated architectural view highlighting timeless craftsmanship.",
     "img": "assets/porto/porto_13_4711_image_04.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-13.jpg"
   },
   {
     "id": "porto-14",
@@ -818,7 +894,8 @@
     "badge": "Dharmawangsa",
     "desc": "Shaded outdoor corridor transitioning between interior and garden.",
     "img": "assets/porto/porto_14_4711_image_05.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-14.jpg"
   },
   {
     "id": "porto-15",
@@ -827,7 +904,8 @@
     "badge": "Dharmawangsa",
     "desc": "Soaring classical entrance with ornate crown moldings and polished marble.",
     "img": "assets/porto/porto_15_4711_image_06.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-15.jpg"
   },
   {
     "id": "porto-16",
@@ -836,7 +914,8 @@
     "badge": "Dharmawangsa",
     "desc": "Symmetrical seating arrangement in expansive formal entertainment hall.",
     "img": "assets/porto/porto_16_4711_image_07.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-16.jpg"
   },
   {
     "id": "porto-17",
@@ -845,7 +924,8 @@
     "badge": "Dharmawangsa",
     "desc": "Glass-enclosed atrium filled with diffused tropical morning sunlight.",
     "img": "assets/porto/porto_17_4711_image_12.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-17.jpg"
   },
   {
     "id": "porto-18",
@@ -854,7 +934,8 @@
     "badge": "Dharmawangsa",
     "desc": "Curated timber joinery and atmospheric temperature-controlled vault.",
     "img": "assets/porto/porto_18_4711_image_13.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-18.jpg"
   },
   {
     "id": "porto-19",
@@ -863,7 +944,8 @@
     "badge": "Dharmawangsa",
     "desc": "Regal banquet setting with ambient warm perimeter illumination.",
     "img": "assets/porto/porto_19_4711_image_14.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-19.jpg"
   },
   {
     "id": "porto-20",
@@ -872,7 +954,8 @@
     "badge": "Dharmawangsa",
     "desc": "Opulent private lounge framed with plush fabrics and wood details.",
     "img": "assets/porto/porto_20_4711_image_15.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-20.jpg"
   },
   {
     "id": "porto-21",
@@ -881,7 +964,8 @@
     "badge": "Dharmawangsa",
     "desc": "Illuminated mirror staging with book-matched Italian marble slabs.",
     "img": "assets/porto/porto_21_4711_image_16.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-21.jpg"
   },
   {
     "id": "porto-22",
@@ -890,7 +974,8 @@
     "badge": "Dharmawangsa",
     "desc": "Waterside recreation structure harmonizing with natural surroundings.",
     "img": "assets/porto/porto_22_4711_image_17.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-22.jpg"
   },
   {
     "id": "porto-23",
@@ -899,7 +984,8 @@
     "badge": "Dharmawangsa",
     "desc": "Classical European garden geometry framing the residence facade.",
     "img": "assets/porto/porto_23_4711_image_18.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-23.jpg"
   },
   {
     "id": "porto-24",
@@ -908,7 +994,8 @@
     "badge": "Dharmawangsa",
     "desc": "Sophisticated exterior accent lighting highlighting facade depth.",
     "img": "assets/porto/porto_24_4711_image_23.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-24.jpg"
   },
   {
     "id": "porto-25",
@@ -917,7 +1004,8 @@
     "badge": "Dharmawangsa",
     "desc": "Warm golden horizon gradient and naturalized sunlight cast.",
     "img": "assets/porto/porto_25_4711_image_27.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-25.jpg"
   },
   {
     "id": "porto-26",
@@ -926,7 +1014,8 @@
     "badge": "Dharmawangsa",
     "desc": "Seamless dramatic twilight backdrop matching architectural lighting.",
     "img": "assets/porto/porto_26_4711_image_28.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-26.jpg"
   },
   {
     "id": "porto-27",
@@ -935,7 +1024,8 @@
     "badge": "Dharmawangsa",
     "desc": "Dynamic range balancing to reveal subtle shadow details.",
     "img": "assets/porto/porto_27_4711_image_29.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-27.jpg"
   },
   {
     "id": "porto-28",
@@ -944,7 +1034,8 @@
     "badge": "Dharmawangsa",
     "desc": "Zero-distortion optical correction for true structural geometry.",
     "img": "assets/porto/porto_28_4711_image_31.webp",
-    "location": "Dharmawangsa Apartment"
+    "location": "Dharmawangsa Apartment",
+    "original": "assets/originals/porto-28.jpg"
   },
   {
     "id": "porto-29",
@@ -953,7 +1044,8 @@
     "badge": "Enhancement",
     "desc": "Clear liquid reflections and balanced interior-to-exterior exposure.",
     "img": "assets/porto/porto_29_Architectural_image_enhancement___2K_202609062054_(1).webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-29.jpg"
   },
   {
     "id": "porto-30",
@@ -962,7 +1054,8 @@
     "badge": "Enhancement",
     "desc": "High-fidelity cloud texture recovery without artificial artifacts.",
     "img": "assets/porto/porto_30_Architectural_image_enhancement___2K_202609062054_(2).webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-30.jpg"
   },
   {
     "id": "porto-31",
@@ -971,7 +1064,8 @@
     "badge": "Enhancement",
     "desc": "Cinematic sunset grade harmonized with ambient landscape lights.",
     "img": "assets/porto/porto_31_Architectural_image_enhancement___2K_202609062054_(3).webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-31.jpg"
   },
   {
     "id": "porto-32",
@@ -980,7 +1074,8 @@
     "badge": "Enhancement",
     "desc": "Cool ambient dusk tones contrasted with warm interior illumination.",
     "img": "assets/porto/porto_32_Architectural_image_enhancement___2K_202609062054_(4).webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-32.jpg"
   },
   {
     "id": "porto-33",
@@ -989,7 +1084,8 @@
     "badge": "Enhancement",
     "desc": "Micro-contrast sharpening on natural architectural materials.",
     "img": "assets/porto/porto_33_Architectural_image_enhancement___2K_202609062054.webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-33.jpg"
   },
   {
     "id": "porto-34",
@@ -998,7 +1094,8 @@
     "badge": "Enhancement",
     "desc": "Naturalized foliage greens and rich organic earth tones.",
     "img": "assets/porto/porto_34_Architectural_image_enhancement___2K_202609062055_(1).webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-34.jpg"
   },
   {
     "id": "porto-35",
@@ -1007,7 +1104,8 @@
     "badge": "Enhancement",
     "desc": "Polarized reflection removal revealing interior depth through windows.",
     "img": "assets/porto/porto_35_Architectural_image_enhancement___2K_202609062055.webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-35.jpg"
   },
   {
     "id": "porto-36",
@@ -1016,7 +1114,8 @@
     "badge": "Enhancement",
     "desc": "Soft gradient transitions preserving natural architectural volume.",
     "img": "assets/porto/porto_36_Architectural_image_enhancement___2K_202609062121_(1).webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-36.jpg"
   },
   {
     "id": "porto-37",
@@ -1025,7 +1124,8 @@
     "badge": "Enhancement",
     "desc": "Multi-bracket HDR synthesis for balanced window and interior light.",
     "img": "assets/porto/porto_37_Architectural_image_enhancement___2K_202609062121.webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-37.jpg"
   },
   {
     "id": "porto-38",
@@ -1034,7 +1134,8 @@
     "badge": "Enhancement",
     "desc": "Signature luxury grade with muted undertones and radiant highlights.",
     "img": "assets/porto/porto_38_Architectural_photo_enhancement___2K_202609062054.webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-38.jpg"
   },
   {
     "id": "porto-39",
@@ -1043,7 +1144,8 @@
     "badge": "Enhancement",
     "desc": "Precision alignment of vertical architectural lines and facades.",
     "img": "assets/porto/porto_39_Preserve_architectural_structure__2K_202609062053.webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-39.jpg"
   },
   {
     "id": "porto-40",
@@ -1052,7 +1154,8 @@
     "badge": "Enhancement",
     "desc": "Flagship architectural media production for ultra-prime property.",
     "img": "assets/porto/porto_40_Preserving_architectural_structu__2K_202609062055.webp",
-    "location": "Visual Enhancement"
+    "location": "Visual Enhancement",
+    "original": "assets/originals/porto-40.jpg"
   },
   {
     "id": "porto-41",
@@ -1061,7 +1164,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Spacious open-plan living interior with high-end furniture staging and ambient lighting.",
-    "img": "assets/porto/porto_41_dharmawangsa_new_2026_09_14_10_55_56_IMG_0825.jpg"
+    "img": "assets/porto/porto_41_dharmawangsa_new_2026_09_14_10_55_56_IMG_0825.jpg",
+    "original": "assets/originals/porto-41.jpg"
   },
   {
     "id": "porto-42",
@@ -1070,7 +1174,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Sophisticated master bedroom suite with premium timber accents and warm lighting.",
-    "img": "assets/porto/porto_42_dharmawangsa_new_2026_09_14_10_58_11_IMG_0828.jpg"
+    "img": "assets/porto/porto_42_dharmawangsa_new_2026_09_14_10_58_11_IMG_0828.jpg",
+    "original": "assets/originals/porto-42.jpg"
   },
   {
     "id": "porto-43",
@@ -1079,7 +1184,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Elegantly staged dining area showcasing bespoke finishes and open spatial flow.",
-    "img": "assets/porto/porto_43_dharmawangsa_new_2026_09_14_10_59_28_IMG_0831.jpg"
+    "img": "assets/porto/porto_43_dharmawangsa_new_2026_09_14_10_59_28_IMG_0831.jpg",
+    "original": "assets/originals/porto-43.jpg"
   },
   {
     "id": "porto-44",
@@ -1088,7 +1194,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Modern luxury kitchen featuring custom cabinetry and sleek architectural detailing.",
-    "img": "assets/porto/porto_44_dharmawangsa_new_2026_09_14_10_59_53_IMG_0833.jpg"
+    "img": "assets/porto/porto_44_dharmawangsa_new_2026_09_14_10_59_53_IMG_0833.jpg",
+    "original": "assets/originals/porto-44.jpg"
   },
   {
     "id": "porto-45",
@@ -1097,7 +1204,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Opulent bathroom staging with premium marble surfaces and tailored lighting.",
-    "img": "assets/porto/porto_45_dharmawangsa_new_2026_09_14_11_17_48_IMG_0868.jpg"
+    "img": "assets/porto/porto_45_dharmawangsa_new_2026_09_14_11_17_48_IMG_0868.jpg",
+    "original": "assets/originals/porto-45.jpg"
   },
   {
     "id": "porto-46",
@@ -1106,7 +1214,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Elevated terrace perspective offering seamless indoor-outdoor luxury living.",
-    "img": "assets/porto/porto_46_dharmawangsa_new_2026_09_14_11_18_01_IMG_0869.jpg"
+    "img": "assets/porto/porto_46_dharmawangsa_new_2026_09_14_11_18_01_IMG_0869.jpg",
+    "original": "assets/originals/porto-46.jpg"
   },
   {
     "id": "porto-47",
@@ -1115,7 +1224,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Quiet, refined workspace framing elegant architectural lines and daylight.",
-    "img": "assets/porto/porto_47_dharmawangsa_new_2026_09_14_11_24_42_IMG_0880.jpg"
+    "img": "assets/porto/porto_47_dharmawangsa_new_2026_09_14_11_24_42_IMG_0880.jpg",
+    "original": "assets/originals/porto-47.jpg"
   },
   {
     "id": "porto-48",
@@ -1124,7 +1234,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Linear spatial transition with recessed wall accents and polished flooring.",
-    "img": "assets/porto/porto_48_dharmawangsa_new_2026_09_14_11_25_18_IMG_0883.jpg"
+    "img": "assets/porto/porto_48_dharmawangsa_new_2026_09_14_11_25_18_IMG_0883.jpg",
+    "original": "assets/originals/porto-48.jpg"
   },
   {
     "id": "porto-49",
@@ -1133,7 +1244,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Meticulously curated guest bedroom with warm neutral tones and soft lighting.",
-    "img": "assets/porto/porto_49_dharmawangsa_new_2026_09_14_11_26_15_IMG_0888.jpg"
+    "img": "assets/porto/porto_49_dharmawangsa_new_2026_09_14_11_26_15_IMG_0888.jpg",
+    "original": "assets/originals/porto-49.jpg"
   },
   {
     "id": "porto-50",
@@ -1142,7 +1254,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Inviting entrance hall detailing high-grade materials and structural balance.",
-    "img": "assets/porto/porto_50_dharmawangsa_new_2026_09_14_11_31_01_IMG_0904.jpg"
+    "img": "assets/porto/porto_50_dharmawangsa_new_2026_09_14_11_31_01_IMG_0904.jpg",
+    "original": "assets/originals/porto-50.jpg"
   },
   {
     "id": "porto-51",
@@ -1151,7 +1264,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Floor-to-ceiling glass paneling capturing natural daylight and lush outdoor views.",
-    "img": "assets/porto/porto_51_dharmawangsa_new_2026_09_14_11_31_36_IMG_0906.jpg"
+    "img": "assets/porto/porto_51_dharmawangsa_new_2026_09_14_11_31_36_IMG_0906.jpg",
+    "original": "assets/originals/porto-51.jpg"
   },
   {
     "id": "porto-52",
@@ -1160,7 +1274,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Tranquil outdoor swimming pool deck harmonized with surrounding tropical greenery.",
-    "img": "assets/porto/porto_52_dharmawangsa_new_2026_09_14_11_46_37_IMG_0950.jpg"
+    "img": "assets/porto/porto_52_dharmawangsa_new_2026_09_14_11_46_37_IMG_0950.jpg",
+    "original": "assets/originals/porto-52.jpg"
   },
   {
     "id": "porto-53",
@@ -1169,7 +1284,8 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Atmospheric dusk capture showcasing exterior architectural lighting design.",
-    "img": "assets/porto/porto_53_dharmawangsa_new_2026_09_14_11_46_43_IMG_0951.jpg"
+    "img": "assets/porto/porto_53_dharmawangsa_new_2026_09_14_11_46_43_IMG_0951.jpg",
+    "original": "assets/originals/porto-53.jpg"
   },
   {
     "id": "porto-54",
@@ -1178,6 +1294,7 @@
     "badge": "Dharmawangsa",
     "location": "Dharmawangsa",
     "desc": "Masterwork post-production balancing structural geometry and color harmony.",
-    "img": "assets/porto/porto_54_dharmawangsa_new_Preserving_original_building_structure_2K.jpg"
+    "img": "assets/porto/porto_54_dharmawangsa_new_Preserving_original_building_structure_2K.jpg",
+    "original": "assets/originals/porto-54.jpg"
   }
 ]

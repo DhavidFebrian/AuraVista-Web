@@ -40,9 +40,10 @@ be unique and each album requires a location. Newly created albums are immediate
 edit, filters, and `album.html?id=<album-id>`. The landing page shows custom albums once they contain a photo.
 Album creation does not reset the current upload draft and does not require another deployment.
 
-Uploads accept JPG, PNG, and WebP under 20 MB, scale to 2,400 px, apply the studio watermark at 14% of the
-processed image width, and produce WebP below 2.8 MB. Existing files keep their baked-in watermark until
-they are uploaded again from the original source. JSON restore previews the item count, requires confirmation, validates every item,
+Uploads accept JPG, PNG, and WebP under 20 MB. The gallery preview is scaled to 2,400 px, receives the studio
+watermark at 8% of the image width, and is stored as an optimized WebP. A separate full-dimension JPEG is
+stored for admin downloads. All existing portfolio photos were rebuilt with the smaller watermark and paired
+with a full-resolution download asset. JSON restore previews the item count, requires confirmation, validates every item,
 and persists to the server; references must be existing collection images. Deletion removes metadata,
 while original image files remain in GitHub. Download JSON and selected image ZIPs for a complete backup.
 CSV exports neutralize spreadsheet formula prefixes. The activity list is local browser history, not a server audit log.
@@ -55,7 +56,7 @@ narrowed to original media assets; it no longer prevents authorized changes to g
 Landing utilities remain the frozen `assets/site.css`. Icons and ZIP libraries are pinned local assets.
 Admin and collection fonts are self-hosted with their OFL licenses.
 
-Upload supports up to 20 photographs per queue (20 MB per input). Each image is watermarked and compressed separately; sequential requests respect the function body limit. Successful entries leave the queue, and pending entries remain available after a failure. Album, location, and description apply to the batch; each photograph has its own title.
+Upload supports up to 20 photographs per queue (20 MB per input). Each image produces a watermarked gallery preview and a full-dimension JPEG download; sequential requests respect the function body limit. Successful entries leave the queue, and pending entries remain available after a failure. Album, location, and description apply to the batch; each photograph has its own title.
 
 Batch uploads show local thumbnails immediately while asynchronous WebP and watermark preparation continues. Per-photo title entry is not required: batches receive stable album-based sequence names (for example `Kebayoran Baru 01`), while a single upload can still use an optional custom title. Newly published photos retain their processed local preview for the current dashboard session so GitHub CDN propagation does not delay review.
 
