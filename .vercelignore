@@ -3,6 +3,7 @@ tests
 test-results
 playwright-report
 node_modules
+public
 .env*
 *.py
 create_gist.json
