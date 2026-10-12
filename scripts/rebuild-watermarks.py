@@ -8,7 +8,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA_PATH = ROOT / "assets" / "portfolio_data.json"
 LOGO_PATH = ROOT / "assets" / "aura_vista_logo_cropped.png"
 MAX_SIDE = 2400
-WATERMARK_RATIO = 0.17
+WATERMARK_RATIO = 0.13
 WATERMARK_OPACITY = 0.82
 
 
