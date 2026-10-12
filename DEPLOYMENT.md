@@ -41,8 +41,8 @@ edit, filters, and `album.html?id=<album-id>`. The landing page shows custom alb
 Album creation does not reset the current upload draft and does not require another deployment.
 
 Uploads accept JPG, PNG, and WebP under 20 MB. The gallery preview is scaled to 2,400 px, receives the studio
-watermark at 8% of the image width, and is stored as an optimized WebP. A separate full-dimension JPEG is
-stored for admin downloads. All existing portfolio photos were rebuilt with the smaller watermark and paired
+watermark at 17% of the image width, and is stored as an optimized WebP. A separate full-dimension JPEG is
+stored for admin downloads. All existing portfolio photos were rebuilt with the consistent watermark and paired
 with a full-resolution download asset. JSON restore previews the item count, requires confirmation, validates every item,
 and persists to the server; references must be existing collection images. Deletion removes metadata,
 while original image files remain in GitHub. Download JSON and selected image ZIPs for a complete backup.
