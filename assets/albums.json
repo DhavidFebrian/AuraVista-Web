@@ -42,5 +42,12 @@
     "location": "Kebayoran",
     "desc": "",
     "createdAt": "2026-10-12T09:14:04.639Z"
+  },
+  {
+    "id": "album-jeruk-purut",
+    "title": "Jeruk Purut",
+    "location": "Ampera Jaksel",
+    "desc": "",
+    "createdAt": "2026-10-12T10:01:51.548Z"
   }
 ]
