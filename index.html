@@ -698,11 +698,27 @@
 
       const frameCount = 120;
       const frames = new Array(frameCount);
-      let imagesLoaded = 0;
+      const frameState = new Uint8Array(frameCount);
       let currentFrameIndex = 0;
+      let renderedFrameIndex = -1;
+      let nextPreloadIndex = 0;
+      let activeLoads = 0;
+
+      function nearestLoadedFrame(index) {
+        if (frameState[index] === 2) return index;
+        for (let distance = 1; distance < frameCount; distance++) {
+          const before = index - distance;
+          const after = index + distance;
+          if (before >= 0 && frameState[before] === 2) return before;
+          if (after < frameCount && frameState[after] === 2) return after;
+        }
+        return -1;
+      }
 
       function renderFrame(index) {
-        const img = frames[index];
+        const resolvedIndex = nearestLoadedFrame(index);
+        if (resolvedIndex < 0 || resolvedIndex === renderedFrameIndex) return;
+        const img = frames[resolvedIndex];
         if (!img || !img.complete || img.naturalWidth === 0) return;
 
         // Cover full canvas while maintaining aspect ratio
@@ -726,32 +742,62 @@
 
         ctx.clearRect(0, 0, cW, cH);
         ctx.drawImage(img, offsetX, offsetY, drawWidth, drawHeight);
+        renderedFrameIndex = resolvedIndex;
       }
 
       function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
+        renderedFrameIndex = -1;
         renderFrame(currentFrameIndex);
       }
-      window.addEventListener('resize', resizeCanvas);
+      let resizePending = false;
+      window.addEventListener('resize', () => {
+        if (resizePending) return;
+        resizePending = true;
+        requestAnimationFrame(() => {
+          resizePending = false;
+          resizeCanvas();
+        });
+      });
       resizeCanvas();
 
-      // Preload image sequence
-      for (let i = 1; i <= frameCount; i++) {
+      // Decode a small number of frames at a time so loading cannot block scrolling.
+      function loadFrame(index, priority = false) {
+        if (index < 0 || index >= frameCount || frameState[index] !== 0) return;
+        frameState[index] = 1;
+        activeLoads++;
         const img = new Image();
-        const frameNum = String(i).padStart(4, '0');
+        img.decoding = 'async';
+        if (priority) img.fetchPriority = 'high';
+        const frameNum = String(index + 1).padStart(4, '0');
         img.src = `assets/hero_frames/frame_${frameNum}.jpg`;
         img.onload = () => {
-          imagesLoaded++;
-          if (i === 1 || imagesLoaded === 1) {
-            renderFrame(0);
-          }
+          frameState[index] = 2;
+          activeLoads--;
+          if (index === currentFrameIndex || renderedFrameIndex < 0) renderFrame(currentFrameIndex);
+          pumpPreloadQueue();
         };
-        frames[i - 1] = img;
+        img.onerror = () => {
+          frameState[index] = 3;
+          activeLoads--;
+          pumpPreloadQueue();
+        };
+        frames[index] = img;
       }
 
-      // Smooth Scroll Event Listener
-      window.addEventListener('scroll', () => {
+      function pumpPreloadQueue() {
+        while (activeLoads < 4 && nextPreloadIndex < frameCount) {
+          while (nextPreloadIndex < frameCount && frameState[nextPreloadIndex] !== 0) nextPreloadIndex++;
+          if (nextPreloadIndex < frameCount) loadFrame(nextPreloadIndex++);
+        }
+      }
+
+      loadFrame(0, true);
+      pumpPreloadQueue();
+
+      // Coalesce scroll events into one canvas update per display frame.
+      function updateScrollDive() {
         const scrollY = window.scrollY || window.pageYOffset;
         const heroHeight = heroContainer.offsetHeight;
         const maxScroll = heroHeight - window.innerHeight;
@@ -763,6 +809,7 @@
         const targetFrame = Math.min(Math.floor(progress * (frameCount - 1)), frameCount - 1);
         if (targetFrame !== currentFrameIndex) {
           currentFrameIndex = targetFrame;
+          if (frameState[currentFrameIndex] === 0) loadFrame(currentFrameIndex, true);
           renderFrame(currentFrameIndex);
         }
 
@@ -794,7 +841,18 @@
             stage3.style.opacity = '0';
           }
         }
+      }
+
+      let scrollPending = false;
+      window.addEventListener('scroll', () => {
+        if (scrollPending) return;
+        scrollPending = true;
+        requestAnimationFrame(() => {
+          scrollPending = false;
+          updateScrollDive();
+        });
       }, { passive: true });
+      updateScrollDive();
     }
 
     async function applyThemeCustomizer() {
@@ -869,8 +927,14 @@
         });
       }
 
-      function render() {
+      let lastParticleFrame = 0;
+      function render(timestamp = 0) {
+        requestAnimationFrame(render);
+        if (document.hidden || timestamp - lastParticleFrame < 33) return;
+        lastParticleFrame = timestamp;
         ctx.clearRect(0, 0, width, height);
+        ctx.shadowColor = '#D4AF37';
+        ctx.shadowBlur = 6;
 
         particles.forEach(p => {
           p.y += p.speedY;
@@ -883,18 +947,14 @@
           if (p.x < -10) p.x = width + 10;
           if (p.x > width + 10) p.x = -10;
 
-          ctx.save();
           ctx.beginPath();
           ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
           ctx.fillStyle = p.color;
           ctx.globalAlpha = p.opacity;
-          ctx.shadowColor = '#D4AF37';
-          ctx.shadowBlur = 8;
           ctx.fill();
-          ctx.restore();
         });
-
-        requestAnimationFrame(render);
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
       }
 
       render();

@@ -153,12 +153,28 @@ function movePreview(delta) { state.previewIndex = (state.previewIndex + delta +
 $('preview-prev').onclick = () => movePreview(-1); $('preview-next').onclick = () => movePreview(1);
 $('preview-dialog').addEventListener('keydown', e => { if (e.key === 'ArrowLeft') movePreview(-1); if (e.key === 'ArrowRight') movePreview(1); });
 function downloadBlob(blob, filename) { const a = node('a'); const url = URL.createObjectURL(blob); a.href = url; a.download = filename; document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(url), 5000); }
+async function originalWatermarkedBlob(item) {
+  const source = item.original || item.img;
+  const response = await fetch(photoSource(source));
+  if (!response.ok) throw new Error(`Foto asli “${item.title}” belum tersedia. Tunggu deployment selesai lalu coba lagi.`);
+  const bitmap = await createImageBitmap(await response.blob(), { imageOrientation: 'from-image' });
+  try {
+    await logo.decode();
+    const canvas = document.createElement('canvas'); canvas.width = bitmap.width; canvas.height = bitmap.height;
+    const ctx = canvas.getContext('2d'); ctx.drawImage(bitmap, 0, 0);
+    const width = canvas.width * .13, height = width * logo.naturalHeight / logo.naturalWidth;
+    ctx.globalAlpha = .82; ctx.drawImage(logo, (canvas.width - width) / 2, canvas.height * .035, width, height); ctx.globalAlpha = 1;
+    const blob = await canvasBlob(canvas, 'image/jpeg', .96);
+    if (!blob) throw new Error(`Foto “${item.title}” gagal disiapkan.`);
+    return blob;
+  } finally { bitmap.close?.(); }
+}
 async function downloadPhotos(items) {
   if (!items.length) return;
   const button = $('download-selected'); button.disabled = true; button.textContent = 'Menyiapkan unduhan…';
   try {
     const zip = items.length > 1 ? new window.JSZip() : null;
-    for (let i = 0; i < items.length; i++) { const item = items[i]; const source = item.original || item.img; const response = await fetch(photoSource(source)); if (!response.ok) throw new Error(`Foto asli “${item.title}” belum tersedia. Tunggu deployment selesai lalu coba lagi.`); const blob = await response.blob(); const ext = source.split('.').pop(); const filename = `${String(i + 1).padStart(2, '0')}_${item.title.replace(/[^a-z0-9_-]/gi, '_')}.${ext}`; if (zip) zip.file(filename, blob); else downloadBlob(blob, filename); }
+    for (let i = 0; i < items.length; i++) { const item = items[i]; const blob = await originalWatermarkedBlob(item); const filename = `${String(i + 1).padStart(2, '0')}_${item.title.replace(/[^a-z0-9_-]/gi, '_')}.jpg`; if (zip) zip.file(filename, blob); else downloadBlob(blob, filename); }
     if (zip) downloadBlob(await zip.generateAsync({ type: 'blob' }), `AuraVista-${new Date().toISOString().slice(0, 10)}.zip`);
     toast(`${items.length} foto siap diunduh.`);
   } catch (error) { toast(error.message, true); } finally { selectionUI(); }
