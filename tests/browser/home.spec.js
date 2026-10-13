@@ -31,3 +31,11 @@ test('mobile navigation opens, closes on Escape and navigates to collections',as
  await expect(page.locator('.collection-card')).toHaveCount(albumCount);
  await expect(page.locator('#enhancement-grid .photo-card')).toHaveCount(enhancementCount);
 });
+test('desktop sections use the full canvas and collection previews keep their source ratio',async({page})=>{
+ await page.setViewportSize({width:1920,height:1080});
+ await page.goto('/',{waitUntil:'domcontentloaded'});
+ const sectionWidth=await page.locator('#about > .max-w-7xl').evaluate(node=>node.getBoundingClientRect().width);
+ expect(sectionWidth).toBeGreaterThan(1800);
+ const image=page.locator('.collection-card img').first();await image.scrollIntoViewIfNeeded();await expect(image).toBeVisible();
+ expect(await image.evaluate(node=>Math.abs(node.getBoundingClientRect().width/node.getBoundingClientRect().height-node.naturalWidth/node.naturalHeight))).toBeLessThan(.02);
+});
