@@ -8,6 +8,7 @@ test('editorial collections expose navigation, sorting and a compact contact she
  const coverBox=await cover.boundingBox();expect(coverBox.height).toBeLessThanOrEqual(632);expect(coverBox.width).toBeLessThan(1450);
  const preview=page.locator('.photo-frame img').first();await expect(preview).toBeVisible();
  expect(await preview.evaluate(node=>Math.abs(node.getBoundingClientRect().width/node.getBoundingClientRect().height-node.naturalWidth/node.naturalHeight))).toBeLessThan(.02);
+ await preview.hover();expect(await preview.evaluate(node=>getComputedStyle(node).transform)).toBe('none');
  expect((await page.locator('.editorial-gallery').evaluate(node=>getComputedStyle(node).gridTemplateColumns.split(' ').length))).toBe(4);
  await page.getByLabel('Sort photographs').selectOption('title');
  const titles=await page.locator('.photo-title').allTextContents();

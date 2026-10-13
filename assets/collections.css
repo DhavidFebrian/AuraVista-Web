@@ -57,8 +57,8 @@ em{font-weight:400;color:var(--gold)}
 .editorial-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:42px 24px;align-items:start}
 .photo-card{display:block;align-self:start;min-width:0;text-align:left;background:none;border:0;color:inherit;padding:0}
 .photo-frame{position:relative;overflow:hidden;background:#242721}
-.photo-frame img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;transition:transform .4s}
-.photo-card:hover img{transform:scale(1.025)}
+.photo-frame img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain;transition:filter .2s}
+.photo-card:hover img{filter:brightness(.92)}
 .photo-number{position:absolute;left:12px;bottom:12px;background:#101210cc;padding:5px 10px;font-size:10px;border:1px solid #ffffff40}
 .photo-location{display:block;color:var(--gold);font-size:9px;letter-spacing:.14em;text-transform:uppercase;margin-top:18px}
 .photo-title{display:block;font:400 28px/1.15 'Cormorant Garamond',Georgia,serif;margin:8px 0}
