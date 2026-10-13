@@ -7,6 +7,7 @@
   };
   let visible = [], current = 0, trigger;
   const photoSource = path => /^assets\/porto\/porto-[0-9a-f-]{36}\.webp$/.test(path) ? `https://raw.githubusercontent.com/DhavidFebrian/AuraVista-Web/main/${path}` : path;
+  const trailingSequence = title => Number(String(title).match(/(\d+)\s*$/)?.[1]);
   let savedIds = []; try { savedIds = JSON.parse(localStorage.getItem('av-favorites') || '[]'); } catch {}
   const favorites = new Set(Array.isArray(savedIds) ? savedIds : []);
   const albumCover = (album, photos) => photos.find(photo => photo.category === album?.id && photo.id === album.coverPhotoId) || photos.find(photo => photo.category === album?.id);
@@ -116,6 +117,7 @@
         }
         renderAlbumLinks(albums, data);
         items=data.filter(item=>item.category===grid.dataset.category && typeof item.title==='string' && /^assets\/porto\/[a-zA-Z0-9_(). -]+\.(webp|jpe?g|png)$/i.test(item.img));
+        if (items.length && items.every(item => Number.isFinite(trailingSequence(item.title)))) items.sort((a, b) => trailingSequence(a.title) - trailingSequence(b.title));
         document.querySelectorAll('[data-collection-count]').forEach(node=>node.textContent=items.length);
         render();
       } catch {

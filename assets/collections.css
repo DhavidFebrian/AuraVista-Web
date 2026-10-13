@@ -28,8 +28,8 @@ h2{font:400 clamp(42px,5vw,76px)/1.02 'Cormorant Garamond',Georgia,serif;letter-
 em{font-weight:400;color:var(--gold)}
 .collection-statement{font-size:13px;line-height:1.9;flex-shrink:0;margin:0 0 5px}
 .collection-statement em{color:var(--muted);font-style:normal}
-.collection-cover{margin:0;position:relative;height:clamp(360px,49vw,670px);overflow:hidden;background:#242721}
-.collection-cover>img{width:100%;height:100%;object-fit:cover;object-position:center 53%}
+.collection-cover{margin:0;position:relative;overflow:hidden;background:#242721}
+.collection-cover>img{display:block;width:100%;height:auto;aspect-ratio:auto;object-fit:contain}
 .collection-cover:after{content:'';position:absolute;inset:55% 0 0;background:linear-gradient(transparent,#000b);pointer-events:none}
 .collection-cover figcaption{position:absolute;bottom:26px;left:30px;right:30px;z-index:1;display:flex;gap:24px;align-items:center;color:#fff;font-size:10px;letter-spacing:.06em}
 .collection-cover figcaption span:first-child{border:1px solid #ffffff70;padding:8px 10px;font-size:9px;letter-spacing:.16em}
@@ -106,7 +106,7 @@ em{font-weight:400;color:var(--gold)}
 .folio-kicker{font-size:8px}
 .collection-heading{margin-top:30px}
 h1{font-size:clamp(46px,12vw,68px)}
-.collection-cover{height:430px;margin:0 -20px}
+.collection-cover{height:auto;margin:0 -20px}
 .collection-cover figcaption{left:20px;right:20px;bottom:20px}
 .collection-details{padding-top:24px;padding-bottom:30px}
 .collection-details dl{gap:20px;flex-wrap:wrap}

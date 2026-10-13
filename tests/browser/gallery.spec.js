@@ -18,3 +18,10 @@ test('album search, empty state and keyboard lightbox navigation', async ({page}
  await expect(page.getByRole('dialog')).not.toBeVisible();
  await expect(first).toBeFocused();
 });
+test('numbered album photographs run from 01 downward', async ({page}) => {
+ await page.goto('/album.html?id=album-apartment-kebayoran', {waitUntil:'domcontentloaded'});
+ const titles=await page.locator('.photo-title').allTextContents();
+ expect(titles.length).toBeGreaterThan(1);
+ expect(titles.map(title=>Number(title.match(/(\d+)\s*$/)?.[1]))).toEqual([...titles].map(title=>Number(title.match(/(\d+)\s*$/)?.[1])).sort((a,b)=>a-b));
+ expect(titles[0]).toMatch(/01$/);
+});
