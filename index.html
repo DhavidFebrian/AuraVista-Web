@@ -901,6 +901,7 @@
     }
 
     window.addEventListener('DOMContentLoaded', () => {
+      window.lucide?.createIcons();
       applyThemeCustomizer().catch(() => {});
       initGoldDustParticles();
       initSpatialScrollDive();

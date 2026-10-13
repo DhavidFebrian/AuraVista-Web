@@ -39,3 +39,12 @@ test('desktop sections use the full canvas and collection previews keep their so
  const image=page.locator('.collection-card img').first();await image.scrollIntoViewIfNeeded();await expect(image).toBeVisible();
  expect(await image.evaluate(node=>Math.abs(node.getBoundingClientRect().width/node.getBoundingClientRect().height-node.naturalWidth/node.naturalHeight))).toBeLessThan(.02);
 });
+test('all landing icon placeholders render as visible icons',async({page})=>{
+ await page.goto('/',{waitUntil:'domcontentloaded'});
+ await expect(page.locator('#services .lucide-camera')).toBeVisible();
+ await expect(page.locator('#services .lucide-video')).toBeVisible();
+ await expect(page.locator('#services .lucide-clapperboard')).toBeVisible();
+ await expect(page.locator('#services .lucide-sliders')).toBeVisible();
+ expect(await page.locator('i[data-lucide]').count()).toBe(0);
+ expect(await page.locator('svg.lucide').count()).toBeGreaterThan(15);
+});
