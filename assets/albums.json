@@ -75,5 +75,12 @@
     "desc": "",
     "createdAt": "2026-11-16T09:11:51.541Z",
     "coverPhotoId": "porto-1855774a-f274-4fd6-8454-f9a8c3ca1197"
+  },
+  {
+    "id": "album-arumaya-residence",
+    "title": "Arumaya Residence",
+    "location": "TB Simatupang",
+    "desc": "",
+    "createdAt": "2026-11-16T09:16:26.093Z"
   }
 ]
