@@ -67,5 +67,12 @@
     "desc": "",
     "createdAt": "2026-10-12T10:10:27.854Z",
     "coverPhotoId": "porto-cdfb3f01-b5a6-4d16-ad2e-22c13b9f8180"
+  },
+  {
+    "id": "album-permata-hijau-suite",
+    "title": "Permata Hijau Suite",
+    "location": "Permata Hijau",
+    "desc": "",
+    "createdAt": "2026-11-16T09:11:51.541Z"
   }
 ]
