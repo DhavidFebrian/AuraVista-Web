@@ -1,5 +1,17 @@
 [
   {
+    "id": "porto-81d69aa1-f322-43ff-b82e-904e5bda3549",
+    "title": "Permata Hijau Suite 07",
+    "category": "album-permata-hijau-suite",
+    "desc": "",
+    "badge": "Permata Hijau Suite",
+    "location": "Permata Hijau",
+    "img": "assets/porto/porto-81d69aa1-f322-43ff-b82e-904e5bda3549.webp",
+    "original": "assets/originals/porto-81d69aa1-f322-43ff-b82e-904e5bda3549.jpg",
+    "aspect": "1059:1412",
+    "uploadedAt": "2026-11-16T09:13:04.947Z"
+  },
+  {
     "id": "porto-836a3ddd-63db-42f3-8bf6-66caee4aec06",
     "title": "Permata Hijau Suite 06",
     "category": "album-permata-hijau-suite",
