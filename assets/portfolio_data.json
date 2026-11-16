@@ -1,5 +1,17 @@
 [
   {
+    "id": "porto-f997fa85-392e-40f9-b2a5-87ad22efd803",
+    "title": "Arumaya Residence 01",
+    "category": "album-arumaya-residence",
+    "desc": "",
+    "badge": "Arumaya Residence",
+    "location": "TB Simatupang",
+    "img": "assets/porto/porto-f997fa85-392e-40f9-b2a5-87ad22efd803.webp",
+    "original": "assets/originals/porto-f997fa85-392e-40f9-b2a5-87ad22efd803.jpg",
+    "aspect": "1086:1448",
+    "uploadedAt": "2026-11-16T09:16:38.540Z"
+  },
+  {
     "id": "porto-bf390b12-33c2-4986-a001-948b19bc2b14",
     "title": "Permata Hijau Suite 10",
     "category": "album-permata-hijau-suite",
