@@ -83,5 +83,12 @@
     "desc": "",
     "createdAt": "2026-11-16T09:16:26.093Z",
     "coverPhotoId": "porto-f997fa85-392e-40f9-b2a5-87ad22efd803"
+  },
+  {
+    "id": "album-belleza-permata-hijau",
+    "title": "Belleza Permata Hijau",
+    "location": "Kebayoran Lama",
+    "desc": "",
+    "createdAt": "2026-11-16T11:41:28.603Z"
   }
 ]
