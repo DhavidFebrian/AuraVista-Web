@@ -1,5 +1,17 @@
 [
   {
+    "id": "porto-bf377e6e-0de2-4826-a76a-e1522fa9c8cc",
+    "title": "Arumaya Residence 04",
+    "category": "album-arumaya-residence",
+    "desc": "",
+    "badge": "Arumaya Residence",
+    "location": "TB Simatupang",
+    "img": "assets/porto/porto-bf377e6e-0de2-4826-a76a-e1522fa9c8cc.webp",
+    "original": "assets/originals/porto-bf377e6e-0de2-4826-a76a-e1522fa9c8cc.jpg",
+    "aspect": "1067:1423",
+    "uploadedAt": "2026-11-16T09:16:50.475Z"
+  },
+  {
     "id": "porto-5b72440b-ef6a-4044-92d8-5a06338c80cf",
     "title": "Arumaya Residence 03",
     "category": "album-arumaya-residence",
